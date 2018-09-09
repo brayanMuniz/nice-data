@@ -10,9 +10,8 @@ app.use(bodyParser.json());
 
 
 function getAddressNiceHashData() {
-    axios.get('https://api.nicehash.com/api')
-        .then(response => {
-            // console.log(response.data)
+    axios.get(url)
+        .then(function (resopnse) {
             return response.data
         })
         .catch(error => {
@@ -21,8 +20,18 @@ function getAddressNiceHashData() {
 }
 
 app.get("/api", (req, res) => {
-    let response = getAddressNiceHashData()
-    res.send(req.body)
+    axios.get('https://api.nicehash.com/api')
+        .then(response => {
+            // ! If you send back resopnse by itself it will break into TypeConverter
+            res.json(response.data);
+
+        })
+        .catch(error => {
+            res.json({
+                message: 'Cant connect to API'
+            })
+            console.log(error);
+        });
 })
 
 app.get("/api/portfolio", (req, res) => {

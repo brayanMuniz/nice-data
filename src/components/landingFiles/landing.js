@@ -11,7 +11,7 @@ export default {
   created() {
     axios.get('/api')
     .then(res => {
-      this.example = res
+      this.example = res.data
     })
     .catch(err => {
       console.log(err)
