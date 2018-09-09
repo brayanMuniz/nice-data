@@ -3,10 +3,9 @@ const bodyParser = require('body-parser')
 const axios = require('axios')
 var app = express();
 const port = process.env.PORT || 3000;
-// Todo Figure out how to configure the proxy
-// app.use(bodyParser.urlencoded({
-//     extended: true
-// }));
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 app.use(bodyParser.json());
 
 
@@ -21,16 +20,16 @@ function getAddressNiceHashData() {
         });
 }
 
-app.get("/", (req, res) => {
+app.get("/api", (req, res) => {
     let response = getAddressNiceHashData()
-    res.send("Sup")
+    res.send(req.body)
 })
 
-app.get("/portfolio", (req, res) => {
+app.get("/api/portfolio", (req, res) => {
     res.send("Hi")
 })
 
-app.get("/about", (req, res) => {
+app.get("/api/about", (req, res) => {
     res.send("About")
 })
 
