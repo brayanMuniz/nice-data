@@ -24,7 +24,7 @@ export default {
     getAddressData() {
       axios.get('/api/address')
         .then(res => {
-          this.addressData = res.data
+          this.addressData = res.data.result
         })
         .catch(err => {
           console.log(err)

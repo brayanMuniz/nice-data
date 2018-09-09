@@ -7,20 +7,22 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use(bodyParser.json());
-let url = "https://api.nicehash.com/api"
-let addressUrl = "https://api.nicehash.com/api?method=stats.provider&addr=" 
-let testAddress = "3LWh12U6ACgG9j4rq4ExagfMxNR8GgnGs4"
-function getAddressNiceHashData(appendToUrl) {
-    let newUrl = url + appendToUrl
-    console.log(newUrl)
-    // axios.get(url)
-    //     .then(response => {
 
-    //     })
-    //     .catch(error => {
-    //         console.log(error);
-    //     });
-}
+let url = "https://api.nicehash.com/api"
+let testAddress = "3LWh12U6ACgG9j4rq4ExagfMxNR8GgnGs4"
+
+// Get current stats for provider for all algorithms. Refreshed every 30 seconds. It also returns past 56 payments.
+let addressUrl = "https://api.nicehash.com/api?method=stats.provider&addr=" 
+
+// Past 7 days worth of allgorithims and payments
+let sevenDayHistory = "https://api.nicehash.com/api?method=stats.provider.ex&addr="
+
+// Get payments for provider.
+let paymentHistory = "https://api.nicehash.com/api?method=stats.provider.payments&addr=" 
+
+// Workers (rigs)
+let workers = "https://api.nicehash.com/api?method=stats.provider.workers&addr="
+
 app.get("/api", (req, res) => {
     axios.get(url)
         .then(response => {
