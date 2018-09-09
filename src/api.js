@@ -7,20 +7,22 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use(bodyParser.json());
+let url = "https://api.nicehash.com/api"
+let addressUrl = "https://api.nicehash.com/api?method=stats.provider&addr=" 
+let testAddress = "3LWh12U6ACgG9j4rq4ExagfMxNR8GgnGs4"
+function getAddressNiceHashData(appendToUrl) {
+    let newUrl = url + appendToUrl
+    console.log(newUrl)
+    // axios.get(url)
+    //     .then(response => {
 
-
-function getAddressNiceHashData() {
-    axios.get(url)
-        .then(function (resopnse) {
-            return response.data
-        })
-        .catch(error => {
-            console.log(error);
-        });
+    //     })
+    //     .catch(error => {
+    //         console.log(error);
+    //     });
 }
-
 app.get("/api", (req, res) => {
-    axios.get('https://api.nicehash.com/api')
+    axios.get(url)
         .then(response => {
             // ! If you send back resopnse by itself it will break into TypeConverter
             res.json(response.data);
@@ -34,12 +36,33 @@ app.get("/api", (req, res) => {
         });
 })
 
-app.get("/api/portfolio", (req, res) => {
-    res.send("Hi")
+app.get("/api/address", (req, res) => {
+    let myAddress = addressUrl + testAddress
+    axios.get(myAddress)
+        .then(response => {
+            res.json(response.data);
+
+        })
+        .catch(error => {
+            res.json({
+                message: 'Cant connect to API'
+            })
+            console.log(error);
+        });
 })
 
 app.get("/api/about", (req, res) => {
-    res.send("About")
+    axios.get('https://api.nicehash.com/api')
+        .then(response => {
+            res.json(response.data);
+
+        })
+        .catch(error => {
+            res.json({
+                message: 'Cant connect to API'
+            })
+            console.log(error);
+        });
 })
 
 app.listen(port);
