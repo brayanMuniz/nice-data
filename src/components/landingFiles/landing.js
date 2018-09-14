@@ -17,7 +17,7 @@ export default {
       .catch(err => {
         console.log(err)
       })
-      this.getAddressData()
+    this.getAddressData()
   },
   methods: {
     // Todo Configure this one with parameters
