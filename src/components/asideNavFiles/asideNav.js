@@ -1,3 +1,4 @@
+import addAddress from "../addAddressFiles/addAddress.vue"
 export default {
   name: "asideNav",
   data: function() {
@@ -5,5 +6,8 @@ export default {
 
     };
   },
+  components: {
+    'add-address': addAddress
+  }
 
 };

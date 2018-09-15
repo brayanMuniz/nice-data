@@ -10,77 +10,22 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 let url = "https://api.nicehash.com/api"
-let testAddress1 = "3LWh12U6ACgG9j4rq4ExagfMxNR8GgnGs4" // B
-let testAddress2 = "3JuqAiWuAma26iYvKjzGCTEHq6A8R4ZusZ" // E
-let testAddress3 = "3Ls4oRPWP3rxhPKsWgi4CYaK6E6c8HSekv" // J
-
+// TODO REFACTOR THIS SO YOU JUST HAVE TO PASS IN QUERY NOT CALL MULTIPLE ROUTES YOU IDIOT
 // Get current stats for provider for all algorithms. Refreshed every 30 seconds. It also returns past 56 payments.
 let addressUrl = "https://api.nicehash.com/api?method=stats.provider&addr="
-
 // Past 7 days worth of allgorithims and payments
 let sevenDayHistory = "https://api.nicehash.com/api?method=stats.provider.ex&addr="
-
 // Get payments for provider.
 let paymentHistory = "https://api.nicehash.com/api?method=stats.provider.payments&addr="
-
 // Workers (rigs)
 let workers = "https://api.nicehash.com/api?method=stats.provider.workers&addr="
 
 app.get("/api/nh", (req, res) => {
-    axios.get(url)
+    let totalUrl = `https://api.nicehash.com/api?method=${req.query.method}&addr=${req.query.addr}`
+    console.log(totalUrl)
+    axios.get(totalUrl)
         .then(response => {
             res.json(response.data);
-        })
-        .catch(error => {
-            res.json({
-                message: 'Cant connect to API'
-            })
-            console.log(error);
-        });
-})
-
-app.get("/api/nh/address", (req, res) => {
-
-    console.log(req.query.userNHAddress)
-    // Bottom is for testing
-    // let myAddress = addressUrl + testAddress1
-
-    let userNHAddress = req.query.userNHAddress
-    let nhAddress = addressUrl + userNHAddress
-
-    axios.get(nhAddress)
-        .then(response => {
-            res.json(response.data);
-        })
-
-        .catch(error => {
-            res.json({
-                message: 'Cant connect to API'
-            })
-            console.log(error);
-        });
-})
-
-app.get("/api/nh/sevenDayHistory", (req, res) => {
-    let myAddress = sevenDayHistory + testAddress
-    axios.get(myAddress)
-        .then(response => {
-            res.json(response.data);
-
-        })
-        .catch(error => {
-            res.json({
-                message: 'Cant connect to API'
-            })
-            console.log(error);
-        });
-})
-
-app.get("/api/about", (req, res) => {
-    axios.get('https://api.nicehash.com/api')
-        .then(response => {
-            res.json(response.data);
-
         })
         .catch(error => {
             res.json({

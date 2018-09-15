@@ -11,6 +11,7 @@ export default {
   data() {
     return {
       userNHAddress: null,
+      userNHAddressName: null,
       example: null,
       userNHAddressData: null,
       totalFee: null,
@@ -21,13 +22,26 @@ export default {
   },
   created() {
     this.getCurrentBITPrice()
+    this.testAddres()
   },
   methods: {
-    // Todo Configure this one with parameters
+    testAddres() {
+      axios.get('api/nh', {
+        params: {
+          method: 'stats.provider.payments',
+          addr: "3LWh12U6ACgG9j4rq4ExagfMxNR8GgnGs4"
+        }
+      }).
+      then(res => {
+        console.log("IT work")
+        console.log(res.data)
+      })
+    },
     getNHAddressData() {
-      axios.get('/api/nh/address', {
+      axios.get('/api/nh', {
           params: {
-            userNHAddress: this.userNHAddress
+            method: 'stats.provider',
+            addr: this.userNHAddress
           }
         })
         .then(res => {
@@ -38,6 +52,7 @@ export default {
 
           // }
           this.userNHAddressData = res.data
+          // this.$store.commit('addNHAddress')
         })
         .catch(err => {
           console.log(err)
