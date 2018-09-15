@@ -13,10 +13,10 @@ export const store = new Vuex.Store({
       // ! Make sure this is a float not a string 
       state.currentBITPrice = newPrice
     },
-    addNHAddress(newAddress) {
+    addNHAddress(state, newAddress) {
       state.NHAddresses.push(newAddress)
     },
-    removeNHAddress(address) {
+    removeNHAddress(state, address) {
       // remnove the address
     }
   },
@@ -24,7 +24,7 @@ export const store = new Vuex.Store({
     getCurrentBITPrice: state => {
       return state.currentBITPrice
     },
-    getNHAddress: state => {
+    getNHAddresses: state => {
       return state.NHAddresses
     }
   }
