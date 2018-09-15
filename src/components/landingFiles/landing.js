@@ -19,7 +19,9 @@ export default {
       currentBITPriceNum: null
     };
   },
-  created() {},
+  created() {
+    this.getCurrentBITPrice()
+  },
   methods: {
     // Todo Configure this one with parameters
     getNHAddressData() {
@@ -36,7 +38,6 @@ export default {
 
           // }
           this.userNHAddressData = res.data
-          this.getCurrentBITPrice()
         })
         .catch(err => {
           console.log(err)
@@ -48,7 +49,7 @@ export default {
         .then(response => {
           this.currentBITPriceSee = response.data.bpi.USD.rate
           this.currentBITPriceNum = response.data.bpi.USD.rate_float
-          this.sumOfPayAmount()
+          this.$store.commit('setCurrentBITPrice', response.data.bpi.USD.rate_float)
         })
         .catch(err => {
           console.log(err)
