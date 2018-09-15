@@ -2,7 +2,6 @@
 import moment from 'moment'
 import axios from 'axios'
 import asideNav from '../asideNavFiles/asideNav.vue'
-import payments from "../paymentsFiles/payments.vue"
 // Testing addressed 
 let testAddress1 = "3LWh12U6ACgG9j4rq4ExagfMxNR8GgnGs4" // B
 let testAddress2 = "3JuqAiWuAma26iYvKjzGCTEHq6A8R4ZusZ" // E
@@ -78,6 +77,5 @@ export default {
   },
   components: {
     "aside-nav": asideNav,
-    "payments": payments
   }
 }
