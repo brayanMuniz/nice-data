@@ -1,6 +1,11 @@
 /* eslint-disable */
 import moment from 'moment'
 import axios from 'axios'
+import asideNav from '../asideNavFiles/asideNav.vue'
+// Testing addressed 
+let testAddress1 = "3LWh12U6ACgG9j4rq4ExagfMxNR8GgnGs4" // B
+let testAddress2 = "3JuqAiWuAma26iYvKjzGCTEHq6A8R4ZusZ" // E
+let testAddress3 = "3Ls4oRPWP3rxhPKsWgi4CYaK6E6c8HSekv" // J
 export default {
   name: 'landing',
   data() {
@@ -10,13 +15,11 @@ export default {
       userNHAddressData: null,
       totalFee: null,
       // make next line added to vuex
-      currentBITPrice: null
+      currentBITPriceSee: null,
+      currentBITPriceNum: null
     };
   },
-  created() {
-    this.getCurrentBITPrice()
-    this.getNHAddressData()
-  },
+  created() {},
   methods: {
     // Todo Configure this one with parameters
     getNHAddressData() {
@@ -26,11 +29,14 @@ export default {
           }
         })
         .then(res => {
+          // Todo IF incorrect address give back error
+          // if (res.data.data.result.error) {
+          //   this.userNHAddressData = res
+          // } else {
+
+          // }
           this.userNHAddressData = res.data
-          if (res.data.result.error) {
-            console.log('Make a error notification or something')
-          }
-          this.sumOfPayAmount()
+          this.getCurrentBITPrice()
         })
         .catch(err => {
           console.log(err)
@@ -40,9 +46,9 @@ export default {
       let currentPriceURL = "https://api.coindesk.com/v1/bpi/currentprice.json"
       axios.get(currentPriceURL)
         .then(response => {
-          this.currentBITPrice = response.data.bpi.USD.rate
-          console.log(this.currentBITPrice)
-          return this.currentBITPrice
+          this.currentBITPriceSee = response.data.bpi.USD.rate
+          this.currentBITPriceNum = response.data.bpi.USD.rate_float
+          this.sumOfPayAmount()
         })
         .catch(err => {
           console.log(err)
@@ -62,12 +68,14 @@ export default {
       for (let payment in this.userNHAddressData.result.payments) {
         totalPay += Number(this.userNHAddressData.result.payments[payment].amount)
       }
-      // ! this.currentBITPrice returns NaN if try to make a number
-      console.log(this.currentBITPrice)
-      let currentPrice = Number(this.currentBITPrice)
-      console.log(currentPrice)
-      console.log(totalPay)
-
+      console.log(`${totalPay} is totalPay`)
+      console.log(this.currentBITPriceNum * totalPay)
+      // Todo round to nearest penny and convert to string
+      // let totalPaySee = Number.parseFloat(totalPay).toFixed(2);
+      // console.log(totalPaySee)
     }
+  },
+  components: {
+    "aside-nav": asideNav
   }
 }

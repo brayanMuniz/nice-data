@@ -40,15 +40,15 @@ app.get("/api/nh", (req, res) => {
 })
 
 app.get("/api/nh/address", (req, res) => {
-    console.log(req.body)
-    let myAddress = addressUrl + testAddress1
 
-    // ! configure this later
+    console.log(req.query.userNHAddress)
+    // Bottom is for testing
+    // let myAddress = addressUrl + testAddress1
 
-    //let usersNHAddress = req.body.usersNHAddress
-    // let nhAddress = addressUrl + usersNHAddress
+    let userNHAddress = req.query.userNHAddress
+    let nhAddress = addressUrl + userNHAddress
 
-    axios.get(myAddress)
+    axios.get(nhAddress)
         .then(response => {
             res.json(response.data);
         })
