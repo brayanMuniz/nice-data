@@ -13,6 +13,7 @@
 
     <div class="row">
       <aside-nav class="col-md-2 d-none d-md-block bg-light sidebar"></aside-nav>
+      <router-view name="main"></router-view>
 
       <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
         <div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;">
@@ -43,27 +44,6 @@
           </div>
         </div>
         <!-- Data visual comp here -->
-
-        <h2>Payments</h2>
-        <div class="table-responsive" v-if="userNHAddressData != null">
-          <table class="table table-sm table-hover">
-            <thead>
-              <tr>
-                <th>Time</th>
-                <th>Amount</th>
-                <th>Fee</th>
-              </tr>
-            </thead>
-            <!-- Can not read .user at render because of some asynchronous loading there is a v-if over this div to prevent that  -->
-            <tbody v-for="payment in userNHAddressData.result.payments">
-              <tr>
-                <td>{{toRelativeTime(payment.time)}}</td>
-                <td @click='toggleCurrency(payment.amount)'>{{payment.amount}}</td>
-                <td>{{payment.fee}}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
       </main>
 
     </div>
