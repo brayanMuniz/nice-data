@@ -43,8 +43,8 @@ export default {
                     this.userNHAddressWorkerData = res.data
                     console.log(this.userNHAddressWorkerData)
                     console.log(this.userNHAddressWorkerData.result.workers[0][0])
+                    // Todo Make a loop to fill this.datacollection.labels
                     this.datacollection.labels[0] = this.userNHAddressWorkerData.result.workers[0][0]
-                    // console.log(this.datacollection.labels[0])
                     this.renderChart(this.datacollection, {
                         responsive: true,
                         maintainAspectRatio: false
@@ -80,7 +80,6 @@ export default {
     },
     created() {
         this.getAddressWorkerData()
-        console.log("From linechart")
     },
     props: ['currentBITPriceNum', 'userNHAddress']
 }
