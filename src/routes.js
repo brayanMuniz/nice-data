@@ -1,19 +1,28 @@
 import landing from './components/landingFiles/landing.vue'
 import payments from "./components/paymentsFiles/payments.vue"
 import dashboard from "./components/dashboardFiles/dashboard.vue"
+import workers from "./components/workersFiles/workers.vue"
 
 export const routes = [{
   path: '/',
   component: landing,
   children: [{
-    path: 'dashboard',
-    components: {
-      main: dashboard
+      path: 'dashboard',
+      components: {
+        main: dashboard
+      }
+    },
+    {
+      path: 'payments',
+      components: {
+        main: payments
+      }
+    },
+    {
+      path: 'workers',
+      components: {
+        main: workers
+      }
     }
-  }, {
-    path: 'payments',
-    components: {
-      main: payments
-    }
-  }]
+  ]
 }]
