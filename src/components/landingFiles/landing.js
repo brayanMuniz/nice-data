@@ -23,7 +23,8 @@ export default {
   created() {
     this.getCurrentBITPrice()
     this.testAddres()
-  },
+    this.$router.push('dashboard')
+  }, 
   methods: {
     testAddres() {
       axios.get('api/nh', {
@@ -64,12 +65,14 @@ export default {
         .then(response => {
           this.currentBITPriceSee = response.data.bpi.USD.rate
           this.currentBITPriceNum = response.data.bpi.USD.rate_float
+          console.log(this.currentBITPriceNum)
           this.$store.commit('setCurrentBITPrice', response.data.bpi.USD.rate_float)
         })
         .catch(err => {
           console.log(err)
         })
     },
+    // Todo share this method between all components 
     toRelativeTime(time) {
       return moment(time).fromNow()
     },

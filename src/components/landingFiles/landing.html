@@ -1,7 +1,8 @@
 <div>
-  <!-- https://apexcharts.com/javascript-chart-demos/mixed-charts/line-column-area/ -->
+
   <input type="text" v-model="userNHAddress" placeholder="Nicehash Address Data">
   <button @click="getNHAddressData">Yo</button>
+
   <div class="container">
     {{userNHAddressData}}
     <br>
@@ -9,6 +10,7 @@
     <h6>E: 3JuqAiWuAma26iYvKjzGCTEHq6A8R4ZusZ</h6>
     <h6>J: 3Ls4oRPWP3rxhPKsWgi4CYaK6E6c8HSekv</h6>
   </div>
+
   <div class="container-fluid">
 
     <div class="row mt-2">
@@ -23,7 +25,7 @@
             <div style="position:absolute;width:200%;height:200%;left:0; top:0"></div>
           </div>
         </div>
-        <router-view name="main"></router-view>
+        <router-view name="main" :userNHAddressData="userNHAddressData" :currentBITPriceNum="currentBITPriceNum"></router-view>
         <!-- Data visual comp here -->
       </main>
 

@@ -1,5 +1,6 @@
 <div>
-  <h2>Payments</h2>
+  <h2>Payments <span class="bg-danger">() Below should be on the right</span> </h2>
+  <h4 class="ml-5">() To switch accounts</h4>
   <div class="table-responsive" v-if="userNHAddressData != null">
     <table class="table table-sm table-hover">
       <thead>
@@ -9,7 +10,6 @@
           <th>Fee</th>
         </tr>
       </thead>
-      <!-- Can not read .user at render because of some asynchronous loading there is a v-if over this div to prevent that  -->
       <tbody v-for="payment in userNHAddressData.result.payments">
         <tr>
           <td>{{toRelativeTime(payment.time)}}</td>
