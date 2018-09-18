@@ -2,7 +2,7 @@ import landing from './components/landingFiles/landing.vue'
 import payments from "./components/paymentsFiles/payments.vue"
 import dashboard from "./components/dashboardFiles/dashboard.vue"
 import workers from "./components/workersFiles/workers.vue"
-
+import compare from './components/compareFiles/compare.vue'
 export const routes = [{
   path: '/',
   component: landing,
@@ -22,6 +22,12 @@ export const routes = [{
       path: 'workers',
       components: {
         main: workers
+      }
+    },
+    {
+      path: 'compare',
+      component: {
+        main: compare
       }
     }
   ]
