@@ -26,7 +26,7 @@ export const routes = [{
     },
     {
       path: 'compare',
-      component: {
+      components: {
         main: compare
       }
     }

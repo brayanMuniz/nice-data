@@ -1,3 +1,8 @@
-<div class="container-fluid">
+<div class="container">
+    <!-- https://startbootstrap.com/template-overviews/sb-admin-2/ -->
     <h1>Hi</h1>
+    <button @click="toggleData">toggleData</button>
+    <!-- Todo delete local data from line chart and import it using props -->
+    <line-chart :chartData="userData" options="{responsive: false, maintainAspectRatio: false}" :currentBITPriceNum="currentBITPriceNum"
+        :userNHAddress="userNHAddress" :width="400" :height="200"></line-chart>
 </div>
