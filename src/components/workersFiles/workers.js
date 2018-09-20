@@ -1,6 +1,5 @@
 /*eslint-disable*/
-import axios from 'axios'
-import lineChart from "../Charts/lineChartFiles/lineChart.vue"
+import doNut from "../Charts/doNutFiles/doNut.vue"
 
 export default {
   name: "workers",
@@ -15,8 +14,7 @@ export default {
   methods: {
   },
   components: {
-    "line-chart": lineChart
+    "do-nut": doNut
   },
   props: ['userNHAddressData', 'currentBITPriceNum', 'userNHAddress']
-
 };
