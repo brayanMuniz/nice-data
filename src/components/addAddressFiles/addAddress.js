@@ -1,4 +1,5 @@
 /* eslint-disable */
+// Todo When the user adds a addr emit it to the rest of the components
 export default {
     name: "addAddress",
     data() {
@@ -11,7 +12,7 @@ export default {
         getNHAddressData() {
             let newAddress = {
                 name: this.userNHAddressName,
-                address: this.userNHAddress,
+                addr: this.userNHAddress,
             }
 
             this.$store.commit('addNHAddress', newAddress)

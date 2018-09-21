@@ -5,13 +5,15 @@ Vue.use(Vuex)
 
 export const store = new Vuex.Store({
   state: {
-    currentBITPrice: null,
+    currentBITPriceNum: null,
+    currentBITPriceSee: null,
     NHAddresses: []
   },
   mutations: {
-    setCurrentBITPrice(state , newPrice) {
+    setCurrentBITPrice(state, newPrice) {
       // ! Make sure this is a float not a string 
-      state.currentBITPrice = newPrice
+      state.currentBITPriceNum = newPrice.number
+      state.currentBITPriceSee = newPrice.string
     },
     addNHAddress(state, newAddress) {
       state.NHAddresses.push(newAddress)
@@ -23,9 +25,6 @@ export const store = new Vuex.Store({
   getters: {
     getCurrentBITPrice: state => {
       return state.currentBITPrice
-    },
-    getNHAddresses: state => {
-      return state.NHAddresses
     }
   }
 })

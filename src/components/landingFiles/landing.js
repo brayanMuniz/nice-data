@@ -2,42 +2,26 @@
 import moment from 'moment'
 import axios from 'axios'
 import asideNav from '../asideNavFiles/asideNav.vue'
-// Testing addressed 
-let testAddress1 = "3LWh12U6ACgG9j4rq4ExagfMxNR8GgnGs4" // B
-let testAddress2 = "3JuqAiWuAma26iYvKjzGCTEHq6A8R4ZusZ" // E
-let testAddress3 = "3Ls4oRPWP3rxhPKsWgi4CYaK6E6c8HSekv" // J
 export default {
   name: 'landing',
   data() {
     return {
       userNHAddress: null,
       userNHAddressName: null,
-      example: null,
+      userNHAddresses: [],
       userNHAddressData: null,
       totalFee: null,
-      // make next line added to vuex
       currentBITPriceSee: null,
       currentBITPriceNum: null
     };
   },
   created() {
     this.getCurrentBITPrice()
-    this.testAddres()
     this.$router.push('dashboard')
-  }, 
+  },
+  // You can keep your code more DRY if you call this.$parent.function() on router-view
+  // Todo Make general funcitons here to keep code DRY
   methods: {
-    testAddres() {
-      axios.get('api/nh', {
-        params: {
-          method: 'stats.provider.payments',
-          addr: "3LWh12U6ACgG9j4rq4ExagfMxNR8GgnGs4"
-        }
-      }).
-      then(res => {
-        console.log("IT work")
-        console.log(res.data)
-      })
-    },
     getNHAddressData() {
       axios.get('/api/nh', {
           params: {
@@ -63,10 +47,14 @@ export default {
       let currentPriceURL = "https://api.coindesk.com/v1/bpi/currentprice.json"
       axios.get(currentPriceURL)
         .then(response => {
+          // Todo Delete all props of currentBITPrice and move more into vuex
           this.currentBITPriceSee = response.data.bpi.USD.rate
           this.currentBITPriceNum = response.data.bpi.USD.rate_float
-          console.log(this.currentBITPriceNum)
-          this.$store.commit('setCurrentBITPrice', response.data.bpi.USD.rate_float)
+          let currentBITPrice = {
+            number: response.data.bpi.USD.rate_float,
+            string: response.data.bpi.USD.rate
+          }
+          this.$store.commit('setCurrentBITPrice', currentBITPrice)
         })
         .catch(err => {
           console.log(err)
@@ -77,21 +65,7 @@ export default {
       return moment(time).fromNow()
     },
     toggleCurrency(currency) {
-      return currency * this.currentBITPrice
-    },
-    sumOfFee() {
-
-    },
-    sumOfPayAmount() {
-      let totalPay = 0
-      for (let payment in this.userNHAddressData.result.payments) {
-        totalPay += Number(this.userNHAddressData.result.payments[payment].amount)
-      }
-      console.log(`${totalPay} is totalPay`)
-      console.log(this.currentBITPriceNum * totalPay)
-      // Todo round to nearest penny and convert to string
-      // let totalPaySee = Number.parseFloat(totalPay).toFixed(2);
-      // console.log(totalPaySee)
+      return String((Number(currency) * this.currentBITPriceNum).toFixed(2))
     }
   },
   components: {

@@ -25,7 +25,9 @@
             <div style="position:absolute;width:200%;height:200%;left:0; top:0"></div>
           </div>
         </div>
-        <router-view name="main" :userNHAddressData="userNHAddressData" :currentBITPriceNum="currentBITPriceNum"></router-view>
+        <!-- ? For every refresh on landing you could call getCureentBITPrice or at least figure out some manner to do this -->
+        <router-view name="main" :NHAddresses="userNHAddresses" :userNHAddress="userNHAddress" :userNHAddressData="userNHAddressData"
+          :currentBITPriceNum="currentBITPriceNum"></router-view>
         <!-- Data visual comp here -->
       </main>
 

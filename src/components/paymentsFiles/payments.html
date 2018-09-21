@@ -1,7 +1,21 @@
 <div>
-  <h2>Payments <span class="bg-danger">() Below should be on the right</span> </h2>
-  <h4 class="ml-5">() To switch accounts</h4>
-  <div class="table-responsive" v-if="userNHAddressData != null">
+  <h2>Payments <span class="bg-danger">() Below should be on the right</span></h2>
+
+  <div class="ml-auto mt-3">
+    <button class="btn btn-sm btn-outline-secondary">DropDown to switch accounts</button>
+  </div>
+  <h6>At click IT will load in the new data</h6>
+
+  <ul class="nav flex-column mt-1" v-for="address in $store.state.NHAddresses" :key="address.id">
+    <li class="nav-item">
+      {{address.name}}
+    </li>
+  </ul>
+
+  <bar-chart :width="400" :height="200" :chartData="userData" :options="chartOptions" class="my-1">
+  </bar-chart>
+
+  <div class="table-responsive">
     <table class="table table-sm table-hover">
       <thead>
         <tr>
@@ -10,10 +24,13 @@
           <th>Fee</th>
         </tr>
       </thead>
-      <tbody v-for="payment in userNHAddressData.result.payments">
+      <!-- $store.state.NHAddresses[0].addr -->
+      <tbody v-for="payment in paymentData" :key='payment.id'>
         <tr>
-          <td>{{toRelativeTime(payment.time)}}</td>
-          <td @click='toggleCurrency(payment.amount)'>{{payment.amount}}</td>
+          <td>{{$parent.toRelativeTime(payment.time)}}</td>
+          <!-- @click='toggleCurrency(payment.amount)' -->
+          <!-- ! Returns string at clicked but does not change it -->
+          <td @click="$parent.toggleCurrency(payment.amount)">{{payment.amount}}</td>
           <td>{{payment.fee}}</td>
         </tr>
       </tbody>
