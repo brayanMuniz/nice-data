@@ -14,10 +14,7 @@ export default {
     extends: Bar,
     mixins: [reactiveProp],
     props: ["options"],
-    beforeMount() {},
     mounted() {
         this.renderChart(this.chartData)
     },
-    methods: {},
-    created() {},
 }

@@ -1,3 +1,41 @@
 <div class="container-fluid">
+  <!-- Todo Make a dropdown to filter by algorithim minig -->
+  <!-- Todo add options prop -->
+  <div v-if="dataLoaded" style="width: 400px;">
+    <do-nut :chartData="userData" :width="100" :height="100"></do-nut>
+  </div>
+  <!-- Also make a table like chart -->
+
+  <!-- v-if="workerData" -->
+  <div class="table-responsive" v-if="dataLoaded">
+    <table class="table table-sm table-hover">
+
+      <thead>
+        <tr>
+          <th>Rig</th>
+          <th>Time</th>
+          <th>Accepted</th>
+          <th>Rejected</th>
+          <th>Algorithim</th>
+        </tr>
+      </thead>
+
+      <tbody v-for="worker in workersData.workers" :key='worker.id'>
+        <tr>
+          <td>{{ worker[0] }}</td>
+
+          <td>{{ worker[2] }} minutes</td>
+
+
+          <td>{{ worker[1].a }}</td>
+          <!-- if not exist return something -->
+          <td>{{ worker[1].rs }}</td>
+          <!-- Configure for which algorithim -->
+          <td> {{ worker[6] }} </td>
+
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
 </div>

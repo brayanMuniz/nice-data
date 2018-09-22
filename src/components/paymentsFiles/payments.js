@@ -21,9 +21,6 @@ export default {
   beforeCreate() {
     this.$parent.getCurrentBITPrice()
   },
-  created() {
-    // this.getAddrPayments()
-  },
   mounted() {
     this.getAddrPayments()
   },
