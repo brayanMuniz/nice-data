@@ -11,9 +11,11 @@
       {{address.name}}
     </li>
   </ul>
+  <div v-if="dataLoaded">
+    <bar-chart :width="400" :height="200" :chartData="userData" :options="chartOptions" class="my-1">
+    </bar-chart>
+  </div>
 
-  <bar-chart :width="400" :height="200" :chartData="userData" :options="chartOptions" class="my-1">
-  </bar-chart>
 
   <div class="table-responsive">
     <table class="table table-sm table-hover">
