@@ -3,7 +3,7 @@ import doNut from "../Charts/doNutFiles/doNut.vue"
 import axios from 'axios'
 export default {
   name: "workers",
-  props: ['currentBITPriceNum', ],
+  props: ['currentBITPriceNum'],
   data() {
     return {
       userData: {},
@@ -20,8 +20,8 @@ export default {
   mounted() {},
   methods: {
     getWorkerData() {
-      let testingAddr = "3LWh12U6ACgG9j4rq4ExagfMxNR8GgnGs4"
-      axios.get('/api/nh', {
+      let testingAddr = this.$store.state.NHAddresses[0].addr
+      axios.get('/api', {
           params: {
             method: 'stats.provider.workers',
             addr: testingAddr
@@ -44,8 +44,6 @@ export default {
       this.workersData.workers.forEach(element => {
         // Todo Make an if statement if it is undefined
         workersName.push(element[0])
-        // !sometimes it will undefined
-
         workersAmount.push(Number(element[1].a))
       })
 

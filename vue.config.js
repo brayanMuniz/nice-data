@@ -4,9 +4,9 @@ module.exports = {
     devServer: {
         proxy: {
             '/api': {
-                target: 'http://localhost:3000',
+                target: 'https://api.nicehash.com',
                 ws: true,
-                changeOrigin: true
+                changeOrigin: true,
             }
         }
     }

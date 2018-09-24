@@ -37,7 +37,7 @@ export default {
       // }
       // let testingAddr = this.selectedAddrselectedAddr
       let testingAddr = this.$store.state.NHAddresses[0].addr
-      axios.get('/api/nh', {
+      axios.get('/api', {
           params: {
             method: 'stats.provider',
             addr: testingAddr

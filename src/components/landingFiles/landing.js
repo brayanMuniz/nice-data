@@ -23,7 +23,7 @@ export default {
   // Todo Make general funcitons here to keep code DRY
   methods: {
     getNHAddressData() {
-      axios.get('/api/nh', {
+      axios.get('/api', {
           params: {
             method: 'stats.provider',
             addr: this.userNHAddress
