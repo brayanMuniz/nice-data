@@ -12,7 +12,8 @@ export default {
       userNHAddressData: null,
       totalFee: null,
       currentBITPriceSee: null,
-      currentBITPriceNum: null
+      currentBITPriceNum: null,
+
     };
   },
   created() {

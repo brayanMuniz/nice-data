@@ -1,17 +1,26 @@
 /* eslint-disable */
-// Todo https://apexcharts.com/javascript-chart-demos/mixed-charts/line-column-area/ 
 import axios from 'axios'
 import moment from "moment";
 import lineChart from '../Charts/lineChartFiles/lineChart.vue'
+// Todo initially set it as week and the user can change it from there
 export default {
   name: "dashboard",
   data() {
     return {
       userData: {},
       dataLoaded: false,
-      chartOptions: {},
-      profitAlgorithims: null
-
+      selectedLength: null,
+      chartOptions: {
+        fill: false
+      },
+      profitAlgorithims: null,
+      selectedTime: 144,
+      timeOptions: {
+        hour: ['1 Hour', 1],
+        threeHours: ['3 Hours', 12],
+        today: ['Today', 12],
+        sevenDays: ['7 Days', 144]
+      }
     };
   },
   beforeCreate() {
@@ -48,53 +57,85 @@ export default {
       return total
       // return total and append to end of []
     },
+    timeStamps(timeLength) {
+      let timeStamps = []
+      // If its a week get it to 14 data points, 12 hours each
+      if (timeLength == "week") {
+        for (let i = 12; i < 84; i += 12) {
+          timeStamps.push(moment().subtract(i, 'h').format('DD HH'))
+        }
+        return timeStamps
+      } else(timeLength == '')
+      // ! This is how it should be 
+      // for(let i = 0; i < something; i+= timeLength)
+      // Todo Then make it like that
+    },
     fillChartData(profitData) {
       let totalCalculatedProfits = []
-      let amountData = []
 
       profitData.past.forEach(element => {
-        console.log(element)
-        let total = 0
-        let calculatedProfits = []
-        // Start looping through the hours and get the sum of all of them for the current profit for that hour
-        element.data.forEach(timedProfit => {
-          // for (let i = 1; i < 168; i++) {
-          // Number(moment().subtract(i, "h").format("X"))
-          // Best way to do this is to not use moment and just jump 500 or so 
-          // 2016 / 168 = 12
-          for (let counter = 1; counter < 169; counter++) {
-            if (Number(timedProfit[0] * 300) == Number(moment().subtract(counter, "h").format("X"))) {
-              calculatedProfits.push(Number(timedProfit[2]))
-            }
-          }
-        })
+        let calculatedProfits = {
+          name: element.algo,
+          balanceNumbers: []
+        }
 
-        console.log("kek")
-        console.log(Number(moment().subtract(24, "h").format("X")))
-        console.log(calculatedProfits)
-        console.log(totalCalculatedProfits)
+        let counter = this.selectedTime
+        // ! SKIP BY 144 GET HALF A DAY
+        // ! SKIP BY 12 = GET THE HOUR
+        while (counter < 2016) {
+          calculatedProfits.balanceNumbers.push(Number(element.data[counter][2]))
+          counter += this.selectedTime
+        }
+
         totalCalculatedProfits.push(calculatedProfits)
-        console.log(totalCalculatedProfits)
         calculatedProfits = []
       })
 
-      let totalData = amountData.push(this.getCurrent(profitData.current))
-      console.log(totalData)
-      this.userData.labels = ['test', 'test2']
+      // seperate into WEEK, Days, Day, Half Day
+      // Todo This will be have to be the time depending on length
 
-      // At the end append getCurrent to the amounts array
-      this.userData.datasets = [{
-        // Todo Think of a way to keep this
-        label: this.$store.state.NHAddresses[0].name,
-        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-        data: totalData
-      }]
-      // ! Turn this back on to render the data
+      this.userData.labels = this.timeStamps('week')
+
+      // ! At least 5 object with each algorithim 
+      // Todo loop through this.userData.dataSets and push objects in there
+      // Todo also change the coolors \ randomize it
+      this.userData.datasets = []
+      // Todo Change the number configuration to their actual names
+
+      console.log((Object.values(this.$store.state.mappingAlgorithims)))
+
+      totalCalculatedProfits.forEach((element, index) => {
+        let colors = [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)'
+        ]
+        let borderColors = [
+          'rgba(255,99,132,1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)'
+        ]
+        this.userData.datasets.push({
+          label: ((Object.values(this.$store.state.mappingAlgorithims)))[Number(element.name)],
+          backgroundColor: colors[index],
+          borderColor: borderColors[index],
+          data: element.balanceNumbers,
+          fill: false
+        })
+
+      })
+
       this.dataLoaded = true
     }
   },
+
   components: {
     "line-chart": lineChart
   },
-  props: ['currentBITPriceNum']
 };
