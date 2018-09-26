@@ -69,7 +69,12 @@
     <!--Todo  Make a collapsable  dropdown -->
     <ul class="nav flex-column mt-1" v-for="address in $store.state.NHAddresses" :key="address.id">
       <li class="nav-item">
-        {{address.name}}
+        <span @click="$store.commit('removeNHAddress', address)">-</span>
+        
+        <span @click="$store.commit('changeSelectedAddr', address)">
+          {{address.name}}
+        </span>
+
       </li>
     </ul>
   </div>

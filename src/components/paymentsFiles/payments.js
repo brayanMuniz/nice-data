@@ -36,7 +36,7 @@ export default {
       //   console.log("Set default data")
       // }
       // let testingAddr = this.selectedAddrselectedAddr
-      let testingAddr = this.$store.state.NHAddresses[0].addr
+      let testingAddr = this.$store.state.selectedAddr.addr
       axios.get('/api', {
           params: {
             method: 'stats.provider',
@@ -54,8 +54,6 @@ export default {
           console.log(err)
         })
     },
-    // ? There could be a global variable for if the user wants it in bitcoin or money boolean to be specific 
-    // ? This will be its own component and it will emit its value to vuex and the rest of the components   
     fillChartData(payData) {
       let dateData = []
       let amountData = []

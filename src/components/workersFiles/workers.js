@@ -20,7 +20,9 @@ export default {
   mounted() {},
   methods: {
     getWorkerData() {
-      let testingAddr = this.$store.state.NHAddresses[0].addr
+      // Todo Loop through this.$store.state.NHAddresses
+      // ! This does not work thanks for the info baka
+      let testingAddr = this.$store.state.selectedAddr.addr
       axios.get('/api', {
           params: {
             method: 'stats.provider.workers',

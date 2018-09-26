@@ -9,7 +9,7 @@ export default {
         return {
             testData: null,
             userData: null,
-            dataLoaded: false
+            dataLoaded: false,
         };
     },
     beforeCreate() {
@@ -17,7 +17,7 @@ export default {
     },
     methods: {
         getaddrData() {
-            let testingAddr = this.$store.state.NHAddresses[0].addr
+            let testingAddr = this.$store.state.selectedAddr
             axios.get('/api', {
                     params: {
                         method: 'stats.provider.ex',
@@ -81,7 +81,6 @@ export default {
                     console.log(err)
                 })
         },
-
         get24HourData(dataObject) {
             // Todo if it does not work send back err
             let dayHourData = []

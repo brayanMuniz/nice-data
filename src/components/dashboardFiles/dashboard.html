@@ -5,7 +5,7 @@
   Profits
   Adjust Electricity Bill Todo Learn how to calculate electricity
   -->
-<!--  -->
+  <!--  -->
 
   <div class="btn-toolbar mb-2 mb-md-0">
     <div class="btn-group mr-2">
@@ -24,8 +24,41 @@
     </button>
   </div>
 
-    <!-- stats.provider.ex -->
-  <!-- <line-chart :data="chartData" :options="chartOptions"></line-chart> -->
+  <div v-if="dataLoaded">
+    <line-chart :width="400" :height="200" :chartData="userData" :options="chartOptions" class="my-1">
+    </line-chart>
+  </div>
 
-  
+  <div class="table-responsive">
+    <table class="table table-sm table-hover my-1">
+
+      <thead>
+        <tr>
+          <th>Algorithim</th>
+          <th>Balance</th>
+          <th>Speed</th>
+          <!-- <th></th> -->
+          <th>Profitability</th>
+        </tr>
+      </thead>
+
+      <tbody v-for="algorithim in profitAlgorithims" :key='algorithim.id'>
+        <tr>
+          <td>{{ algorithim.name }}</td>
+
+          <td>{{ algorithim.data[1] }}</td>
+
+
+          <td v-if="algorithim.data[0].a">{{ algorithim.data[0].a }} {{algorithim.suffix}} </td>
+          <td v-else>0</td>
+          <!-- <td>{{ algorithim[1].rs }}</td> -->
+          <td> {{ algorithim.profitability }} USD/day </td>
+
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <!-- Make a table for Algorithims in the current -->
 </div>
