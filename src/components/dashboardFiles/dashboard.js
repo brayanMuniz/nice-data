@@ -14,13 +14,22 @@ export default {
         fill: false
       },
       profitAlgorithims: null,
-      selectedTime: 144,
-      timeOptions: {
-        hour: ['1 Hour', 1],
-        threeHours: ['3 Hours', 12],
-        today: ['Today', 12],
-        sevenDays: ['7 Days', 144]
-      }
+      selectedTime: 288,
+      timeOptions: [{
+          time: 'Hour',
+          number: 1
+        }, {
+          time: '3 Hours',
+          number: 12
+        }, {
+          time: 'Today',
+          number: 7
+        },
+        {
+          time: "Week",
+          number: 144
+        }
+      ]
     };
   },
   beforeCreate() {
@@ -31,6 +40,7 @@ export default {
   },
   methods: {
     getProfitData() {
+      // https://api.nicehash.com/api?method=simplemultialgo.info
       let testingAddr = this.$store.state.selectedAddr.addr
       axios.get('/api', {
           params: {
@@ -39,7 +49,7 @@ export default {
           }
         })
         .then(res => {
-          console.log(res.data.result)
+          console.log(res.data)
           this.profitAlgorithims = res.data.result.current
           this.fillChartData(res.data.result)
         })
@@ -48,41 +58,48 @@ export default {
         })
     },
     getCurrent(currentData) {
-      // This will be called at the end renderChart
       let total = 0
       currentData.forEach(element => {
         console.log(Number(element.profitability))
         total += Number(element.profitability)
       })
       return total
-      // return total and append to end of []
     },
     timeStamps(timeLength) {
       let timeStamps = []
-      // If its a week get it to 14 data points, 12 hours each
-      if (timeLength == "week") {
-        for (let i = 12; i < 84; i += 12) {
-          timeStamps.push(moment().subtract(i, 'h').format('DD HH'))
-        }
-        return timeStamps
-      } else(timeLength == '')
-      // ! This is how it should be 
-      // for(let i = 0; i < something; i+= timeLength)
-      // Todo Then make it like that
+      let i = 0
+
+      while (i < timeLength) {
+        // multiply by 5 because every block is 5 minutes so skip by 5 minutes
+        timeStamps.push(moment().subtract((this.selectedTime * 5 * i), 'minutes').format('MM DD YYYY'))
+        i += 1
+      }
+      console.log(timeStamps.length)
+      return timeStamps.reverse()
     },
     fillChartData(profitData) {
+
       let totalCalculatedProfits = []
+      // TODO add up all the balances
+      let totalBalance = {
+        // ! I modified the mapping in store.js to create 34
+        name: 34,
+        balanceNumbers: []
+      }
 
       profitData.past.forEach(element => {
         let calculatedProfits = {
           name: element.algo,
           balanceNumbers: []
         }
+        // 7 day counter = 84
+        // 48 hours = 24
+        // Day = 288 ticks
+        // 48 hours = 288 ticks * 2
+        // Todo: Some of the time configuaration does not add up
+        let counter = 0
+        while (counter < element.data.length) {
 
-        let counter = this.selectedTime
-        // ! SKIP BY 144 GET HALF A DAY
-        // ! SKIP BY 12 = GET THE HOUR
-        while (counter < 2016) {
           calculatedProfits.balanceNumbers.push(Number(element.data[counter][2]))
           counter += this.selectedTime
         }
@@ -90,19 +107,20 @@ export default {
         totalCalculatedProfits.push(calculatedProfits)
         calculatedProfits = []
       })
-
-      // seperate into WEEK, Days, Day, Half Day
-      // Todo This will be have to be the time depending on length
-
-      this.userData.labels = this.timeStamps('week')
-
-      // ! At least 5 object with each algorithim 
-      // Todo loop through this.userData.dataSets and push objects in there
-      // Todo also change the coolors \ randomize it
+      // Todo round the totalso there arent a thoudans decimals
+      totalCalculatedProfits.forEach(element => {
+        for (let i = 0; i < element.balanceNumbers.length; i++) {
+          if (totalBalance.balanceNumbers[i] == undefined) {
+            totalBalance.balanceNumbers[i] = 0
+            totalBalance.balanceNumbers[i] += Number(element.balanceNumbers[i])
+          }
+          totalBalance.balanceNumbers[i] += Number(element.balanceNumbers[i])
+        }
+      })
+      totalCalculatedProfits.push(totalBalance)
+      console.log(totalCalculatedProfits)
+      this.userData.labels = this.timeStamps(totalCalculatedProfits[0].balanceNumbers.length)
       this.userData.datasets = []
-      // Todo Change the number configuration to their actual names
-
-      console.log((Object.values(this.$store.state.mappingAlgorithims)))
 
       totalCalculatedProfits.forEach((element, index) => {
         let colors = [
@@ -121,16 +139,17 @@ export default {
           'rgba(153, 102, 255, 1)',
           'rgba(255, 159, 64, 1)'
         ]
+
         this.userData.datasets.push({
           label: ((Object.values(this.$store.state.mappingAlgorithims)))[Number(element.name)],
           backgroundColor: colors[index],
           borderColor: borderColors[index],
           data: element.balanceNumbers,
           fill: false
+          // Todo set all other options here
         })
 
       })
-
       this.dataLoaded = true
     }
   },

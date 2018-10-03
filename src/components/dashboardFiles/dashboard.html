@@ -9,19 +9,18 @@
 
   <div class="btn-toolbar mb-2 mb-md-0">
 
-    <div class="btn-group mr-2">
-      <button class="btn btn-sm btn-outline-secondary">Week</button>
-      <button class="btn btn-sm btn-outline-secondary">Export</button>
+    <div class="btn-group mr-2" v-for="timeOption in timeOptions" :key="timeOption.id">
+      <button class="btn btn-sm btn-outline-secondary" @click="selectedTime = timeOption.number">{{timeOption.time }}</button>
     </div>
-    <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
 
+    <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
     </button>
 
   </div>
 
   <!-- todo Fix options !!!! -->
   <div v-if="dataLoaded">
-    <line-chart :width="400" :height="200" :chartData="userData" class="my-1" :options="{maintainAspectRation: true}">
+    <line-chart :width="400" :height="200" :chartData="userData" class="my-1" :options="{maintainAspectRatio: true}">
     </line-chart>
   </div>
 
@@ -48,7 +47,7 @@
           <td v-if="algorithim.data[0].a">{{ algorithim.data[0].a }} {{algorithim.suffix}} </td>
           <td v-else>0</td>
           <!-- <td>{{ algorithim[1].rs }}</td> -->
-          <td> {{ algorithim.profitability }} USD/day </td>
+          <td> {{ algorithim.profitability }} BTC/day </td>
 
         </tr>
       </tbody>

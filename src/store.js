@@ -14,6 +14,7 @@ export const store = new Vuex.Store({
       name: "Brayan"
     }],
     selectedAddr: null,
+    // Todo Remove mappigAlgorithims and just make the axios call if there is one
     mappingAlgorithims: {
       0: "Scrypt",
       1: "SHA256",
@@ -49,6 +50,8 @@ export const store = new Vuex.Store({
       31: "CryptoNightHeavy",
       32: "Lyra2Z",
       33: "X16R",
+      // ! 34 Does not exist in the official API, but for configuration I made it so total balance can exist
+      34: 'Total Balance'
     }
   },
   mutations: {

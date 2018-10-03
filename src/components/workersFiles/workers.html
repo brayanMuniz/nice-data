@@ -28,10 +28,9 @@
 
 
           <td>{{ worker[1].a }}</td>
-          <!-- if not exist return 0 -->
+          <!-- Todo if not exist return 0 -->
           <td>{{ worker[1].rs }}</td>
-          <!-- Configure for which algorithim -->
-          <td> {{ worker[6] }} </td>
+          <td> {{ Object.values($store.state.mappingAlgorithims)[worker[6]] }} </td>
 
         </tr>
       </tbody>

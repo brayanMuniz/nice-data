@@ -1,5 +1,5 @@
 <div>
-  <h2>Payments <span class="bg-danger">() Below should be on the right</span></h2>
+  <h2>Payments</h2>
 
   <div class="ml-auto mt-3">
     <button class="btn btn-sm btn-outline-secondary">DropDown to switch accounts</button>
@@ -11,7 +11,7 @@
       {{address.name}}
     </li>
   </ul>
-  
+
   <div v-if="dataLoaded">
     <bar-chart :width="400" :height="200" :chartData="userData" :options="chartOptions" class="my-1">
     </bar-chart>
