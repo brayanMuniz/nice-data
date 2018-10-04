@@ -14,6 +14,7 @@ export default {
         fill: false
       },
       profitAlgorithims: null,
+      // ? Might have to make selectedTime a store property 
       selectedTime: 288,
       timeOptions: [{
           time: 'Hour',
@@ -40,7 +41,6 @@ export default {
   },
   methods: {
     getProfitData() {
-      // https://api.nicehash.com/api?method=simplemultialgo.info
       let testingAddr = this.$store.state.selectedAddr.addr
       axios.get('/api', {
           params: {
@@ -77,10 +77,13 @@ export default {
       console.log(timeStamps.length)
       return timeStamps.reverse()
     },
+    // Todo: For the love of all that is code break this down into different methods
     fillChartData(profitData) {
-
+      let selectedAddrTotalBalance = {
+        name: this.$store.state.selectedAddr.name,
+        balanceNumbers: null
+      }
       let totalCalculatedProfits = []
-      // TODO add up all the balances
       let totalBalance = {
         // ! I modified the mapping in store.js to create 34
         name: 34,
@@ -107,7 +110,7 @@ export default {
         totalCalculatedProfits.push(calculatedProfits)
         calculatedProfits = []
       })
-      // Todo round the totalso there arent a thoudans decimals
+      // Todo round the totalso there arent a lot of decimals
       totalCalculatedProfits.forEach(element => {
         for (let i = 0; i < element.balanceNumbers.length; i++) {
           if (totalBalance.balanceNumbers[i] == undefined) {
@@ -117,8 +120,11 @@ export default {
           totalBalance.balanceNumbers[i] += Number(element.balanceNumbers[i])
         }
       })
+
+      selectedAddrTotalBalance.balanceNumbers = totalBalance.balanceNumbers
+      this.$store.commit('setSelectedAddrTotalBalance', selectedAddrTotalBalance)
       totalCalculatedProfits.push(totalBalance)
-      console.log(totalCalculatedProfits)
+
       this.userData.labels = this.timeStamps(totalCalculatedProfits[0].balanceNumbers.length)
       this.userData.datasets = []
 
@@ -153,7 +159,6 @@ export default {
       this.dataLoaded = true
     }
   },
-
   components: {
     "line-chart": lineChart
   },

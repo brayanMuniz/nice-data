@@ -8,11 +8,19 @@ export const store = new Vuex.Store({
   state: {
     currentBITPriceNum: null,
     currentBITPriceSee: null,
-    // ! For testing I will have one addr in NHAddresses
+    // ! For testing I will have addr in NHAddresses, remove later
     NHAddresses: [{
       addr: '3LWh12U6ACgG9j4rq4ExagfMxNR8GgnGs4',
       name: "Brayan"
+    }, {
+      addr: '3JuqAiWuAma26iYvKjzGCTEHq6A8R4ZusZ',
+      name: "Erik"
+    }, {
+      addr: '3Ls4oRPWP3rxhPKsWgi4CYaK6E6c8HSekv',
+      name: "Jahir"
     }],
+    // ? This is here so in compare I dont have to call it
+    selectedAddrTotalBalance: null,
     selectedAddr: null,
     // Todo Remove mappigAlgorithims and just make the axios call if there is one
     mappingAlgorithims: {
@@ -55,6 +63,10 @@ export const store = new Vuex.Store({
     }
   },
   mutations: {
+    setSelectedAddrTotalBalance(state, newData) {
+      state.selectedAddrTotalBalance = newData
+      console.log(state.selectedAddrTotalBalance)
+    },
     setCurrentBITPrice(state, newPrice) {
       // ! Make sure this is a float not a string 
       state.currentBITPriceNum = newPrice.number

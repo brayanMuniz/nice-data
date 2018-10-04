@@ -2,9 +2,7 @@
     <!-- https://startbootstrap.com/template-overviews/sb-admin-2/ -->
     <h1>Profit</h1>
     <!-- Todo make a way to add new input fields with reactive data that lets the user enter as many addresses as they want -->
-    <!-- Todo delete local data from line chart and import it using props -->
-    <div class="container-fluid" v-if="dataLoaded">
-        <line-chart :chartData="userData" :options="{responsive: false, maintainAspectRatio: true}" :width="200"
-            :height="100"></line-chart>
+    <div v-if="dataLoaded">
+        <line-chart :chartData="userData" :width="400" :height="200" class="my-1"></line-chart>
     </div>
 </div>

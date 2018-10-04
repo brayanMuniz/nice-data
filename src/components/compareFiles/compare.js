@@ -1,23 +1,44 @@
 /*eslint-disable*/
+// Todo Make a mixin to not repeat code or store components in store.js
+// Todo import methods from somewhere
 import axios from 'axios'
 import moment from "moment";
 import lineChart from '../Charts/lineChartFiles/lineChart.vue'
 export default {
     name: "compare",
     props: ['currentBITPriceNum'],
+    components: {
+        "line-chart": lineChart
+    },
     data() {
         return {
-            testData: null,
-            userData: null,
+            totalBalanceAddrs: [],
+            addrsBalanceData: [],
+            userData: {},
             dataLoaded: false,
+            selectedTime: 288,
         };
     },
     beforeCreate() {
         this.$parent.getCurrentBITPrice()
     },
+    created() {
+        this.cycleSelectedAddrs()
+    },
     methods: {
-        getaddrData() {
-            let testingAddr = this.$store.state.selectedAddr
+        cycleSelectedAddrs() {
+            // Todo Make an if statement to see if selected is not null then append that to addrsBalanceData
+            for (let i = 0; i < this.$store.state.NHAddresses.length; i++) {
+                if (this.$store.state.NHAddresses[i].name == this.$store.state.selectedAddrTotalBalance.name) {
+                    this.totalBalanceAddrs.push(this.$store.state.selectedAddrTotalBalance)
+                } else {
+                    this.getProfitData(this.$store.state.NHAddresses[i].addr, this.$store.state.NHAddresses[i].name)
+
+                }
+            }
+        },
+        getProfitData(selectedAddr, selectedAddrName) {
+            let testingAddr = selectedAddr
             axios.get('/api', {
                     params: {
                         method: 'stats.provider.ex',
@@ -26,111 +47,96 @@ export default {
                 })
                 .then(res => {
                     console.log(res.data.result)
-                    let addrData = null
-                    addrData = res.data.result
-                    this.fillChartData(addrData)
-                    // Make function here to pass along data to other parts
+                    this.getTotalBalance(res.data.result, selectedAddrName)
                 })
                 .catch(err => {
                     console.log(err)
                 })
         },
-        fillChartData() {
-            let workersName = []
-            let workersAmount = []
-
-            this.workersData.workers.forEach(element => {
-                // Todo Make an if statement if it is undefined
-                workersName.push(element[0])
-                workersAmount.push(Number(element[1].a))
-            })
-
-            this.userData.labels = workersName
-            this.userData.datasets = [{
-                // ! For TESTING
-                label: 'thing',
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                ],
-                data: workersAmount
-            }]
-            this.dataLoaded = true
+        timeStamps(timeLength) {
+            let timeStamps = []
+            let i = 0
+            while (i < timeLength) {
+                // multiply by 5 because every block is 5 minutes so skip by 5 minutes
+                timeStamps.push(moment().subtract((this.selectedTime * 5 * i), 'minutes').format('MM DD YYYY'))
+                i += 1
+            }
+            console.log(timeStamps.length)
+            return timeStamps.reverse()
         },
-        testAddress() {
-            axios.get('/api', {
-                params: {
-                    method: 'stats.provider.ex',
-                    addr: "3LWh12U6ACgG9j4rq4ExagfMxNR8GgnGs4"
+        getTotalBalance(addrData, addrName) {
+
+            let totalCalculatedProfits = []
+            let totalBalance = {
+                name: addrName,
+                balanceNumbers: []
+            }
+
+            addrData.past.forEach(element => {
+                let calculatedProfits = {
+                    name: element.algo,
+                    balanceNumbers: []
                 }
-            }).
-            then(res => {
-                    console.log(res.data)
-                    let totalCurrentProfit = 0
-                    this.get24HourData(res.data.result.past)
-                    for (let profit in res.data.result.current) {
-                        totalCurrentProfit += Number(res.data.result.current[profit].profitability)
-                    }
 
-                    this.testData = totalCurrentProfit
-                    console.log(totalCurrentProfit)
-
-                })
-                .catch(err => {
-                    console.log(err)
-                })
-        },
-        get24HourData(dataObject) {
-            // Todo if it does not work send back err
-            let dayHourData = []
-            console.log(dataObject)
-            let total = 0
-            let testCount = 0
-            // if you change let to var i will be defined outside of the scope
-
-            dataObject.forEach(element => {
-                console.log(element)
-                element.data.forEach(algorithim => {
-                    //  (Number(moment().subtract(1, 'h').format('X')))
-                    if ((algorithim[0]) == 5122811) {
-                        // if (Number(algorithim[1].a) == NaN) {
-                        //     testCount += 1
-                        // } else {
-                        if (algorithim[1].a) {
-                            total += Number(algorithim[1].a)
-                        }
-
-                    }
-                    // }
-                })
-
-                dayHourData.push(total)
-                total = 0
+                let counter = 0
+                while (counter < element.data.length) {
+                    calculatedProfits.balanceNumbers.push(Number(element.data[counter][2]))
+                    counter += this.selectedTime
+                }
+                // Todo: get this and put it in totalBalance
+                totalCalculatedProfits.push(calculatedProfits)
+                calculatedProfits = []
             })
 
-            console.log((Number(moment().subtract(1, 'h').format('X'))))
-            console.log(dayHourData)
-            let hours = []
+            totalCalculatedProfits.forEach(element => {
 
-            for (let i = 0; i < 24; i++) {
-                hours.push(String(i))
-            }
-            this.userData = {
-                labels: hours,
-                datasets: [{
-                    label: 'Addr 2',
-                    backgroundColor: '#4286f4',
-                    data: dayHourData
-                }]
-            }
+                for (let i = 0; i < element.balanceNumbers.length; i++) {
+                    if (totalBalance.balanceNumbers[i] == undefined) {
+                        totalBalance.balanceNumbers[i] = 0
+                        totalBalance.balanceNumbers[i] += Number(element.balanceNumbers[i])
+                    }
+                    totalBalance.balanceNumbers[i] += Number(element.balanceNumbers[i])
+                }
+            })
 
+            this.totalBalanceAddrs.push(totalBalance)
+            console.log(this.totalBalanceAddrs)
+
+            this.fillChartData()
+
+        },
+        // Todo: For the love of all that is code break this down into different methods
+        fillChartData(profitData) {
+            // ? You could put them in the store
+            let colors = [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ]
+            let borderColors = [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ]
+            this.userData.labels = this.timeStamps(7)
+            this.userData.datasets = []
+            this.totalBalanceAddrs.forEach((element, index) => {
+                this.userData.datasets.push({
+                    label: element.name,
+                    backgroundColor: colors[index],
+                    borderColor: borderColors[index],
+                    data: element.balanceNumbers,
+                    fill: false
+
+                })
+            })
+            this.dataLoaded = true
         }
-    },
-    created() {
-        this.testAddress()
-    },
-    components: {
-        "line-chart": lineChart
     },
 };
