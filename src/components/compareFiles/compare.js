@@ -1,4 +1,5 @@
 /*eslint-disable*/
+// Todo fix that transition break
 // Todo Make a mixin to not repeat code or store components in store.js
 // Todo import methods from somewhere
 import axios from 'axios'
@@ -16,6 +17,7 @@ export default {
             addrsBalanceData: [],
             userData: {},
             dataLoaded: false,
+            // Todo: Make selectedTime a store property because if you call it from dashboard with a different time it will break it 
             selectedTime: 288,
         };
     },
@@ -27,14 +29,18 @@ export default {
     },
     methods: {
         cycleSelectedAddrs() {
-            // Todo Make an if statement to see if selected is not null then append that to addrsBalanceData
-            for (let i = 0; i < this.$store.state.NHAddresses.length; i++) {
-                if (this.$store.state.NHAddresses[i].name == this.$store.state.selectedAddrTotalBalance.name) {
-                    this.totalBalanceAddrs.push(this.$store.state.selectedAddrTotalBalance)
-                } else {
-                    this.getProfitData(this.$store.state.NHAddresses[i].addr, this.$store.state.NHAddresses[i].name)
+            if (this.$store.state.selectedAddrTotalBalance != null) {
+                // Todo Make an if statement to see if selected is not null then append that to addrsBalanceData
+                for (let i = 0; i < this.$store.state.NHAddresses.length; i++) {
+                    if (this.$store.state.NHAddresses[i].name == this.$store.state.selectedAddrTotalBalance.name) {
+                        this.totalBalanceAddrs.push(this.$store.state.selectedAddrTotalBalance)
+                    } else {
+                        this.getProfitData(this.$store.state.NHAddresses[i].addr, this.$store.state.NHAddresses[i].name)
 
+                    }
                 }
+            } else {
+                console.log("add Addr")
             }
         },
         getProfitData(selectedAddr, selectedAddrName) {

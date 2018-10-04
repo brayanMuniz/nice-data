@@ -14,7 +14,7 @@ export default {
         fill: false
       },
       profitAlgorithims: null,
-      // ? Might have to make selectedTime a store property 
+      // Todo: Make selectedTime a store property 
       selectedTime: 288,
       timeOptions: [{
           time: 'Hour',
@@ -36,8 +36,13 @@ export default {
   beforeCreate() {
     this.$parent.getCurrentBITPrice()
   },
+  mounted() {},
   created() {
-    this.getProfitData()
+    if (this.$store.state.selectedAddr != null) {
+      this.getProfitData()
+    } else {
+      console.log("Select or add")
+    }
   },
   methods: {
     getProfitData() {

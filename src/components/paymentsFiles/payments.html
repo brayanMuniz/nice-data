@@ -1,43 +1,48 @@
-<div>
-  <h2>Payments</h2>
+<div class="border-bottom border-left">
+  <div class="container-fluid" v-if="$store.state.selectedAddr != null">
+    <h2>Payments</h2>
 
-  <div class="ml-auto mt-3">
-    <button class="btn btn-sm btn-outline-secondary">DropDown to switch accounts</button>
+    <div class="ml-auto mt-3">
+      <button class="btn btn-sm btn-outline-secondary">DropDown to switch accounts</button>
+    </div>
+    <h6>At click IT will load in the new data</h6>
+
+    <ul class="nav flex-column mt-1" v-for="address in $store.state.NHAddresses" :key="address.id">
+      <li class="nav-item">
+        {{address.name}}
+      </li>
+    </ul>
+
+    <div v-if="dataLoaded">
+      <bar-chart :width="400" :height="200" :chartData="userData" :options="chartOptions" class="my-1">
+      </bar-chart>
+    </div>
+
+
+    <div class="table-responsive">
+      <table class="table table-sm table-hover">
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Amount</th>
+            <th>Fee</th>
+          </tr>
+        </thead>
+        <!-- $store.state.NHAddresses[0].addr -->
+        <tbody v-for="payment in paymentData" :key='payment.id'>
+          <tr>
+            <td>{{$parent.toRelativeTime(payment.time)}}</td>
+            <!-- @click='toggleCurrency(payment.amount)' -->
+            <!-- ! Returns string at clicked but does not change it -->
+            <td @click="$parent.toggleCurrency(payment.amount)">{{payment.amount}}</td>
+            <td>{{payment.fee}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
   </div>
-  <h6>At click IT will load in the new data</h6>
-
-  <ul class="nav flex-column mt-1" v-for="address in $store.state.NHAddresses" :key="address.id">
-    <li class="nav-item">
-      {{address.name}}
-    </li>
-  </ul>
-
-  <div v-if="dataLoaded">
-    <bar-chart :width="400" :height="200" :chartData="userData" :options="chartOptions" class="my-1">
-    </bar-chart>
+  <div class="container-fluid mx-auto" v-else>
+    <h1 class="mx-auto">Add an Address</h1>
   </div>
-
-
-  <div class="table-responsive">
-    <table class="table table-sm table-hover">
-      <thead>
-        <tr>
-          <th>Time</th>
-          <th>Amount</th>
-          <th>Fee</th>
-        </tr>
-      </thead>
-      <!-- $store.state.NHAddresses[0].addr -->
-      <tbody v-for="payment in paymentData" :key='payment.id'>
-        <tr>
-          <td>{{$parent.toRelativeTime(payment.time)}}</td>
-          <!-- @click='toggleCurrency(payment.amount)' -->
-          <!-- ! Returns string at clicked but does not change it -->
-          <td @click="$parent.toggleCurrency(payment.amount)">{{payment.amount}}</td>
-          <td>{{payment.fee}}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
 </div>

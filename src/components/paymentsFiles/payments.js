@@ -22,7 +22,11 @@ export default {
     this.$parent.getCurrentBITPrice()
   },
   mounted() {
-    this.getAddrPayments()
+    if (this.$store.state.selectedAddr != null) {
+      this.getAddrPayments()
+    } else {
+      console.log("Select or add")
+    }
   },
   methods: {
     // ! For testing purposes I will use the one in the store so 

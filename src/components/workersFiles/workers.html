@@ -1,40 +1,44 @@
 <div class="container-fluid">
-  <!-- Todo Make a dropdown to filter by algorithim minig -->
-  <!-- Todo add options prop -->
-  <div v-if="dataLoaded" style="width: 400px;">
-    <do-nut :chartData="userData" :width="100" :height="100"></do-nut>
+  <div class="container-fliud" v-if="$store.state.selectedAddr != null">
+    <!-- Todo Make a dropdown to filter by algorithim minig -->
+    <!-- Todo add options prop -->
+    <div v-if="dataLoaded" style="width: 400px;">
+      <do-nut :chartData="userData" :width="100" :height="100"></do-nut>
+    </div>
+    <!-- Also make a table like chart -->
+
+    <!-- v-if="workerData" -->
+    <div class="table-responsive" v-if="dataLoaded">
+      <table class="table table-sm table-hover">
+
+        <thead>
+          <tr>
+            <th>Rig</th>
+            <th>Time</th>
+            <th>Accepted</th>
+            <th>Rejected</th>
+            <th>Algorithim</th>
+          </tr>
+        </thead>
+
+        <tbody v-for="worker in workersData.workers" :key='worker.id'>
+          <tr>
+            <td>{{ worker[0] }}</td>
+
+            <td>{{ worker[2] }} minutes</td>
+
+
+            <td>{{ worker[1].a }}</td>
+            <!-- Todo if not exist return 0 -->
+            <td>{{ worker[1].rs }}</td>
+            <td> {{ Object.values($store.state.mappingAlgorithims)[worker[6]] }} </td>
+
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
-  <!-- Also make a table like chart -->
-
-  <!-- v-if="workerData" -->
-  <div class="table-responsive" v-if="dataLoaded">
-    <table class="table table-sm table-hover">
-
-      <thead>
-        <tr>
-          <th>Rig</th>
-          <th>Time</th>
-          <th>Accepted</th>
-          <th>Rejected</th>
-          <th>Algorithim</th>
-        </tr>
-      </thead>
-
-      <tbody v-for="worker in workersData.workers" :key='worker.id'>
-        <tr>
-          <td>{{ worker[0] }}</td>
-
-          <td>{{ worker[2] }} minutes</td>
-
-
-          <td>{{ worker[1].a }}</td>
-          <!-- Todo if not exist return 0 -->
-          <td>{{ worker[1].rs }}</td>
-          <td> {{ Object.values($store.state.mappingAlgorithims)[worker[6]] }} </td>
-
-        </tr>
-      </tbody>
-    </table>
+  <div class="container-fluid mx-auto" v-else>
+    <h1 class="mx-auto">Add an Address</h1>
   </div>
-
 </div>

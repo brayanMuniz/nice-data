@@ -1,58 +1,55 @@
-<div class="border-bottom">
-  <h2>Balance</h2>
-  <!-- 
-  Follows mining currencies from nicehash
-  Profits
-  Adjust Electricity Bill Todo Learn how to calculate electricity
-  -->
-  <!--  -->
+<div class="border-bottom border-left">
+  <div class="container-fluid" v-if='$store.state.selectedAddr != null'>
+    
+    <h2>Balance</h2>
+    <div class="btn-toolbar mb-2 mb-md-0">
 
-  <div class="btn-toolbar mb-2 mb-md-0">
+      <div class="btn-group mr-2" v-for="timeOption in timeOptions" :key="timeOption.id">
+        <button class="btn btn-sm btn-outline-secondary" @click="selectedTime = timeOption.number">{{timeOption.time }}</button>
+      </div>
 
-    <div class="btn-group mr-2" v-for="timeOption in timeOptions" :key="timeOption.id">
-      <button class="btn btn-sm btn-outline-secondary" @click="selectedTime = timeOption.number">{{timeOption.time }}</button>
+      <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
+      </button>
+
     </div>
 
-    <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
-    </button>
+    <div v-if="dataLoaded">
+      <line-chart :width="400" :height="200" :chartData="userData" class="my-1" :options="{maintainAspectRatio: true}">
+      </line-chart>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-sm table-hover my-1">
+
+        <thead>
+          <tr>
+            <th>Algorithim</th>
+            <th>Balance</th>
+            <th>Speed</th>
+            <!-- <th></th> -->
+            <th>Profitability</th>
+          </tr>
+        </thead>
+
+        <tbody v-for="algorithim in profitAlgorithims" :key='algorithim.id'>
+          <tr>
+            <td>{{ algorithim.name }}</td>
+
+            <td>{{ algorithim.data[1] }}</td>
+
+
+            <td v-if="algorithim.data[0].a">{{ algorithim.data[0].a }} {{algorithim.suffix}} </td>
+            <td v-else>0</td>
+            <!-- <td>{{ algorithim[1].rs }}</td> -->
+            <td> {{ algorithim.profitability }} BTC/day </td>
+
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
   </div>
-
-  <div v-if="dataLoaded">
-    <line-chart :width="400" :height="200" :chartData="userData" class="my-1" :options="{maintainAspectRatio: true}">
-    </line-chart>
+  <div class="container-fluid" v-else>
+    <h1>Add an Address</h1>
   </div>
-
-  <div class="table-responsive">
-    <table class="table table-sm table-hover my-1">
-
-      <thead>
-        <tr>
-          <th>Algorithim</th>
-          <th>Balance</th>
-          <th>Speed</th>
-          <!-- <th></th> -->
-          <th>Profitability</th>
-        </tr>
-      </thead>
-
-      <tbody v-for="algorithim in profitAlgorithims" :key='algorithim.id'>
-        <tr>
-          <td>{{ algorithim.name }}</td>
-
-          <td>{{ algorithim.data[1] }}</td>
-
-
-          <td v-if="algorithim.data[0].a">{{ algorithim.data[0].a }} {{algorithim.suffix}} </td>
-          <td v-else>0</td>
-          <!-- <td>{{ algorithim[1].rs }}</td> -->
-          <td> {{ algorithim.profitability }} BTC/day </td>
-
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-
-  <!-- Make a table for Algorithims in the current -->
 </div>

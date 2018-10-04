@@ -1,8 +1,13 @@
 <div class="container">
-    <!-- https://startbootstrap.com/template-overviews/sb-admin-2/ -->
-    <h1>Profit</h1>
-    <!-- Todo make a way to add new input fields with reactive data that lets the user enter as many addresses as they want -->
-    <div v-if="dataLoaded">
-        <line-chart :chartData="userData" :width="400" :height="200" class="my-1"></line-chart>
+    <div class="container-fluid" v-if="$store.state.selectedAddr != null">
+        <!-- https://startbootstrap.com/template-overviews/sb-admin-2/ -->
+        <h1>Total Unpaid Balance</h1>
+        <!-- Todo make a way to add new input fields with reactive data that lets the user enter as many addresses as they want -->
+        <div v-if="dataLoaded">
+            <line-chart :chartData="userData" :width="400" :height="200" class="my-1"></line-chart>
+        </div>
+    </div>
+    <div class="container-fluid mx-auto" v-else>
+        <h1 class="mx-auto">Add an Address</h1>
     </div>
 </div>
