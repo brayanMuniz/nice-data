@@ -16,7 +16,6 @@ Compare:
 
 Payments:
     Make the y axis start at 0
-    change the label @ selectedAddr Change
     Total in Amount and total in fees
     calculate profit, Set it up like profti X Current BIT Price  = $, at hover gor Current be able to add a slider and change it 
 

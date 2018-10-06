@@ -19,10 +19,45 @@ export default {
     this.$parent.getCurrentBITPrice()
   },
   mounted() {
+    this.$store.watch(
+      function (state) {
+        return state.selectedAddr
+      },
+      // Need an arrow functionn so I can access all the methods that I have here in the file
+      () => {
+        // this.dataLoaded = false
+        this.getAddrPayments()
+      }
+    );
     if (this.$store.state.selectedAddr != null) {
       this.getAddrPayments()
     } else {
       console.log("Select or add")
+    }
+  },
+  computed: {
+    totalAmount() {
+      let totalAmount = 0
+      this.paymentData.forEach(element => {
+        totalAmount += Number(element.amount)
+      })
+      return totalAmount.toFixed(6)
+    },
+    totalFees() {
+      let totalFees = 0
+
+      this.paymentData.forEach(element => {
+        totalFees += Number(element.fee)
+      })
+
+      return totalFees.toFixed(6)
+    },
+    totalProfit() {
+      let totalProfit = 0
+      this.paymentData.forEach(element => {
+        totalProfit += (Number(element.amount) - Number(element.fee))
+      })
+      return (totalProfit * this.$store.state.currentBITPriceNum).toFixed(2)
     }
   },
   methods: {
@@ -36,6 +71,10 @@ export default {
           }
         })
         .then(res => {
+          this.userData = {
+            datasets: [],
+            labels: [],
+          }
           this.dataLoaded = false
           this.paymentData = res.data.result.payments
           if (this.paymentData != null) {
@@ -58,7 +97,7 @@ export default {
       this.userData.labels = dateData.reverse()
       this.userData.datasets = [{
         // Todo Think of a way to keep this
-        label: this.$store.state.NHAddresses[0].name,
+        label: this.$store.state.selectedAddr.name,
         backgroundColor: 'rgba(54, 162, 235, 0.2)',
         data: amountData.reverse()
       }]
