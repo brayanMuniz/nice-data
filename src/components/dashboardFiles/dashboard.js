@@ -7,8 +7,10 @@ export default {
   name: "dashboard",
   data() {
     return {
+      // Todo configure your data better
       userData: {},
       dataLoaded: false,
+      totalBalance: 0,
       selectedLength: null,
       chartOptions: {
         fill: false
@@ -33,10 +35,24 @@ export default {
       ]
     };
   },
+  computed: {},
   beforeCreate() {
     this.$parent.getCurrentBITPrice()
   },
-  mounted() {},
+  // Todo it is not a good idea to watch it directly in the store Change it later
+  mounted() {
+    // Todo: Does work, except for the filling ou chart data again
+    this.$store.watch(
+      function (state) {
+        return state.selectedAddr
+      },
+      // Need an arrow functionn so I can access all the methods that I have here in the file
+      () => {
+        // this.dataLoaded = false
+        this.getProfitData()
+      }
+    );
+  },
   created() {
     if (this.$store.state.selectedAddr != null) {
       this.getProfitData()
@@ -54,13 +70,25 @@ export default {
           }
         })
         .then(res => {
-          console.log(res.data)
+          this.totalBalance = this.summedProfit(res.data.result.current)
           this.profitAlgorithims = res.data.result.current
+          this.userData = {
+            datasets: [],
+            labels: [],
+
+          }
           this.fillChartData(res.data.result)
         })
         .catch(err => {
           console.log(err)
         })
+    },
+    summedProfit(data) {
+      let total = 0
+      data.forEach(element => {
+        total += Number(element.profitability)
+      })
+      return total
     },
     getCurrent(currentData) {
       let total = 0
@@ -131,7 +159,6 @@ export default {
       totalCalculatedProfits.push(totalBalance)
 
       this.userData.labels = this.timeStamps(totalCalculatedProfits[0].balanceNumbers.length)
-      this.userData.datasets = []
 
       totalCalculatedProfits.forEach((element, index) => {
         let colors = [
@@ -162,7 +189,7 @@ export default {
 
       })
       this.dataLoaded = true
-    }
+    },
   },
   components: {
     "line-chart": lineChart

@@ -2,9 +2,6 @@
 import barChart from '../Charts/barChart/barChart.vue'
 import moment from 'moment'
 import axios from 'axios'
-// ! Problems with this route
-// ! I have to call the api at load
-//  ! It might take a while for the api load 
 export default {
   name: "payments",
   props: ['userNHAddressData', 'currentBITPriceNum', 'userNHAddress'],
@@ -29,17 +26,8 @@ export default {
     }
   },
   methods: {
-    // ! For testing purposes I will use the one in the store so 
     // Todo Make the drop down to get the data when account is clicked
     getAddrPayments() {
-      // Todo 
-      // if($store.state.NHAddresses.length == 0) => put some stuff in
-      // if (this.selectedAddr == null) {
-      //   console.log('Kek')
-      // } else {
-      //   console.log("Set default data")
-      // }
-      // let testingAddr = this.selectedAddrselectedAddr
       let testingAddr = this.$store.state.selectedAddr.addr
       axios.get('/api', {
           params: {
@@ -48,6 +36,7 @@ export default {
           }
         })
         .then(res => {
+          this.dataLoaded = false
           this.paymentData = res.data.result.payments
           if (this.paymentData != null) {
             this.fillChartData(res.data.result.payments)
@@ -73,6 +62,7 @@ export default {
         backgroundColor: 'rgba(54, 162, 235, 0.2)',
         data: amountData.reverse()
       }]
+
       this.dataLoaded = true
     }
   },

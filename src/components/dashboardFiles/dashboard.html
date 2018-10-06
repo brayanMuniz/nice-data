@@ -1,15 +1,15 @@
 <div class="border-bottom border-left">
   <div class="container-fluid" v-if='$store.state.selectedAddr != null'>
-    
+
     <h2>Balance</h2>
     <div class="btn-toolbar mb-2 mb-md-0">
-
+      <!-- 
       <div class="btn-group mr-2" v-for="timeOption in timeOptions" :key="timeOption.id">
         <button class="btn btn-sm btn-outline-secondary" @click="selectedTime = timeOption.number">{{timeOption.time }}</button>
-      </div>
-
+      </div> -->
+      <!-- 
       <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
-      </button>
+      </button> -->
 
     </div>
 
@@ -19,6 +19,7 @@
     </div>
 
     <div class="table-responsive">
+
       <table class="table table-sm table-hover my-1">
 
         <thead>
@@ -41,11 +42,15 @@
             <td v-if="algorithim.data[0].a">{{ algorithim.data[0].a }} {{algorithim.suffix}} </td>
             <td v-else>0</td>
             <!-- <td>{{ algorithim[1].rs }}</td> -->
-            <td> {{ algorithim.profitability }} BTC/day </td>
+            <td> {{ algorithim.profitability }} BTC/Day </td>
 
           </tr>
         </tbody>
+
       </table>
+
+      <p>{{totalBalance}} BTC/Day</p>
+
     </div>
 
   </div>

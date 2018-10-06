@@ -1,10 +1,8 @@
 Be able to select what time you want
-Make the Bitcoin on navbar an a tag to send you to a bitcoin tracking website 
 
 Adding Selected Addrs:
     Make the add button look better
     To Remove the addr make it a font-awesome tag
-    For the selected tag in the list make it highlighted
     When addr removed from list make the one next to it the selected one
     If the user puts an invalid addr make it so that an alert pops up
 
@@ -12,13 +10,31 @@ Compare:
     remove the need for a selected addr
     y-axis starts at 0
     Average profit-balance in a day calculate
+    Compare BTC day 
+    Add a little toggler on the top to compare Payments, workers, and profit
+
 
 Payments:
     Make the y axis start at 0
+    change the label @ selectedAddr Change
+    Total in Amount and total in fees
+    calculate profit, Set it up like profti X Current BIT Price  = $, at hover gor Current be able to add a slider and change it 
 
 Dashboard:
     total BTC/Day on the right side
 
+All: 
+    at selectedAddr change change charts
+
+Charts: 
+    start at 0 for y axis
+
+Users: 
+    Track their avg profit per day by making a request to nicehash once every hour
+
 Make a footer
 Make the abstract for the contact page
-LeaderBoards
+Make LeaderBoards
+
+Notes:
+    When you want something for all components probably a good idea to abstract it first to keep code DRY
