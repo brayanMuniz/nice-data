@@ -101,6 +101,9 @@ export const store = new Vuex.Store({
   getters: {
     getCurrentBITPrice: state => {
       return state.currentBITPrice
+    },
+    getCurrentSelectedAddr: state => {
+      return state.selectedAddr
     }
   }
 })

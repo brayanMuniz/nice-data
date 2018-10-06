@@ -1,0 +1,24 @@
+Be able to select what time you want
+Make the Bitcoin on navbar an a tag to send you to a bitcoin tracking website 
+
+Adding Selected Addrs:
+    Make the add button look better
+    To Remove the addr make it a font-awesome tag
+    For the selected tag in the list make it highlighted
+    When addr removed from list make the one next to it the selected one
+    If the user puts an invalid addr make it so that an alert pops up
+
+Compare:
+    remove the need for a selected addr
+    y-axis starts at 0
+    Average profit-balance in a day calculate
+
+Payments:
+    Make the y axis start at 0
+
+Dashboard:
+    total BTC/Day on the right side
+
+Make a footer
+Make the abstract for the contact page
+LeaderBoards

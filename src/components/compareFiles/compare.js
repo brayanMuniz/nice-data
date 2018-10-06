@@ -44,11 +44,10 @@ export default {
             }
         },
         getProfitData(selectedAddr, selectedAddrName) {
-            let testingAddr = selectedAddr
             axios.get('/api', {
                     params: {
                         method: 'stats.provider.ex',
-                        addr: testingAddr
+                        addr: selectedAddr
                     }
                 })
                 .then(res => {
