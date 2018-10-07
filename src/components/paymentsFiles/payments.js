@@ -10,7 +10,16 @@ export default {
       dataCollection: null,
       userData: {},
       paymentData: null,
-      chartOptions: null,
+      chartOptions: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        },
+
+      },
       selectedAddr: null,
       dataLoaded: false
     }
@@ -62,12 +71,12 @@ export default {
   },
   methods: {
     // Todo Make the drop down to get the data when account is clicked
+    // !This only returns past 7 payments
     getAddrPayments() {
-      let testingAddr = this.$store.state.selectedAddr.addr
       axios.get('/api', {
           params: {
             method: 'stats.provider',
-            addr: testingAddr
+            addr: this.$store.state.selectedAddr.addr
           }
         })
         .then(res => {
@@ -77,6 +86,7 @@ export default {
           }
           this.dataLoaded = false
           this.paymentData = res.data.result.payments
+          console.log(res.data)
           if (this.paymentData != null) {
             this.fillChartData(res.data.result.payments)
           }

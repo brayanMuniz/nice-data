@@ -5,10 +5,10 @@ Adding Selected Addrs:
     To Remove the addr make it a font-awesome tag
     When addr removed from list make the one next to it the selected one
     If the user puts an invalid addr make it so that an alert pops up
+    The first Addr in the list will be the one selected if removed 
 
 Compare:
     remove the need for a selected addr
-    y-axis starts at 0
     Average profit-balance in a day calculate
     Compare BTC day 
     Add a little toggler on the top to compare Payments, workers, and profit
@@ -16,14 +16,18 @@ Compare:
 
 Payments:
     Make the y axis start at 0
-    Total in Amount and total in fees
     calculate profit, Set it up like profti X Current BIT Price  = $, at hover gor Current be able to add a slider and change it 
+    Return all payments not just the ones provide<Currently 7>
+    There should be a red and blue colors to indicate profit 
+    Make it stacked so the ones in the bottom are red and indicate fee 
+    http://www.chartjs.org/docs/latest/charts/bar.html
+
 
 Dashboard:
     total BTC/Day on the right side
 
 All: 
-    at selectedAddr change change charts
+    at selectedAddr change charts
 
 Charts: 
     start at 0 for y axis
@@ -31,8 +35,9 @@ Charts:
 Users: 
     Track their avg profit per day by making a request to nicehash once every hour
 
-Make a footer
-Make the abstract for the contact page
+contact:
+    route does not work
+
 Make LeaderBoards
 
 Notes:

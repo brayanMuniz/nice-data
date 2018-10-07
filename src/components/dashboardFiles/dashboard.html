@@ -14,7 +14,7 @@
     </div>
 
     <div v-if="dataLoaded">
-      <line-chart :width="400" :height="200" :chartData="userData" class="my-1" :options="{maintainAspectRatio: true}">
+      <line-chart :width="400" :height="200" :chartData="userData" class="my-1" :options="chartOptions">
       </line-chart>
     </div>
 
@@ -48,8 +48,8 @@
         </tbody>
 
       </table>
-
-      <p>{{totalBalance}} BTC/Day</p>
+      <!-- Todo: Put this on the right side so it is aligned with the rest -->
+      <p>{{totalBalance.toFixed(8)}} BTC/Day</p>
 
     </div>
 

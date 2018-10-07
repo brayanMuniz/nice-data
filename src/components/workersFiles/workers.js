@@ -17,20 +17,31 @@ export default {
   beforeCreate() {
     this.$parent.getCurrentBITPrice()
   },
-  mounted() {},
+  mounted() {
+    this.$store.watch(
+      function (state) {
+        return state.selectedAddr
+      },
+      // Need an arrow functionn so I can access all the methods that I have here in the file
+      () => {
+        // this.dataLoaded = false
+        this.getWorkerData()
+      }
+    )
+  },
   methods: {
     getWorkerData() {
-      // Todo Loop through this.$store.state.NHAddresses
-      // ! This does not work thanks for the info baka
-      let testingAddr = this.$store.state.selectedAddr.addr
       axios.get('/api', {
           params: {
             method: 'stats.provider.workers',
-            addr: testingAddr
+            addr: this.$store.state.selectedAddr.addr
           }
         })
         .then(res => {
-          console.log(res.data.result)
+          this.userData = {
+            datasets: [],
+            labels: [],
+          }
           this.workersData = res.data.result
           this.fillChartData()
           // Make function here to pass along data to other parts

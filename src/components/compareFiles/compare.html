@@ -1,10 +1,10 @@
 <div class="container">
-    <div class="container-fluid" v-if="$store.state.selectedAddr != null">
+    <div class="container-fluid" v-if="$store.state.NHAddresses.length != 0">
         <!-- https://startbootstrap.com/template-overviews/sb-admin-2/ -->
         <h1>Total Unpaid Balance</h1>
         <!-- Todo make a way to add new input fields with reactive data that lets the user enter as many addresses as they want -->
         <div v-if="dataLoaded">
-            <line-chart :chartData="userData" :width="400" :height="200" class="my-1"></line-chart>
+            <line-chart :chartData="userData" :width="400" :height="200" class="my-1" :options="chartOptions"></line-chart>
         </div>
     </div>
     <div class="container-fluid mx-auto" v-else>

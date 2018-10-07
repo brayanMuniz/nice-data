@@ -13,11 +13,19 @@ export default {
       totalBalance: 0,
       selectedLength: null,
       chartOptions: {
-        fill: false
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        },
+
       },
       profitAlgorithims: null,
       // Todo: Make selectedTime a store property 
       selectedTime: 288,
+      // Also make time options a store property
       timeOptions: [{
           time: 'Hour',
           number: 1
@@ -35,13 +43,11 @@ export default {
       ]
     };
   },
-  computed: {},
   beforeCreate() {
     this.$parent.getCurrentBITPrice()
   },
   // Todo it is not a good idea to watch it directly in the store Change it later
   mounted() {
-    // Todo: Does work, except for the filling ou chart data again
     this.$store.watch(
       function (state) {
         return state.selectedAddr
@@ -75,7 +81,6 @@ export default {
           this.userData = {
             datasets: [],
             labels: [],
-
           }
           this.fillChartData(res.data.result)
         })
