@@ -6,7 +6,31 @@
         <div v-if="dataLoaded">
             <line-chart :chartData="userData" :width="400" :height="200" class="my-1" :options="chartOptions"></line-chart>
         </div>
+
+        <!-- <div class="table-responsive">
+            <table class="table table-sm table-hover">
+                <thead>
+                    <tr>
+                        <th>Person</th>
+                        <th>Hashing Speed</th>
+                        <th>AVG Increase</th>
+                        <th>Workers</th>
+                        <th>Profit BTC/Day</th>
+                    </tr>
+                </thead>
+                <tbody v-for="addr in addrProperties" :key="addr.id">
+                    <tr>
+                        <td>{{addr.name}}</td>
+                        <td>kek</td>
+                        <td>kek</td>
+                        <td>kek</td>
+                        <td>kek</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div> -->
     </div>
+
     <div class="container-fluid mx-auto" v-else>
         <h1 class="mx-auto">Add an Address</h1>
     </div>

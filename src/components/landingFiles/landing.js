@@ -2,6 +2,9 @@
 import moment from 'moment'
 import axios from 'axios'
 import asideNav from '../asideNavFiles/asideNav.vue'
+import {
+  request
+} from 'https';
 export default {
   name: 'landing',
   data() {
@@ -16,6 +19,9 @@ export default {
 
     };
   },
+  beforeCreate() {
+    this.$store.commit('checkForSelectedAddr')
+  },
   created() {
     this.getCurrentBITPrice()
     this.$router.push('dashboard')
@@ -23,26 +29,17 @@ export default {
   // You can keep your code more DRY if you call this.$parent.function() on router-view
   // Todo Make general funcitons here to keep code DRY
   methods: {
-    getNHAddressData() {
-      axios.get('/api', {
-          params: {
-            method: 'stats.provider',
-            addr: this.userNHAddress
-          }
-        })
-        .then(res => {
-          // Todo IF incorrect address give back error
-          // if (res.data.data.result.error) {
-          //   this.userNHAddressData = res
-          // } else {
-
-          // }
-          this.userNHAddressData = res.data
-          // this.$store.commit('addNHAddress')
-        })
-        .catch(err => {
-          console.log(err)
-        })
+    getNHAddressData(requestMethod) {
+      return axios.get('/api', {
+        params: {
+          method: requestMethod,
+          addr: this.$store.state.selectedAddr.addr
+        }
+      }).then(res => {
+        return res
+      }).catch(err => {
+        return err
+      })
     },
     getCurrentBITPrice() {
       let currentPriceURL = "https://api.coindesk.com/v1/bpi/currentprice.json"

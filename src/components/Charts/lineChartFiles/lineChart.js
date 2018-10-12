@@ -13,9 +13,6 @@ export default {
     extends: Line,
     mixins: [reactiveProp],
     props: ['options'],
-    created() {
-        console.log(this.options)
-    },
     mounted() {
         this.renderChart(this.chartData, this.options)
     },

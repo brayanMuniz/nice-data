@@ -12,10 +12,15 @@ export default {
       paymentData: null,
       chartOptions: {
         scales: {
+          xAxes: [{
+            stacked: true
+          }],
           yAxes: [{
             ticks: {
-              beginAtZero: true
-            }
+              beginAtZero: false
+            },
+          }, {
+            stacked: true
           }]
         },
 
@@ -73,45 +78,43 @@ export default {
     // Todo Make the drop down to get the data when account is clicked
     // !This only returns past 7 payments
     getAddrPayments() {
-      axios.get('/api', {
-          params: {
-            method: 'stats.provider',
-            addr: this.$store.state.selectedAddr.addr
-          }
-        })
-        .then(res => {
-          this.userData = {
-            datasets: [],
-            labels: [],
-          }
-          this.dataLoaded = false
-          this.paymentData = res.data.result.payments
-          console.log(res.data)
-          if (this.paymentData != null) {
-            this.fillChartData(res.data.result.payments)
-          }
-          // Make function here to pass along data to other parts
-        })
-        .catch(err => {
-          console.log(err)
-        })
+      let pendingReq = this.$parent.getNHAddressData('stats.provider')
+      pendingReq.then(res => {
+        this.userData = {
+          datasets: [],
+          labels: [],
+        }
+        this.dataLoaded = false
+        this.paymentData = res.data.result.payments
+        if (this.paymentData != null) {
+          this.fillChartData(res.data.result.payments)
+        }
+      }).catch(err => {
+        console.log(err)
+      })
     },
     fillChartData(payData) {
       let dateData = []
       let amountData = []
+      let feeData = []
       payData.forEach(element => {
         dateData.push(moment(element.time).format("MM Do YY"))
         amountData.push(element.amount)
+        feeData.push("-" + element.fee)
       })
-
       this.userData.labels = dateData.reverse()
-      this.userData.datasets = [{
-        // Todo Think of a way to keep this
-        label: this.$store.state.selectedAddr.name,
+
+      this.userData.datasets.push({
+        label: "Amount",
         backgroundColor: 'rgba(54, 162, 235, 0.2)',
         data: amountData.reverse()
-      }]
+      }, ({
+        label: "Fee",
+        backgroundColor: 'rgba(200, 0, 0, 0.2)',
+        data: feeData.reverse()
+      }))
 
+      console.log(this.userData.datasets)
       this.dataLoaded = true
     }
   },
