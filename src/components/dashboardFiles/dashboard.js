@@ -66,16 +66,24 @@ export default {
       console.log("Select or add")
     }
   },
+  computed: {
+    totalProfitDollars() {
+      return (this.totalBalance * this.$store.state.currentBITPriceNum).toFixed(2)
+    },
+    totalProfitBIT() {
+      return this.totalBalance.toFixed(8)
+    }
+  },
   methods: {
     getProfitData() {
-      let testingAddr = this.$store.state.selectedAddr.addr
       axios.get('/api', {
           params: {
             method: 'stats.provider.ex',
-            addr: testingAddr
+            addr: this.$store.state.selectedAddr.addr
           }
         })
         .then(res => {
+          console.log(res)
           this.totalBalance = this.summedProfit(res.data.result.current)
           this.profitAlgorithims = res.data.result.current
           this.userData = {
@@ -166,27 +174,10 @@ export default {
       this.userData.labels = this.timeStamps(totalCalculatedProfits[0].balanceNumbers.length)
 
       totalCalculatedProfits.forEach((element, index) => {
-        let colors = [
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 206, 86, 0.2)',
-          'rgba(75, 192, 192, 0.2)',
-          'rgba(153, 102, 255, 0.2)',
-          'rgba(255, 159, 64, 0.2)'
-        ]
-        let borderColors = [
-          'rgba(255,99,132,1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)'
-        ]
-
         this.userData.datasets.push({
           label: ((Object.values(this.$store.state.mappingAlgorithims)))[Number(element.name)],
-          backgroundColor: colors[index],
-          borderColor: borderColors[index],
+          backgroundColor: this.$store.state.colors[index],
+          borderColor: this.$store.state.borderColors[index],
           data: element.balanceNumbers,
           fill: false
           // Todo set all other options here

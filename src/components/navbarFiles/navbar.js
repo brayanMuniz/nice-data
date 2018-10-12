@@ -1,9 +1,13 @@
 export default {
   name: "navbar",
-  data: function() {
+  data: function () {
     return {
 
     };
   },
-
+  computed: {
+    currentBITPrice() {
+      return this.$store.state.currentBITPriceSee
+    }
+  }
 };

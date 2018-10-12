@@ -12,7 +12,7 @@ Compare:
     Average profit-balance in a day calculate
     Compare BTC day 
     Add a little toggler on the top to compare Payments, workers, and profit
-
+    Make it work. If I add the cycle() on created it works but there are duplicates. CHekc for duplicaiton or find another way to do it
 
 Payments:
     Make the y axis start at 0
@@ -39,6 +39,8 @@ contact:
     route does not work
 
 Make LeaderBoards
+
+Start doing the different selected Times when you figure out how to do profitability 
 
 Notes:
     When you want something for all components probably a good idea to abstract it first to keep code DRY

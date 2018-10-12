@@ -1,4 +1,5 @@
 /* eslint-disable */
+// https://www.tutorialspoint.com/cplusplus/cpp_constructor_destructor.htm
 import Vue from 'vue'
 import Vuex from 'vuex'
 Vue.use(Vuex)
@@ -18,6 +19,9 @@ export const store = new Vuex.Store({
     }, {
       addr: '3Ls4oRPWP3rxhPKsWgi4CYaK6E6c8HSekv',
       name: "Jahir"
+    }, {
+      addr: "3ABbSf9CT2ERHA4R6jTErLjLckc6BivdCi",
+      name: 'RichBoy'
     }],
     // ? This is here so in compare I dont have to call it
     selectedAddrTotalBalance: null,
@@ -60,7 +64,23 @@ export const store = new Vuex.Store({
       33: "X16R",
       // ! 34 Does not exist in the official API, but for configuration I made it so total balance can exist
       34: 'Total Balance'
-    }
+    },
+    colors: [
+      'rgba(255, 99, 132, 0.2)',
+      'rgba(54, 162, 235, 0.2)',
+      'rgba(255, 206, 86, 0.2)',
+      'rgba(75, 192, 192, 0.2)',
+      'rgba(153, 102, 255, 0.2)',
+      'rgba(255, 159, 64, 0.2)'
+    ],
+    borderColors: [
+      'rgba(255,99,132,1)',
+      'rgba(54, 162, 235, 1)',
+      'rgba(255, 206, 86, 1)',
+      'rgba(75, 192, 192, 1)',
+      'rgba(153, 102, 255, 1)',
+      'rgba(255, 159, 64, 1)'
+    ]
   },
   mutations: {
     setSelectedAddrTotalBalance(state, newData) {
@@ -84,18 +104,26 @@ export const store = new Vuex.Store({
       // Todo If array is empty make added array selected array 
     },
     removeNHAddress(state, address) {
-      // ? What if the user decides to remove all of the addrs
-      // !If removed addr is selectedAddr theres some PROBLEMS
-      // Todo If selected addr is removed then change it 
       var index = state.NHAddresses.indexOf(address);
+
       if (index > -1) {
         state.NHAddresses.splice(index, 1);
       }
+
+      if (state.NHAddresses.length != 0 && state.selectedAddr == null) {
+        state.selectedAddr = state.NHAddresses[0]
+      }
+
     },
     changeSelectedAddr(state, address) {
       // Todo At click make it propogate upwards so it will reload
       state.selectedAddr = address
       console.log(state.selectedAddr)
+    },
+    checkForSelectedAddr(state) {
+      if (state.selectedAddr == null && state.NHAddresses.length != 0) {
+        state.selectedAddr = state.NHAddresses[0]
+      }
     }
   },
   getters: {

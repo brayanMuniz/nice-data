@@ -2,17 +2,7 @@
   <div class="container-fluid" v-if='$store.state.selectedAddr != null'>
 
     <h2>Balance</h2>
-    <div class="btn-toolbar mb-2 mb-md-0">
-      <!-- 
-      <div class="btn-group mr-2" v-for="timeOption in timeOptions" :key="timeOption.id">
-        <button class="btn btn-sm btn-outline-secondary" @click="selectedTime = timeOption.number">{{timeOption.time }}</button>
-      </div> -->
-      <!-- 
-      <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
-      </button> -->
-
-    </div>
-
+    <h3>{{$store.state.selectedAddr.addr}}</h3>
     <div v-if="dataLoaded">
       <line-chart :width="400" :height="200" :chartData="userData" class="my-1" :options="chartOptions">
       </line-chart>
@@ -27,8 +17,8 @@
             <th>Algorithim</th>
             <th>Balance</th>
             <th>Speed</th>
-            <!-- <th></th> -->
-            <th>Profitability</th>
+            <th>Profitability BTC Day</th>
+            <th>Profitability USD Day</th>
           </tr>
         </thead>
 
@@ -42,14 +32,16 @@
             <td v-if="algorithim.data[0].a">{{ algorithim.data[0].a }} {{algorithim.suffix}} </td>
             <td v-else>0</td>
             <!-- <td>{{ algorithim[1].rs }}</td> -->
-            <td> {{ algorithim.profitability }} BTC/Day </td>
-
+            <td> {{ algorithim.profitability }}</td>
+            <td> {{ (algorithim.profitability * $store.state.currentBITPriceNum).toFixed(2) }} </td>
           </tr>
         </tbody>
 
       </table>
       <!-- Todo: Put this on the right side so it is aligned with the rest -->
-      <p>{{totalBalance.toFixed(8)}} BTC/Day</p>
+      <!-- ! Have to keep all text in tag or it will break -->
+      <p class="container-fluid border">{{totalProfitBIT}} BTC/Day | {{totalProfitDollars}} USD/Day
+      </p>
 
     </div>
 
