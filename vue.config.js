@@ -5,16 +5,21 @@ module.exports = {
     // ? It does not work becasue at deployment it does not know what the dev server is 
 
     configureWebpack: config => {
-        if (process.env.NODE_ENV === 'production') {
-            config.devServer = {
-                proxy: {
-                    '/api': {
-                        target: 'https://api.nicehash.com',
-                        changeOrigin: true,
-                    }
+        devServer = {
+            proxy: {
+                '/api': {
+                    target: 'https://api.nicehash.com',
+                    changeOrigin: true,
                 }
             }
-        } else {
+        }
+        if (process.env.NODE_ENV === 'production') {
+            config.proxy = {
+                '/api': {
+                    target: 'https://api.nicehash.com',
+                    changeOrigin: true,
+                }
+            }
             config.devServer = {
                 proxy: {
                     '/api': {
@@ -24,6 +29,15 @@ module.exports = {
                 }
             }
 
+        } else {
+            config.devServer = {
+                proxy: {
+                    '/api': {
+                        target: 'https://api.nicehash.com',
+                        changeOrigin: true,
+                    }
+                }
+            }
         }
     }
 }
