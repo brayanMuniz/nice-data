@@ -6,21 +6,23 @@ module.exports = {
 
     configureWebpack: config => {
         if (process.env.NODE_ENV === 'production') {
-            config.proxy = {
-                '/api': {
-                    target: 'https://api.nicehash.com',
-                    changeOrigin: true,
+            config.devServer = {
+                proxy: {
+                    '/api': {
+                        target: 'https://api.nicehash.com',
+                        changeOrigin: true,
+                    }
                 }
             }
         } else {
             config.devServer = {
-                    proxy: {
-                        '/api': {
-                            target: 'https://api.nicehash.com',
-                            changeOrigin: true,
-                        }
+                proxy: {
+                    '/api': {
+                        target: 'https://api.nicehash.com',
+                        changeOrigin: true,
                     }
                 }
+            }
 
         }
     }
