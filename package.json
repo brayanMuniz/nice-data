@@ -2,6 +2,9 @@
   "name": "nice-data",
   "version": "0.1.0",
   "private": true,
+  "proxy": {
+    "/api": "https://api.nicehash.com"
+  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",

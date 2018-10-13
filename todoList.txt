@@ -6,7 +6,8 @@ Adding Selected Addrs:
     When addr removed from list make the one next to it the selected one
     If the user puts an invalid addr make it so that an alert pops up
     The first Addr in the list will be the one selected if removed 
-
+    Theres a limited amount of colors to choose from so when the user hits a limit in addrs dont let them add more
+    Make a warning
 Compare:
     remove the need for a selected addr
     Average profit-balance in a day calculate
