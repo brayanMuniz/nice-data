@@ -4,7 +4,7 @@ module.exports = {
     // Todo Change the proxy to the actual deployment base
     // ? It does not work becasue at deployment it does not know what the dev server is 
     devServer: {
-        proxy = {
+        proxy: {
             '/api': {
                 target: 'https://api.nicehash.com',
                 changeOrigin: true,
