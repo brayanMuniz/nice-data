@@ -1,7 +1,6 @@
 /* eslint-disable */
 import barChart from '../Charts/barChart/barChart.vue'
 import moment from 'moment'
-import axios from 'axios'
 export default {
   name: "payments",
   props: ['userNHAddressData', 'currentBITPriceNum', 'userNHAddress'],
