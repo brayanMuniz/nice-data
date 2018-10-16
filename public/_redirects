@@ -1,1 +1,1 @@
-/api/*  https://api.nicehash.com/:splat 200
+/api/*  https://api.nicehash.com/:splat 301
