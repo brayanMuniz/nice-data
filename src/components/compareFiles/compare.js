@@ -16,6 +16,7 @@ export default {
             addrsBalanceData: [],
             userData: {},
             dataLoaded: false,
+            dataLoadedCounter: 0,
             // Todo: Make selectedTime a store property because if you call it from dashboard with a different time it will break it 
             selectedTime: 288,
             chartOptions: {
@@ -34,32 +35,37 @@ export default {
     beforeCreate() {
         this.$parent.getCurrentBITPrice()
     },
+    created() {
+        this.dataLoaded = false;
+    },
     mounted() {
+        this.dataLoaded = false;
         this.cycleSelectedAddrs();
+        console.log(this.dataLoaded)
     },
     methods: {
         cycleSelectedAddrs() {
-            this.dataLoaded = false;
             this.userData = {
                 datasets: [],
                 labels: this.timeStamps(7),
             }
-            for (let i = 0; i < this.$store.state.NHAddresses.length; i++) {
-                // if (this.$store.state.NHAddresses[i].name === this.$store.state.selectedAddrTotalBalance.name) {
-                //     this.addUserData(this.$store.state.selectedAddrTotalBalance, i)
-                //     console.log('skiped that guy')
-                // }
-                this.getAddrData(this.$store.state.NHAddresses[i].addr).then(res => {
-                    let addrdata = this.getTotalBalance(res.data.result, this.$store.state.NHAddresses[i].name)
-                    this.addUserData(addrdata, i)
-                    console.log(this.userData.datasets)
-                    if (i == this.$store.state.NHAddresses.length - 1) {
-                        this.dataLoaded = true
+            for (let addr in this.$store.state.NHAddresses) {
+                this.getAddrData(this.$store.state.NHAddresses[addr].addr).then(res => {
+                    let addrData = this.getTotalBalance(res.data.result, this.$store.state.NHAddresses[addr].name)
+                    console.log(addrData)
+                    this.addUserData(addrData, addr)
+                    this.dataLoadedCounter++
+                    console.log(this.dataLoadedCounter)
+                    if (this.dataLoadedCounter === this.$store.state.NHAddresses.length) {
+                        this.dataLoaded = true;
                     }
                 }).catch(err => {
                     console.log(err)
                 })
             }
+            // ? Two very valuable lessons here
+            // Vue has its own type of scoping and it is better to use a global data parameter if you are using axios and promises
+            // Todo learn how to properly determine what is read first and how to work around that
         },
         addUserData(dataCount, counter) {
             this.userData.datasets.push({

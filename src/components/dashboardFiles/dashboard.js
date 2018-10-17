@@ -80,9 +80,6 @@ export default {
           params: {
             method: 'stats.provider.ex',
             addr: this.$store.state.selectedAddr.addr
-          },
-          headers: {
-            'Content-Type': 'application/json'
           }
         })
         .then(res => {
