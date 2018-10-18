@@ -5,17 +5,20 @@
 import axios from 'axios'
 import moment from "moment";
 import lineChart from '../Charts/lineChartFiles/lineChart.vue'
+import error from '../errorFiles/error.vue'
 export default {
     name: "compare",
     props: ['currentBITPriceNum'],
     components: {
-        "line-chart": lineChart
+        "line-chart": lineChart,
+        "error": error
     },
     data() {
         return {
             addrsBalanceData: [],
             userData: {},
             dataLoaded: false,
+            error: false,
             dataLoadedCounter: 0,
             // Todo: Make selectedTime a store property because if you call it from dashboard with a different time it will break it 
             selectedTime: 288,
@@ -41,7 +44,6 @@ export default {
     mounted() {
         this.dataLoaded = false;
         this.cycleSelectedAddrs();
-        console.log(this.dataLoaded)
     },
     methods: {
         cycleSelectedAddrs() {
@@ -52,14 +54,13 @@ export default {
             for (let addr in this.$store.state.NHAddresses) {
                 this.getAddrData(this.$store.state.NHAddresses[addr].addr).then(res => {
                     let addrData = this.getTotalBalance(res.data.result, this.$store.state.NHAddresses[addr].name)
-                    console.log(addrData)
                     this.addUserData(addrData, addr)
                     this.dataLoadedCounter++
-                    console.log(this.dataLoadedCounter)
                     if (this.dataLoadedCounter === this.$store.state.NHAddresses.length) {
                         this.dataLoaded = true;
                     }
                 }).catch(err => {
+                    this.error = true
                     console.log(err)
                 })
             }
@@ -92,7 +93,6 @@ export default {
                 timeStamps.push(moment().subtract((this.selectedTime * 5 * i), 'minutes').format('MM DD YYYY'))
                 i += 1
             }
-            console.log(timeStamps.length)
             return timeStamps.reverse()
         },
         getTotalBalance(addrData, addrName) {

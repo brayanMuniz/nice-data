@@ -1,5 +1,6 @@
 /*eslint-disable*/
 import doNut from "../Charts/doNutFiles/doNut.vue"
+import error from '../errorFiles/error.vue'
 import axios from 'axios'
 export default {
   name: "workers",
@@ -7,6 +8,7 @@ export default {
   data() {
     return {
       userData: {},
+      error: false,
       workersData: null,
       dataLoaded: false
     }
@@ -47,6 +49,7 @@ export default {
           // Make function here to pass along data to other parts
         })
         .catch(err => {
+          this.error = true
           console.log(err)
         })
     },
@@ -71,6 +74,7 @@ export default {
     }
   },
   components: {
-    "do-nut": doNut
+    "do-nut": doNut,
+    "error": error
   },
 };

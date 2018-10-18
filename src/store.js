@@ -12,16 +12,16 @@ export const store = new Vuex.Store({
     // ! For testing I will have addr in NHAddresses, remove later
     NHAddresses: [{
       addr: '3LWh12U6ACgG9j4rq4ExagfMxNR8GgnGs4',
-      name: "Brayan"
+      name: "Addr 1"
     }, {
       addr: '3JuqAiWuAma26iYvKjzGCTEHq6A8R4ZusZ',
-      name: "Erik"
+      name: "Addr 2"
     }, {
       addr: '3Ls4oRPWP3rxhPKsWgi4CYaK6E6c8HSekv',
-      name: "Jahir"
+      name: "Addr 3"
     }, {
       addr: "3ABbSf9CT2ERHA4R6jTErLjLckc6BivdCi",
-      name: 'RichBoy'
+      name: 'Addr 4'
     }],
     // ? This is here so in compare I dont have to call it
     selectedAddrTotalBalance: null,

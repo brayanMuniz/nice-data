@@ -2,6 +2,8 @@
 import axios from 'axios'
 import moment from "moment";
 import lineChart from '../Charts/lineChartFiles/lineChart.vue'
+import error from '../errorFiles/error.vue'
+
 // Todo initially set it as week and the user can change it from there
 export default {
   name: "dashboard",
@@ -11,6 +13,7 @@ export default {
       userData: {},
       dataLoaded: false,
       totalBalance: 0,
+      error: false,
       selectedLength: null,
       chartOptions: {
         scales: {
@@ -83,7 +86,6 @@ export default {
           }
         })
         .then(res => {
-          console.log(res)
           this.totalBalance = this.summedProfit(res.data.result.current)
           this.profitAlgorithims = res.data.result.current
           this.userData = {
@@ -93,6 +95,7 @@ export default {
           this.fillChartData(res.data.result)
         })
         .catch(err => {
+          this.error = true
           console.log(err)
         })
     },
@@ -106,7 +109,6 @@ export default {
     getCurrent(currentData) {
       let total = 0
       currentData.forEach(element => {
-        console.log(Number(element.profitability))
         total += Number(element.profitability)
       })
       return total
@@ -120,7 +122,6 @@ export default {
         timeStamps.push(moment().subtract((this.selectedTime * 5 * i), 'minutes').format('MM DD YYYY'))
         i += 1
       }
-      console.log(timeStamps.length)
       return timeStamps.reverse()
     },
     // Todo: For the love of all that is code break this down into different methods
@@ -188,6 +189,8 @@ export default {
     },
   },
   components: {
-    "line-chart": lineChart
+    "line-chart": lineChart,
+    "error": error
+
   },
 };

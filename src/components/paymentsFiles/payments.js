@@ -1,5 +1,6 @@
 /* eslint-disable */
 import barChart from '../Charts/barChart/barChart.vue'
+import error from '../errorFiles/error.vue'
 import moment from 'moment'
 export default {
   name: "payments",
@@ -9,6 +10,7 @@ export default {
       dataCollection: null,
       userData: {},
       paymentData: null,
+      error: false,
       chartOptions: {
         scales: {
           xAxes: [{
@@ -45,6 +47,7 @@ export default {
     if (this.$store.state.selectedAddr != null) {
       this.getAddrPayments()
     } else {
+      // Todo: Watch the store for changes
       console.log("Select or add")
     }
   },
@@ -89,6 +92,7 @@ export default {
           this.fillChartData(res.data.result.payments)
         }
       }).catch(err => {
+        this.error = true
         console.log(err)
       })
     },
@@ -113,11 +117,12 @@ export default {
         data: feeData.reverse()
       }))
 
-      console.log(this.userData.datasets)
       this.dataLoaded = true
     }
   },
   components: {
-    'bar-chart': barChart
+    'bar-chart': barChart,
+    "error": error
+
   },
 }
