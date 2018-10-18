@@ -16,7 +16,6 @@ Compare:
     Make it work. If I add the cycle() on created it works but there are duplicates. CHekc for duplicaiton or find another way to do it
 
 Payments:
-    Make the y axis start at 0
     calculate profit, Set it up like profti X Current BIT Price  = $, at hover gor Current be able to add a slider and change it 
     Return all payments not just the ones provide<Currently 7>
     There should be a red and blue colors to indicate profit 
@@ -24,24 +23,26 @@ Payments:
     http://www.chartjs.org/docs/latest/charts/bar.html
 
 
+Navbar:
+    At click make it highlighed
+
 Dashboard:
     total BTC/Day on the right side
 
 All: 
     at selectedAddr change charts
-
-Charts: 
-    start at 0 for y axis
+    Make the charts be able to fit
 
 Users: 
-    Track their avg profit per day by making a request to nicehash once every hour
+    Track their avg profit per day by making a request to nicehash once every hour - This is for very later
 
 contact:
     route does not work
 
-Make LeaderBoards
+Make LeaderBoards - Much Later
 
-Start doing the different selected Times when you figure out how to do profitability 
+how to do profitability Then:
+    Start doing the different selected Times 
 
 Notes:
     When you want something for all components probably a good idea to abstract it first to keep code DRY
