@@ -62,12 +62,17 @@ export default {
     },
     totalFees() {
       let totalFees = 0
-
       this.paymentData.forEach(element => {
         totalFees += Number(element.fee)
       })
-
       return totalFees.toFixed(6)
+    },
+    totalBIT() {
+      let totalBIT = 0;
+      this.paymentData.forEach(element => {
+        totalBIT += Number(element.amount - element.fee)
+      })
+      return totalBIT.toFixed(6)
     },
     totalProfit() {
       let totalProfit = 0
@@ -77,7 +82,7 @@ export default {
       return (totalProfit * this.$store.state.currentBITPriceNum).toFixed(2)
     },
     profitInterval() {
-      
+
     }
   },
   methods: {

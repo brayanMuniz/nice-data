@@ -19,9 +19,6 @@ export const store = new Vuex.Store({
     }, {
       addr: '3Ls4oRPWP3rxhPKsWgi4CYaK6E6c8HSekv',
       name: "Addr 3"
-    }, {
-      addr: "3ABbSf9CT2ERHA4R6jTErLjLckc6BivdCi",
-      name: 'Addr 4'
     }],
     // ? This is here so in compare I dont have to call it
     selectedAddrTotalBalance: null,

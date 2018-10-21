@@ -1,5 +1,5 @@
 Be able to select what time you want
-Add this link to your website
+Add this link to your website 
 
 Adding Selected Addrs:
     +limit to how many you can add, Depends on amount of colors
@@ -40,7 +40,7 @@ Dashboard:
 All: 
     at selectedAddr change charts
     Make the charts be able to fit
-
+    addAddr comp to app.vue
 Users: 
     Track their avg profit per day by making a request to nicehash once every hour - This is for very later
 
