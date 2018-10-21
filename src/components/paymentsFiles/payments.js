@@ -1,4 +1,5 @@
 /* eslint-disable */
+// Todo: breaks if it was 2 hours ago etc
 import barChart from '../Charts/barChart/barChart.vue'
 import error from '../errorFiles/error.vue'
 import moment from 'moment'
@@ -74,6 +75,9 @@ export default {
         totalProfit += (Number(element.amount) - Number(element.fee))
       })
       return (totalProfit * this.$store.state.currentBITPriceNum).toFixed(2)
+    },
+    profitInterval() {
+      
     }
   },
   methods: {
@@ -106,7 +110,6 @@ export default {
         feeData.push("-" + element.fee)
       })
       this.userData.labels = dateData.reverse()
-
       this.userData.datasets.push({
         label: "Amount",
         backgroundColor: 'rgba(54, 162, 235, 0.2)',

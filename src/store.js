@@ -85,7 +85,6 @@ export const store = new Vuex.Store({
   mutations: {
     setSelectedAddrTotalBalance(state, newData) {
       state.selectedAddrTotalBalance = newData
-      console.log(state.selectedAddrTotalBalance)
     },
     setCurrentBITPrice(state, newPrice) {
       // ! Make sure this is a float not a string 
@@ -118,7 +117,6 @@ export const store = new Vuex.Store({
     changeSelectedAddr(state, address) {
       // Todo At click make it propogate upwards so it will reload
       state.selectedAddr = address
-      console.log(state.selectedAddr)
     },
     checkForSelectedAddr(state) {
       if (state.selectedAddr == null && state.NHAddresses.length != 0) {

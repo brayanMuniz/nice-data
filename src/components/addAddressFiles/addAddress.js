@@ -1,9 +1,5 @@
 /* eslint-disable */
 import axios from 'axios'
-import {
-    copyFileSync,
-    constants
-} from 'fs';
 // Todo When the user adds a addr emit it to the rest of the components
 // Todo: Verify that the addr is valid
 export default {
@@ -25,9 +21,9 @@ export default {
 
             this.getIfValidAddr(this.userNHAddress).then(res => {
                 if (res.data.result.error) {
-                    console.log(res.data.result.error)
+                    this.incorrectNHAddr = true;
+                    this.userNHAddress = null;
                 } else {
-                    console.log(res)
                     this.$store.commit('addNHAddress', newAddress)
                     this.userNHAddress = null
                     this.userNHAddressName = null

@@ -12,6 +12,10 @@ export default {
   mounted() {},
   components: {
     'add-address': addAddress
+  },
+  computed: {
+    addrsLeft() {
+      return String(6 - this.$store.state.NHAddresses.length)
+    }
   }
-
 };

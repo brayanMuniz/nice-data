@@ -46,7 +46,6 @@ export default {
           }
           this.workersData = res.data.result
           this.fillChartData()
-          // Make function here to pass along data to other parts
         })
         .catch(err => {
           this.error = true

@@ -48,33 +48,30 @@
         </router-link>
       </li>
       <li class="nav-item">
-        <router-link class="nav-link" to="/contact">
+        <router-link class="nav-link" to="/donate">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
             stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file">
             <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
             <polyline points="13 2 13 9 20 9"></polyline>
           </svg>
-          Contact
+          Donate
         </router-link>
       </li>
       <li class="nav-item">
-        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">
+        <button v-if="$store.state.NHAddresses.length < 6" type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+          data-target="#exampleModal">
           Add Address
         </button>
         <add-address></add-address>
       </li>
     </ul>
-
+    <p class="mb-0">{{addrsLeft}} / 6 Addrs Left</p>
     <ul class="nav flex-column mt-1" v-for="address in $store.state.NHAddresses" :key="address.id">
-      <!-- if selected addr exist execute this -->
-      <!-- :class="{'text-primary': address.name == $store.state.selectedAddr.name }" -->
       <li class="nav-item" :class="{'text-primary': address.name == $store.state.selectedAddr.name }">
         <span @click="$store.commit('removeNHAddress', address)">-</span>
-
         <span @click="$store.commit('changeSelectedAddr', address)">
           {{address.name}}
         </span>
-
       </li>
     </ul>
   </div>

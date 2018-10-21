@@ -1,6 +1,8 @@
 Be able to select what time you want
+Add this link to your website
 
 Adding Selected Addrs:
+    +limit to how many you can add, Depends on amount of colors
     Make the add button look better
     To Remove the addr make it a font-awesome tag
     When addr removed from list make the one next to it the selected one
@@ -8,6 +10,7 @@ Adding Selected Addrs:
     The first Addr in the list will be the one selected if removed 
     Theres a limited amount of colors to choose from so when the user hits a limit in addrs dont let them add more
     Make a warning
+    Instead of just making an api call to check if its valid make it call the page youre in and then set it as the new selectedAddr
 Compare:
     remove the need for a selected addr
     Average profit-balance in a day calculate
@@ -21,11 +24,16 @@ Payments:
     There should be a red and blue colors to indicate profit 
     Make it stacked so the ones in the bottom are red and indicate fee 
     http://www.chartjs.org/docs/latest/charts/bar.html
-
+    Tell user how much money they made by getting now - latestInterval
 
 Navbar:
     At click make it highlighed
+    Adjust when it will break depending on screen size
 
+Mobile Size:
+    Be able to add addrs 
+    Be able to select Addrs
+    
 Dashboard:
     total BTC/Day on the right side
 
