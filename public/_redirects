@@ -1,2 +1,3 @@
 /api/*  https://api.nicehash.com/api:splat 200
 /*    /index.html   200
+http://nicedatademo.netlify.com/* http://addrcomparison.com/:splat 301!
