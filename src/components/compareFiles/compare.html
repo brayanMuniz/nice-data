@@ -7,28 +7,41 @@
             <line-chart :chartData="userData" :width="400" :height="200" class="my-1" :options="chartOptions"></line-chart>
         </div>
 
-        <!-- <div class="table-responsive">
-            <table class="table table-sm table-hover">
-                <thead>
-                    <tr>
-                        <th>Person</th>
-                        <th>Hashing Speed</th>
-                        <th>AVG Increase</th>
-                        <th>Workers</th>
-                        <th>Profit BTC/Day</th>
-                    </tr>
-                </thead>
-                <tbody v-for="addr in addrProperties" :key="addr.id">
-                    <tr>
-                        <td>{{addr.name}}</td>
-                        <td>kek</td>
-                        <td>kek</td>
-                        <td>kek</td>
-                        <td>kek</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div> -->
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 my-4 mx-auto">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="table-responsve">
+                                <table class="table table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Address</th>
+                                            <th>Preferred Algorithim</th>
+                                            <th>Unpaid Balance</th>
+                                            <th>Profitability BTC Day</th>
+                                            <th>Profitability USD Day</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="data in addrsData" :key="data.id">
+                                            <!-- <td v-for="col in columns">{{row[col]}}</td> -->
+                                            <td>{{matchAddrToName(data.result.addr)}}</td>
+                                            <!-- At hover should say how much Profit in BIT -->
+                                            <td>{{prefereredAlgorithim(data.result.current)}}</td>
+                                            <td>{{totalBalance(data)}}</td>
+                                            <td>{{summedProfit(data.result.current, "BIT")}}</td>
+                                            <td>{{summedProfit(data.result.current, "USD")}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
     </div>
 
     <div class="container-fluid mx-auto" v-else>

@@ -28,22 +28,6 @@ export default {
       profitAlgorithims: null,
       // Todo: Make selectedTime a store property 
       selectedTime: 288,
-      // Also make time options a store property
-      timeOptions: [{
-          time: 'Hour',
-          number: 1
-        }, {
-          time: '3 Hours',
-          number: 12
-        }, {
-          time: 'Today',
-          number: 7
-        },
-        {
-          time: "Week",
-          number: 144
-        }
-      ]
     };
   },
   beforeCreate() {
@@ -68,6 +52,7 @@ export default {
     } else {
       console.log("Select or add")
     }
+    // ? if you call this.averageRateOfChange() the data will not load because it is async 
   },
   computed: {
     totalProfitDollars() {
@@ -78,6 +63,7 @@ export default {
     }
   },
   methods: {
+    // Todo: Absract this and put it in the landing
     getProfitData() {
       axios.get('/api', {
           params: {
@@ -113,6 +99,7 @@ export default {
       })
       return total
     },
+    // Todo: timestamps should be pushed to vuex to avoid repeated code, Also, have it as a data property
     timeStamps(timeLength) {
       let timeStamps = []
       let i = 0
@@ -187,6 +174,19 @@ export default {
       })
       this.dataLoaded = true
     },
+    averageRateOfChange() {
+      // This was completely useless since they already gave me the profit per day but hey at least I did it
+      this.userData.datasets.forEach(algorithim => {
+        let highestNumber = 0;
+        algorithim.data.forEach(data => {
+          if (data > highestNumber) {
+            highestNumber = data
+          }
+        })
+        // bitcoin per n over the interval
+        console.log((highestNumber - algorithim.data[0]).toFixed(8) / algorithim.data.indexOf(highestNumber))
+      })
+    }
   },
   components: {
     "line-chart": lineChart,

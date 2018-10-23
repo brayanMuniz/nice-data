@@ -32,7 +32,8 @@ export default {
                 },
 
             },
-            addrProperties: []
+            addrProperties: [],
+            addrsData: []
         };
     },
     beforeCreate() {
@@ -53,6 +54,7 @@ export default {
             }
             for (let addr in this.$store.state.NHAddresses) {
                 this.getAddrData(this.$store.state.NHAddresses[addr].addr).then(res => {
+                    this.addrsData.push(res.data)
                     let addrData = this.getTotalBalance(res.data.result, this.$store.state.NHAddresses[addr].name)
                     this.addUserData(addrData, addr)
                     this.dataLoadedCounter++
@@ -130,6 +132,44 @@ export default {
             })
 
             return totalBalance
+        },
+        matchAddrToName(addr) {
+            for (let address in this.$store.state.NHAddresses) {
+                if (this.$store.state.NHAddresses[address].addr === addr) {
+                    return this.$store.state.NHAddresses[address].name
+                }
+            }
+        },
+        // Todo: Put this in landing to keep DRY
+        summedProfit(data, currency) {
+            let total = 0
+            data.forEach(element => {
+                total += Number(element.profitability)
+            })
+
+            if (currency === "BIT") {
+                return total.toFixed(8)
+            }
+            return (total * this.$store.state.currentBITPriceNum).toFixed(2)
+
+        },
+        prefereredAlgorithim(data) {
+            let top = 0
+            let mostProfit = ''
+            data.forEach(algo => {
+                if (Number(algo.profitability) > top) {
+                    top = algo.profitability
+                    mostProfit = algo.name
+                }
+            })
+            return mostProfit
+        },
+        totalBalance(data) {
+            let total = 0
+            data.result.current.forEach(element => {
+                total += Number(element.data[1])
+            })
+            return total.toFixed(5)
         }
     },
 };
