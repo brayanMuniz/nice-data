@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg  navbar-dark bg-dark">
-  <a class="navbar-brand" href="#">Nice-Data</a>
+  <router-link class="navbar-brand" to="/dashboard">Addr Comparison</router-link>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -12,9 +12,6 @@
       </li>
     </ul>
     <ul class="ml-auto navbar-nav mr-1">
-      <li class="nav-item active"><a class="nav-link" href="https://www.coindesk.com/">
-          {{currentBITPrice }}</a>
-      </li>
       <!-- Todo: @click make these active link -->
       <li class="nav-item">
         <router-link class="nav-link active" to="/dashboard">
@@ -62,38 +59,12 @@
           Compare
         </router-link>
       </li>
+      <!-- Todo Make this work: breaks the vertical height -->
+      <li class="nav-item active">
+        <router-link class="nav-link" to="/donate">
+          Donate
+        </router-link>
+      </li>
     </ul>
-    <!-- Todo that thing later -->
-    <!-- 
-    <ul class="ml-auto navbar-nav mr-1">
-      <li class="nav-item mr-5">
-        <div class="dropleft">
-          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
-            $
-          </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="https://www.coindesk.com/">BIT: {{ $store.state.currentBITPriceSee }} USD</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
-          </div>
-        </div>
-      </li>
-      <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-              <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
-          </a>
-          <ul class="dropdown-menu dropdown-user">
-              <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
-              </li>
-              <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
-              </li>
-              <li class="divider"></li>
-              <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-              </li>
-          </ul>
-      </li>
-    </ul> -->
-
   </div>
 </nav>

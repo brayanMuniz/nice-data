@@ -16,8 +16,7 @@ Compare:
     Average profit-balance in a day calculate
     Compare BTC day 
     Add a little toggler on the top to compare Payments, workers, and profit
-    Make it work. If I add the cycle() on created it works but there are duplicates. CHekc for duplicaiton or find another way to do it
-
+   
 Payments:
     calculate profit, Set it up like profti X Current BIT Price  = $, at hover gor Current be able to add a slider and change it 
     Return all payments not just the ones provide<Currently 7>
@@ -33,19 +32,16 @@ Navbar:
 Mobile Size:
     Be able to add addrs 
     Be able to select Addrs
-    
+    Modal does not work on vertical (footer)
 Dashboard:
     total BTC/Day on the right side
-
+    avg BTC/Day on right side
 All: 
     at selectedAddr change charts
     Make the charts be able to fit
     addAddr comp to app.vue
 Users: 
     Track their avg profit per day by making a request to nicehash once every hour - This is for very later
-
-contact:
-    route does not work
 
 Make LeaderBoards - Much Later
 
@@ -54,3 +50,6 @@ how to do profitability Then:
 
 Notes:
     When you want something for all components probably a good idea to abstract it first to keep code DRY
+
+launch:
+    redirects so it does not say this page does not exist
