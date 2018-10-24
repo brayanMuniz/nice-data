@@ -18,6 +18,7 @@ export default {
             addrsBalanceData: [],
             userData: {},
             dataLoaded: false,
+            dataLoadedWorkers: false,
             error: false,
             dataLoadedCounter: 0,
             // Todo: Make selectedTime a store property because if you call it from dashboard with a different time it will break it 
