@@ -1,45 +1,76 @@
 <div class="container-fluid">
+
   <div class="container-fliud" v-if="$store.state.selectedAddr != null">
-    <!-- Todo Make a dropdown to filter by algorithim minig -->
-    <!-- Todo add options prop -->
-    <h6>{{workersData.addr}}</h6>
-    <h6>You Have {{workersData.workers.length}} Active Workers</h6>
-    <div v-if="dataLoaded" style="width: 400px;">
-      <do-nut :chartData="userData" :width="100" :height="100"></do-nut>
+    <div class="row">
+      <!-- DONUT -->
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-md-flex align-items-center">
+              <div>
+                <h4 class="card-title mb-0">{{workersData.addr}}</h4>
+                <!-- !Breaks it off screen -->
+                <h5>You Have {{workersData.workers.length}} Active Workers</h5>
+              </div>
+            </div>
+          </div>
+          <div class="container-fluid mx-auto">
+            <!-- Todo Make a dropdown to filter by algorithim minig -->
+            <!-- Todo add options prop -->
+            <div v-if="dataLoaded" style="width: 400px;" class="mx-auto mb-2">
+              <do-nut :chartData="userData" :width="100" :height="100"></do-nut>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Quick Workers Feed -->
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Workers</h4>
+            <!-- Todo: Make a quick Acronym when rendering -->
+            <div class="feed-widget">
+              <ul class="list-group">
+                <li class="list-group-item d-flex justify-content-between align-items-center border-0" v-for="worker in workersData.workers"
+                  :key='worker.id'>
+                  <h5>{{worker[0]}}</h5>
+                  <span class="badge badge-primary badge-pill">{{worker[2]}} minutes</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <!-- Also make a table like chart -->
-
-    <!-- v-if="workerData" -->
-    <div class="table-responsive" v-if="dataLoaded">
-      <table class="table table-sm table-hover">
-
-        <thead>
-          <tr>
-            <th>Rig</th>
-            <th>Time</th>
-            <th>Accepted</th>
-            <th>Rejected</th>
-            <th>Algorithim</th>
-          </tr>
-        </thead>
-
-        <tbody v-for="worker in workersData.workers" :key='worker.id'>
-          <tr>
-            <td>{{ worker[0] }}</td>
-
-            <td>{{ worker[2] }} minutes</td>
 
 
-            <td>{{ worker[1].a }}</td>
-            <!-- Todo if not exist return 0 -->
-            <td>{{ worker[1].rs }}</td>
-            <td> {{ Object.values($store.state.mappingAlgorithims)[worker[6]] }} </td>
+    <!-- Todo: For looop these for all the workers -->
+    <div class="card-columns mt-3">
+      <div class="card" v-for="worker in workersData.workers" :key='worker.id'>
+        <div class="card-body">
+          <!-- Todo: Put a title to the right and indicate if it is acitve or not -->
+          <h5 class="card-title">{{worker[0]}}</h5>
+          <!-- Todo: Make this a computed property -->
+          <h6 class="card-subtitle mb-2 text-muted">Mining {{mapAlgorithim(worker[6])}}</h6>
+          <div class="row">
+            <div class="col-6">
+              <p class="card-text">Accepted: {{worker[1].a}}</p>
+            </div>
+            <div class="col-6">
+              <p class="card-text" v-if="worker[1].rs">Rejected: {{worker[1].rs}}</p>
+              <p class="card-text" v-else>Rejected: 0</p>
 
-          </tr>
-        </tbody>
-      </table>
+            </div>
+          </div>
+
+        </div>
+        <div class="card-footer">
+          <small class="text-muted">Connected For {{worker[2]}} Minutes</small>
+        </div>
+      </div>
     </div>
   </div>
+
   <div class="container-fluid mx-auto" v-else>
     <h1 class="mx-auto">Add an Address</h1>
   </div>

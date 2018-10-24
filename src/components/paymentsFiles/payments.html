@@ -8,28 +8,45 @@
       </bar-chart>
     </div>
 
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-md-flex align-items-center">
+              <div>
+                <div class="card-title mb-0">
+                  <h4 class="card-title mb-0">Payments</h4>
+                </div>
+              </div>
+            </div>
+          </div>
 
-    <div class="table-responsive">
-      <table class="table table-sm table-hover">
-        <thead>
-          <tr>
-            <th>Time</th>
-            <th>Amount</th>
-            <th>Fee</th>
-          </tr>
-        </thead>
-        <!-- $store.state.NHAddresses[0].addr -->
-        <tbody v-for="payment in paymentData" :key='payment.id'>
-          <tr>
-            <td>{{$parent.toRelativeTime(payment.time)}}</td>
-            <!-- @click='toggleCurrency(payment.amount)' -->
-            <!-- ! Returns string at clicked but does not change it -->
-            <td @click="$parent.toggleCurrency(payment.amount)">{{payment.amount}}</td>
-            <td>{{payment.fee}}</td>
-          </tr>
-        </tbody>
-      </table>
+          <div class="table-responsive">
+            <table class="table table-sm table-hover">
+              <thead>
+                <tr class="bg-light">
+                  <th class="border-top-0">Time</th>
+                  <th class="border-top-0">Amount</th>
+                  <th class="border-top-0">Fee</th>
+                </tr>
+              </thead>
+              <!-- Todo: Move it to the right a bit -->
+              <tbody class="">
+                <tr v-for="payment in paymentData" :key='payment.id'>
+                  <td class="ml-2">{{$parent.toRelativeTime(payment.time)}}</td>
+                  <!-- @click='toggleCurrency(payment.amount)' -->
+                  <!-- ! Returns string at clicked but does not change it -->
+                  <td @click="$parent.toggleCurrency(payment.amount)">{{payment.amount}}</td>
+                  <td>{{payment.fee}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
     </div>
+
     <div class="container-fluid" v-if="dataLoaded">
       <p>Total Amount: {{totalAmount}}</p>
       <p>Total In Fees: {{totalFees}}</p>

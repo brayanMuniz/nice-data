@@ -4,7 +4,7 @@
       <div class="col-12">
         <div class="card">
           <div class="card-body">
-            <div class="d-md-flex align-items-center">
+            <div class="d-md-flex align-items-center mb-2 border-bottom">
               <div>
                 <h4 class="card-title mb-0">Current Balance</h4>
                 <h5>{{$store.state.selectedAddr.addr}}</h5>
@@ -76,12 +76,11 @@
       </div> -->
     </div>
     <!-- chart END-->
-    
+
     <div class="row">
       <div class="col-12">
         <div class="card">
           <div class="card-body">
-            <!-- title -->
             <div class="d-md-flex align-items-center">
               <div>
                 <h4 class="card-title mb-0">Mined Algorithims</h4>
@@ -98,7 +97,6 @@
                     </div>
                   </div> -->
             </div>
-            <!-- title -->
           </div>
 
           <div class="table-responsive">
@@ -114,8 +112,8 @@
                 </tr>
               </thead>
 
-              <tbody v-for="algorithim in profitAlgorithims" :key='algorithim.id'>
-                <tr>
+              <tbody>
+                <tr v-for="algorithim in profitAlgorithims" :key='algorithim.id'>
                   <td>
                     <div class="d-flex align-items-center">
                       <div class="">

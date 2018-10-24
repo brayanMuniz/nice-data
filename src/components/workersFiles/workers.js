@@ -70,6 +70,9 @@ export default {
         data: workersAmount
       }]
       this.dataLoaded = true
+    },
+    mapAlgorithim(algo) {
+      return Object.values(this.$store.state.mappingAlgorithims)[algo]
     }
   },
   components: {
