@@ -62,6 +62,7 @@ export default {
       return this.totalBalance.toFixed(8)
     }
   },
+  // ? use this for crypto api calls https://min-api.cryptocompare.com/
   methods: {
     // Todo: Absract this and put it in the landing
     getProfitData() {

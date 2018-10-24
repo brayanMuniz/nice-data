@@ -33,9 +33,11 @@ Mobile Size:
     Be able to add addrs 
     Be able to select Addrs
     Modal does not work on vertical (footer)
+    
 Dashboard:
-    total BTC/Day on the right side
-    avg BTC/Day on right side
+    Add a new request for crypto to the right side
+    Make it compatible with the new components
+    
 All: 
     at selectedAddr change charts
     Make the charts be able to fit
@@ -52,4 +54,7 @@ Notes:
     When you want something for all components probably a good idea to abstract it first to keep code DRY
 
 launch:
-    redirects so it does not say this page does not exist
+    redirects so it does not say this page does not show an empty page
+
+
+
