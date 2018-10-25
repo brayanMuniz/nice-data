@@ -1,3 +1,4 @@
+/* eslint-disable */
 import addAddress from "../addAddressFiles/addAddress.vue"
 export default {
   name: "asideNav",
@@ -11,7 +12,7 @@ export default {
   },
   mounted() {},
   components: {
-    'add-address': addAddress
+    'add-address': addAddress,
   },
   computed: {
     addrsLeft() {

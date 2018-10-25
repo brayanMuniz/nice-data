@@ -1,10 +1,12 @@
 <nav>
   <div class="sidebar-sticky">
-
+    <h5>Addresses</h5>
     <p class="mb-0">{{addrsLeft}} / 6 Addrs Left</p>
-    <ul class="nav flex-column mt-1" v-for="address in $store.state.NHAddresses" :key="address.id">
-      <li class="nav-item" :class="{'text-primary': address.name == $store.state.selectedAddr.name }">
-        <span @click="$store.commit('removeNHAddress', address)">-</span>
+    <ul class="nav flex-column mt-1">
+      <li class="nav-item" v-for="address in $store.state.NHAddresses" :key="address.id" :class="{'text-primary': address.name == $store.state.selectedAddr.name }">
+        <span @click="$store.commit('removeNHAddress', address)">
+          <font-awesome-icon icon="minus-circle" />
+        </span>
         <span @click="$store.commit('changeSelectedAddr', address)">
           {{address.name}}
         </span>
@@ -15,7 +17,6 @@
       data-target="#exampleModal">
       Add Address
     </button>
-
     <add-address></add-address>
   </div>
 </nav>
