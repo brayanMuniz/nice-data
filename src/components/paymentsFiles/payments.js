@@ -21,8 +21,6 @@ export default {
             ticks: {
               beginAtZero: false
             },
-          }, {
-            stacked: true
           }]
         },
 
@@ -119,11 +117,7 @@ export default {
         label: "Amount",
         backgroundColor: 'rgba(54, 162, 235, 0.2)',
         data: amountData.reverse()
-      }, ({
-        label: "Fee",
-        backgroundColor: 'rgba(200, 0, 0, 0.2)',
-        data: feeData.reverse()
-      }))
+      })
 
       this.dataLoaded = true
     }
