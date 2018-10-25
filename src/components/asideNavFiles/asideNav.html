@@ -1,11 +1,6 @@
 <nav>
   <div class="sidebar-sticky">
-    <!-- Could put hash rates of the ones from NH here -->
-    <button v-if="$store.state.NHAddresses.length < 6" type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-      data-target="#exampleModal">
-      Add Address
-    </button>
-    <add-address></add-address>
+
     <p class="mb-0">{{addrsLeft}} / 6 Addrs Left</p>
     <ul class="nav flex-column mt-1" v-for="address in $store.state.NHAddresses" :key="address.id">
       <li class="nav-item" :class="{'text-primary': address.name == $store.state.selectedAddr.name }">
@@ -15,5 +10,12 @@
         </span>
       </li>
     </ul>
+    <!-- https://stackoverflow.com/questions/48472771/bootstrap-4-responsive-sidebar-menu-to-top-navbar -->
+    <button v-if="$store.state.NHAddresses.length < 6" type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+      data-target="#exampleModal">
+      Add Address
+    </button>
+
+    <add-address></add-address>
   </div>
 </nav>
