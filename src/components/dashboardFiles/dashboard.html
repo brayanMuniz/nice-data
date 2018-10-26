@@ -1,4 +1,5 @@
 <div class="border-bottom">
+  <!-- Todo: Add button to switch between which range you want -->
   <div class="container-fluid" v-if='$store.state.selectedAddr != null'>
 
     <div class="row mb-3">
@@ -23,31 +24,19 @@
     </div>
 
     <div class="row">
-
-      <div class="col-12">
+      <!-- Mined Algorithims table -->
+      <div class="col-md-12 my-4" v-if="dataLoaded">
         <div class="card">
           <div class="card-body">
             <div class="d-md-flex align-items-center">
               <div>
                 <h4 class="card-title mb-0">Mined Algorithims</h4>
               </div>
-              <!-- This is the drop down for later when I can configure time -->
-              <!-- <div class="ml-auto">
-                    <div class="dl">
-                      <select class="custom-select">
-                        <option value="0" selected>Monthly</option>
-                        <option value="1">Daily</option>
-                        <option value="2">Weekly</option>
-                        <option value="3">Yearly</option>
-                      </select>
-                    </div>
-                  </div> -->
+
             </div>
           </div>
-
-          <div class="table-responsive">
-            <table class="table table-sm table-hover my-1">
-
+          <div class="table-responsve">
+            <table class="table table-striped table-hover">
               <thead>
                 <tr class="bg-light">
                   <th class="border-top-0">Algorithim</th>
@@ -57,8 +46,7 @@
                   <th class="border-top-0">Profitability USD Day</th>
                 </tr>
               </thead>
-
-              <tbody>
+              <tbody class="">
                 <tr v-for="algorithim in profitAlgorithims" :key='algorithim.id'>
                   <td>
                     <div class="d-flex align-items-center">
@@ -78,19 +66,18 @@
                   <td> {{ (algorithim.profitability * $store.state.currentBITPriceNum).toFixed(2) }} </td>
                 </tr>
               </tbody>
-
             </table>
           </div>
-
         </div>
       </div>
 
+      <!-- Todo: Make this look better -->
       <div class="col-12 mt-3">
         <div class="card">
           <div class="card-body">
-              <h5 class="card-title">Total Amount</h5>
+            <h5 class="card-title">Total Amount</h5>
             <p class="card-text text-right">{{totalProfitBIT}} BTC/Day | {{totalProfitDollars}} USD/Day
-          </p>
+            </p>
           </div>
         </div>
       </div>
