@@ -45,13 +45,22 @@
 
         </div>
       </div>
-    </div>
-    <!-- Todo: Make this a card and make it look like the workers one -->
-    <div class="container-fluid" v-if="dataLoaded">
-      <p>Total Amount: {{totalAmount}}</p>
-      <p>Total In Fees: {{totalFees}}</p>
-      <!-- Todo make a slider or something to change the value of bitcoin since {{profitInterval}}-->
-      <p>Profit: {{totalBIT}} X {{$store.state.currentBITPriceSee}} = {{totalProfit}}$</p>
+      <div class="col-12 mt-3" v-if="dataLoaded">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Calculated Sum</h5>
+            <!-- Do this in the js -->
+            <!-- <h6 class="card-subtitle mb-2 text-muted">Between X time</h6> -->
+            <p class="card-text text-right">
+              <div>Total Amount: {{totalAmount}}</div>
+              <div>Total In Fees: {{totalFees}}</div>
+              <!-- Todo make a slider or something to change the value of bitcoin since {{profitInterval}}-->
+              <div>Profit: {{totalBIT}} X {{$store.state.currentBITPriceSee}} = {{totalProfit}}$</div>
+            </p>
+          </div>
+        </div>
+      </div>
+
     </div>
 
   </div>
