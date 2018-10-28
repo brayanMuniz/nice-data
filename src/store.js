@@ -23,7 +23,8 @@ export const store = new Vuex.Store({
     // ? This is here so in compare I dont have to call it
     selectedAddrTotalBalance: null,
     selectedAddr: null,
-    // Todo Remove mappigAlgorithims and just make the axios call if there is one
+    // ! If NH decided to change this up change it up
+    // ? You have to go bu numerical order or else it does not work
     mappingAlgorithims: {
       0: "Scrypt",
       1: "SHA256",
@@ -35,7 +36,7 @@ export const store = new Vuex.Store({
       7: "Nist5",
       8: "NeoScrypt",
       9: "Lyra2RE",
-      10: " WhirlpoolX",
+      10: "WhirlpoolX",
       11: "Qubit",
       12: "Quark",
       13: "Axiom",
@@ -59,8 +60,8 @@ export const store = new Vuex.Store({
       31: "CryptoNightHeavy",
       32: "Lyra2Z",
       33: "X16R",
-      // ! 34 Does not exist in the official API, but for configuration I made it so total balance can exist
-      34: 'Total Balance'
+      34: 'CryptoNightV8',
+      35: 'Total Balance'
     },
     colors: [
       'rgba(255, 99, 132, 0.2)',

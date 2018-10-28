@@ -11,6 +11,10 @@ export default {
     return {
       // Todo configure your data better
       userData: {},
+      dataRanges: {
+        day: 0,
+        week: 288
+      },
       dataLoaded: false,
       totalBalance: 0,
       error: false,
@@ -23,7 +27,6 @@ export default {
             }
           }]
         },
-
       },
       profitAlgorithims: null,
       // Todo: Make selectedTime a store property 
@@ -86,6 +89,16 @@ export default {
           console.log(err)
         })
     },
+    changeDateRange(newTime) {
+      // Todo: set new time
+      // save somewhere
+      // temporary manipulated data
+      // x-axis
+      // y axis
+      // dataloaded
+
+      console.log(this.dataRanges[newTime])
+    },
     summedProfit(data) {
       let total = 0
       data.forEach(element => {
@@ -114,37 +127,31 @@ export default {
     },
     // Todo: For the love of all that is code break this down into different methods
     fillChartData(profitData) {
-      let selectedAddrTotalBalance = {
-        name: this.$store.state.selectedAddr.name,
-        balanceNumbers: null
-      }
+      // let selectedAddrTotalBalance = {
+      //   name: this.$store.state.selectedAddr.name,
+      //   balanceNumbers: null
+      // }
       let totalCalculatedProfits = []
       let totalBalance = {
-        // ! I modified the mapping in store.js to create 34
-        name: 34,
+        // ! I modified the mapping in store.js to create 100
+        name: 35,
         balanceNumbers: []
       }
-
       profitData.past.forEach(element => {
         let calculatedProfits = {
           name: element.algo,
           balanceNumbers: []
         }
-        // 7 day counter = 84
-        // 48 hours = 24
-        // Day = 288 ticks
-        // 48 hours = 288 ticks * 2
         // Todo: Some of the time configuaration does not add up
         let counter = 0
         while (counter < element.data.length) {
-
           calculatedProfits.balanceNumbers.push(Number(element.data[counter][2]))
           counter += this.selectedTime
         }
 
         totalCalculatedProfits.push(calculatedProfits)
-        calculatedProfits = []
       })
+
       // Todo round the totalso there arent a lot of decimals
       totalCalculatedProfits.forEach(element => {
         for (let i = 0; i < element.balanceNumbers.length; i++) {
@@ -156,22 +163,31 @@ export default {
         }
       })
 
-      selectedAddrTotalBalance.balanceNumbers = totalBalance.balanceNumbers
-      this.$store.commit('setSelectedAddrTotalBalance', selectedAddrTotalBalance)
+      // selectedAddrTotalBalance.balanceNumbers = totalBalance.balanceNumbers
+      // this.$store.commit('setSelectedAddrTotalBalance', selectedAddrTotalBalance)
       totalCalculatedProfits.push(totalBalance)
-
       this.userData.labels = this.timeStamps(totalCalculatedProfits[0].balanceNumbers.length)
 
       totalCalculatedProfits.forEach((element, index) => {
-        this.userData.datasets.push({
-          label: ((Object.values(this.$store.state.mappingAlgorithims)))[Number(element.name)],
-          backgroundColor: this.$store.state.colors[index],
-          borderColor: this.$store.state.borderColors[index],
-          data: element.balanceNumbers,
-          fill: false
-          // Todo set all other options here
-        })
-
+        if (element.name === 35) {
+          this.userData.datasets.push({
+            label: ((Object.values(this.$store.state.mappingAlgorithims)))[Number(element.name)],
+            backgroundColor: 'rgb(0,0,0)',
+            borderColor: "rgba(0, 0, 0, 1)",
+            data: element.balanceNumbers,
+            fill: false
+            // Todo set all other options here
+          })
+        } else {
+          this.userData.datasets.push({
+            label: ((Object.values(this.$store.state.mappingAlgorithims)))[Number(element.name)],
+            backgroundColor: this.$store.state.colors[index],
+            borderColor: this.$store.state.borderColors[index],
+            data: element.balanceNumbers,
+            fill: false
+            // Todo set all other options here
+          })
+        }
       })
       this.dataLoaded = true
     },
