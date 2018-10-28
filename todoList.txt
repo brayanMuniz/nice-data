@@ -2,14 +2,10 @@ Be able to select what time you want
 Add this link to your website 
 
 Adding Selected Addrs:
-    +limit to how many you can add, Depends on amount of colors
     Make the add button look better
-    To Remove the addr make it a font-awesome tag
     When addr removed from list make the one next to it the selected one
-    If the user puts an invalid addr make it so that an alert pops up
     The first Addr in the list will be the one selected if removed 
     Theres a limited amount of colors to choose from so when the user hits a limit in addrs dont let them add more
-    Make a warning
     Instead of just making an api call to check if its valid make it call the page youre in and then set it as the new selectedAddr
 Compare:
     remove the need for a selected addr
@@ -31,7 +27,6 @@ Navbar:
 
 Mobile Size:
     Be able to add addrs 
-    Be able to select Addrs
     Modal does not work on vertical (footer)
     
 Dashboard:
@@ -42,6 +37,7 @@ All:
     at selectedAddr change charts
     Make the charts be able to fit
     addAddr comp to app.vue
+
 Users: 
     Track their avg profit per day by making a request to nicehash once every hour - This is for very later
 
@@ -56,5 +52,6 @@ Notes:
 launch:
     redirects so it does not say this page does not show an empty page
 
-
+Donate: 
+    Make it a contact too
 

@@ -26,7 +26,8 @@ export default {
 
       },
       selectedAddr: null,
-      dataLoaded: false
+      dataLoaded: false,
+      latestTime: null
     }
   },
   beforeCreate() {
@@ -80,7 +81,7 @@ export default {
       return (totalProfit * this.$store.state.currentBITPriceNum).toFixed(2)
     },
     profitInterval() {
-
+      return `${this.latestTime} days`
     }
   },
   methods: {
@@ -108,6 +109,9 @@ export default {
       let amountData = []
       let feeData = []
       payData.forEach(element => {
+        if(moment().diff(element.time, 'days') > this.latestTime) {
+          this.latestTime = moment().diff(element.time, 'days')
+        }
         dateData.push(moment(element.time).format("MM Do YY"))
         amountData.push(element.amount)
         feeData.push("-" + element.fee)
@@ -118,7 +122,6 @@ export default {
         backgroundColor: 'rgba(54, 162, 235, 0.2)',
         data: amountData.reverse()
       })
-
       this.dataLoaded = true
     }
   },
