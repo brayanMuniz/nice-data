@@ -57,7 +57,7 @@
               <thead>
                 <tr class="bg-light">
                   <th class="border-top-0">Algorithim</th>
-                  <th class="border-top-0">Balance</th>
+                  <th class="border-top-0">Unpaid Balance</th>
                   <th class="border-top-0">Speed</th>
                   <th class="border-top-0">Profitability BTC Day</th>
                   <th class="border-top-0">Profitability USD Day</th>
@@ -72,15 +72,14 @@
                       </div>
                     </div>
                   </td>
-
                   <td>{{ algorithim.data[1] }}</td>
-
-
-                  <td v-if="algorithim.data[0].a">{{ algorithim.data[0].a }} {{algorithim.suffix}} </td>
+                  <!-- Todo: Make this computed property -->
+                  <td v-if="algorithim.data[0].a">{{acceptedSpeed(algorithim.data[0].a, algorithim.suffix)}}</td>
                   <td v-else>0</td>
-                  <td> {{ algorithim.profitability }}</td>
+                  <!-- Todo: BTC/SUFFIX/DAY -->
+                  <td> {{ profitBTCDay(algorithim.data[0].a, algorithim.profitability, "BTC") }}</td>
                   <!-- Todo: Make this a computed value -->
-                  <td> {{ (algorithim.profitability * $store.state.currentBITPriceNum).toFixed(2) }} </td>
+                  <td> {{ profitBTCDay(algorithim.data[0].a, algorithim.profitability, "USD") }} </td>
                 </tr>
               </tbody>
             </table>
@@ -88,16 +87,7 @@
         </div>
       </div>
 
-      <!-- Todo: Make this look better -->
-      <div class="col-12 mt-3">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Total Amount</h5>
-            <p class="card-text text-right">{{totalProfitBIT}} BTC/Day | {{totalProfitDollars}} USD/Day
-            </p>
-          </div>
-        </div>
-      </div>
+
     </div>
 
   </div>

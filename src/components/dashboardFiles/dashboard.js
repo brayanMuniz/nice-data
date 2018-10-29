@@ -76,6 +76,7 @@ export default {
           }
         })
         .then(res => {
+          // console.log(res.data.result)
           this.totalBalance = this.summedProfit(res.data.result.current)
           this.profitAlgorithims = res.data.result.current
           this.userData = {
@@ -113,7 +114,6 @@ export default {
       })
       return total
     },
-    // Todo: timestamps should be pushed to vuex to avoid repeated code, Also, have it as a data property
     timeStamps(timeLength) {
       let timeStamps = []
       let i = 0
@@ -125,12 +125,7 @@ export default {
       }
       return timeStamps.reverse()
     },
-    // Todo: For the love of all that is code break this down into different methods
     fillChartData(profitData) {
-      // let selectedAddrTotalBalance = {
-      //   name: this.$store.state.selectedAddr.name,
-      //   balanceNumbers: null
-      // }
       let totalCalculatedProfits = []
       let totalBalance = {
         // ! I modified the mapping in store.js to create 100
@@ -163,8 +158,6 @@ export default {
         }
       })
 
-      // selectedAddrTotalBalance.balanceNumbers = totalBalance.balanceNumbers
-      // this.$store.commit('setSelectedAddrTotalBalance', selectedAddrTotalBalance)
       totalCalculatedProfits.push(totalBalance)
       this.userData.labels = this.timeStamps(totalCalculatedProfits[0].balanceNumbers.length)
 
@@ -203,7 +196,21 @@ export default {
         // bitcoin per n over the interval
         console.log((highestNumber - algorithim.data[0]).toFixed(8) / algorithim.data.indexOf(highestNumber))
       })
-    }
+    },
+    acceptedSpeed(speed, suffix) {
+      return `${speed} / ${suffix}`
+    },
+    profitBTCDay(speed, profitability, type) {
+      if (speed == undefined) {
+        return String(0)
+      } else {
+        if (type == "BTC")
+          return String((Number(speed) * Number(profitability)).toFixed(8))
+        else {
+          return String(((Number(speed) * Number(profitability) * this.$store.state.currentBITPriceNum)).toFixed(2))
+        }
+      }
+    },
   },
   components: {
     "line-chart": lineChart,

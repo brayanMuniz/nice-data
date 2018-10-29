@@ -2,6 +2,8 @@
 // Todo fix that transition break
 // Todo Make a mixin to not repeat code or store components in store.js
 // Todo import methods from somewhere
+// Todo: The preffered algorithim should be changed to most profitable algorithim
+// Todo: 
 import axios from 'axios'
 import moment from "moment";
 import lineChart from '../Charts/lineChartFiles/lineChart.vue'
@@ -144,25 +146,38 @@ export default {
         // Todo: Put this in landing to keep DRY
         summedProfit(data, currency) {
             let total = 0
-            data.forEach(element => {
-                total += Number(element.profitability)
+            data.forEach(algo => {
+                if (algo.data[0].a == undefined) {
+                    total += 0;
+                } else {
+                    total += (Number(algo.profitability) * Number(algo.data[0].a))
+                }
             })
-
             if (currency === "BIT") {
+                if (total == 0) {
+                    return String(0)
+                }
                 return total.toFixed(8)
             }
             return (total * this.$store.state.currentBITPriceNum).toFixed(2)
-
         },
         prefereredAlgorithim(data) {
             let top = 0
-            let mostProfit = ''
-            data.forEach(algo => {
-                if (Number(algo.profitability) > top) {
-                    top = algo.profitability
-                    mostProfit = algo.name
+            let mostProfit = "Not Mining"
+
+            function getSum(speed, profitability) {
+                if (speed == undefined) {
+                    return 0
                 }
+                return ((Number(speed) * Number(profitability)))
+
+            }
+
+            data.forEach(algo => {
+                if (getSum(algo.data[0].a, algo.profitability) > top)
+                    mostProfit = algo.name
             })
+
             return mostProfit
         },
         totalBalance(data) {
