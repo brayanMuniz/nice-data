@@ -3,11 +3,13 @@ import axios from 'axios'
 import moment from "moment";
 import lineChart from '../Charts/lineChartFiles/lineChart.vue'
 import error from '../errorFiles/error.vue'
+import vueSlider from 'vue-slider-component'
 
 // Todo initially set it as week and the user can change it from there
 export default {
   name: "dashboard",
   data() {
+    // Todo: userChosenBITvalue should be in the store or at least shared between components because used in compare
     return {
       // Todo configure your data better
       userData: {},
@@ -31,6 +33,11 @@ export default {
       profitAlgorithims: null,
       // Todo: Make selectedTime a store property 
       selectedTime: 288,
+      userChosenBITValue: 1,
+      sliderOptions: {
+        max: 25000,
+        interval: 100
+      }
     };
   },
   beforeCreate() {
@@ -128,7 +135,7 @@ export default {
     fillChartData(profitData) {
       let totalCalculatedProfits = []
       let totalBalance = {
-        // ! I modified the mapping in store.js to create 100
+        // ! I modified the mapping in store.js to create 35
         name: 35,
         balanceNumbers: []
       }
@@ -139,7 +146,9 @@ export default {
         }
         // Todo: Some of the time configuaration does not add up
         let counter = 0
+        let acceptedSpeeds = []
         while (counter < element.data.length) {
+          // acceptedSpeeds.push()
           calculatedProfits.balanceNumbers.push(Number(element.data[counter][2]))
           counter += this.selectedTime
         }
@@ -182,6 +191,7 @@ export default {
           })
         }
       })
+      this.userChosenBITValue = this.$store.state.currentBITPriceNum
       this.dataLoaded = true
     },
     averageRateOfChange() {
@@ -197,6 +207,7 @@ export default {
         console.log((highestNumber - algorithim.data[0]).toFixed(8) / algorithim.data.indexOf(highestNumber))
       })
     },
+    // ? Computed properties with parameters
     acceptedSpeed(speed, suffix) {
       return `${speed} / ${suffix}`
     },
@@ -207,14 +218,14 @@ export default {
         if (type == "BTC")
           return String((Number(speed) * Number(profitability)).toFixed(8))
         else {
-          return String(((Number(speed) * Number(profitability) * this.$store.state.currentBITPriceNum)).toFixed(2))
+          return String(((Number(speed) * Number(profitability) * this.userChosenBITValue)).toFixed(2))
         }
       }
     },
   },
   components: {
     "line-chart": lineChart,
-    "error": error
-
+    "error": error,
+    'vue-slider': vueSlider
   },
 };

@@ -21,10 +21,10 @@
         </div>
 
         <div class="row">
-            
+
             <div class="col-md-12 my-4">
                 <div class="card">
-                    
+
                     <div class="card-body">
                         <div class="d-md-flex align-items-center">
                             <div>
@@ -62,6 +62,29 @@
             </div>
 
         </div>
+
+        <div class="row">
+            <div class="col-md-12 my-1" v-if='dataLoaded'>
+                <h4>Bitcoin Price</h4>
+                <!-- todo: add a slider that starts from 0 and goes to 25k, start position will be the actual bitcoin price  -->
+                <div>
+                    <vue-slider ref="slider" v-bind="sliderOptions" v-model="userChosenBITValue"></vue-slider>
+                </div>
+                <!-- Todo: Make this go to the risght side -->
+                <div class="btn-group">
+                    <button class="btn btn-primary" @click="$refs.slider.setValue($store.state.currentBITPriceNum)">Current
+                        BIT
+                        Value</button>
+                    <!-- <button @click="$refs.slider.setIndex(50)">setIndex</button>
+                    <button @click="log($refs.slider.getValue())">getValue</button>
+                    <button @click="log($refs.slider.getIndex())">getIndex</button> -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Todo: table for payment data -->
+        <!-- Todo: table for workers -->
+
         <!-- Todo: this will be the workers To indicate if active or not,
         Todo: Put each one in its own card with multiple of them -->
         <!-- <div class="card-columns mt-3">

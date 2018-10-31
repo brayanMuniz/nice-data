@@ -53,9 +53,22 @@
             <p class="card-text text-right">
               <div>Total Amount: {{totalAmount}}</div>
               <div>Total In Fees: {{totalFees}}</div>
-              <!-- Todo make a slider or something to change the value of bitcoin since {{profitInterval}}-->
-              <div>Profit: {{totalBIT}} X {{$store.state.currentBITPriceSee}} = {{totalProfit}}$ in {{profitInterval}}</div>
+              <!-- Todo make a slider or something to change the value of bitcoin since {{profitInterval}} -->
+              <div>Profit: {{totalBIT}} X ${{userChosenBITValue}} = ${{totalProfit}} in {{profitInterval}}</div>
             </p>
+            <div>
+              <!-- ? If have userChosenBITValue in store does not refresh value -->
+              <vue-slider ref="slider" v-bind="sliderOptions" v-model="userChosenBITValue"></vue-slider>
+            </div>
+            <!-- Todo: Make this go to the risght side -->
+            <div class="btn-group mt-2">
+              <button class="btn btn-primary btn-sm" @click="$refs.slider.setValue($store.state.currentBITPriceNum)">Current
+                BIT
+                Value</button>
+              <!-- <button @click="$refs.slider.setIndex(50)">setIndex</button>
+                <button @click="log($refs.slider.getValue())">getValue</button>
+                <button @click="log($refs.slider.getIndex())">getIndex</button> -->
+            </div>
           </div>
         </div>
       </div>

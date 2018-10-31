@@ -3,6 +3,8 @@
 import barChart from '../Charts/barChart/barChart.vue'
 import error from '../errorFiles/error.vue'
 import moment from 'moment'
+import vueSlider from 'vue-slider-component'
+
 export default {
   name: "payments",
   props: ['userNHAddressData', 'currentBITPriceNum', 'userNHAddress'],
@@ -27,7 +29,13 @@ export default {
       },
       selectedAddr: null,
       dataLoaded: false,
-      latestTime: null
+      latestTime: null,
+      userChosenBITValue: 1,
+      sliderOptions: {
+        max: 25000,
+        interval: 100,
+        tooltipDir: 'bottom'
+      }
     }
   },
   beforeCreate() {
@@ -78,9 +86,10 @@ export default {
       this.paymentData.forEach(element => {
         totalProfit += (Number(element.amount) - Number(element.fee))
       })
-      return (totalProfit * this.$store.state.currentBITPriceNum).toFixed(2)
+      return (totalProfit * this.userChosenBITValue).toFixed(2)
     },
     profitInterval() {
+      // !breaks after second call of addr
       return `${this.latestTime} days`
     }
   },
@@ -109,7 +118,7 @@ export default {
       let amountData = []
       let feeData = []
       payData.forEach(element => {
-        if(moment().diff(element.time, 'days') > this.latestTime) {
+        if (moment().diff(element.time, 'days') > this.latestTime) {
           this.latestTime = moment().diff(element.time, 'days')
         }
         dateData.push(moment(element.time).format("MM Do YY"))
@@ -122,12 +131,13 @@ export default {
         backgroundColor: 'rgba(54, 162, 235, 0.2)',
         data: amountData.reverse()
       })
+      this.userChosenBITValue = this.$store.state.currentBITPriceNum
       this.dataLoaded = true
     }
   },
   components: {
     'bar-chart': barChart,
-    "error": error
-
+    "error": error,
+    'vue-slider': vueSlider
   },
 }

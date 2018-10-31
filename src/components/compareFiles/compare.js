@@ -8,12 +8,15 @@ import axios from 'axios'
 import moment from "moment";
 import lineChart from '../Charts/lineChartFiles/lineChart.vue'
 import error from '../errorFiles/error.vue'
+import vueSlider from 'vue-slider-component'
+
 export default {
     name: "compare",
     props: ['currentBITPriceNum'],
     components: {
         "line-chart": lineChart,
-        "error": error
+        "error": error,
+        'vue-slider': vueSlider
     },
     data() {
         return {
@@ -36,7 +39,12 @@ export default {
 
             },
             addrProperties: [],
-            addrsData: []
+            addrsData: [],
+            userChosenBITValue: 1,
+            sliderOptions: {
+                max: 25000,
+                interval: 100
+            }
         };
     },
     beforeCreate() {
@@ -62,6 +70,7 @@ export default {
                     this.addUserData(addrData, addr)
                     this.dataLoadedCounter++
                     if (this.dataLoadedCounter === this.$store.state.NHAddresses.length) {
+                        this.userChosenBITValue = this.$store.state.currentBITPriceNum
                         this.dataLoaded = true;
                     }
                 }).catch(err => {
@@ -159,7 +168,7 @@ export default {
                 }
                 return total.toFixed(8)
             }
-            return (total * this.$store.state.currentBITPriceNum).toFixed(2)
+            return (total * this.userChosenBITValue).toFixed(2)
         },
         prefereredAlgorithim(data) {
             let top = 0

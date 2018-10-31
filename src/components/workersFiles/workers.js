@@ -61,7 +61,6 @@ export default {
         workersName.push(element[0])
         workersAmount.push(Number(element[1].a))
       })
-
       this.userData.labels = workersName
       this.userData.datasets = [{
         // ! For TESTING
