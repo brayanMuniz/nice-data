@@ -64,7 +64,7 @@ export default {
                 labels: this.timeStamps(7),
             }
             for (let addr in this.$store.state.NHAddresses) {
-                this.getAddrData(this.$store.state.NHAddresses[addr].addr).then(res => {
+                this.getAddrBalanceData(this.$store.state.NHAddresses[addr].addr).then(res => {
                     this.addrsData.push(res.data)
                     let addrData = this.getTotalBalance(res.data.result, this.$store.state.NHAddresses[addr].name)
                     this.addUserData(addrData, addr)
@@ -91,7 +91,9 @@ export default {
                 fill: false,
             })
         },
-        getAddrData(selectedAddr) {
+        
+        // Todo: Abstract this and add a parameter for which one you want
+        getAddrBalanceData(selectedAddr) {
             return axios.get('/api', {
                 params: {
                     method: 'stats.provider.ex',
@@ -99,6 +101,23 @@ export default {
                 }
             })
         },
+        getAddrPaymentData(selectedAddr) {
+            return axios.get('/api', {
+                params: {
+                    method: 'stats.provider',
+                    addr: selectedAddr
+                }
+            })
+        },
+        getAddrWorkerData(selectedAddr) {
+            return axios.get('/api', {
+                params: {
+                    method: 'stats.provider.workers',
+                    addr: selectedAddr
+                }
+            })
+        },
+
         timeStamps(timeLength) {
             let timeStamps = []
             let i = 0

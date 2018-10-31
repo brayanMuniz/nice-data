@@ -30,7 +30,6 @@
             <div class="d-md-flex align-items-center">
               <div>
                 <h4 class="card-title mb-0">Mined Algorithims</h4>
-
               </div>
               <!-- Todo: Add button to switch between which range you want | Make a for loop and an at click method for one of them. Propogate value up and save in store-->
               <!-- <div class="ml-auto">
@@ -85,7 +84,7 @@
             </table>
           </div>
           <div class="card-footer text-right pr-1">
-            <small class="text-muted">Total: {{summedBIT}} BTC/Day | {{summedBTTToUSD}} USD DAY</small>
+            <small class="text-muted">Total: {{summedBIT}} BTC/Day | {{summedBITToUSD}} USD DAY</small>
           </div>
         </div>
       </div>
@@ -96,27 +95,59 @@
 
     <div class="row">
       <div class="col-md-12 my-1" v-if='dataLoaded'>
-        <h4>Bitcoin Price</h4>
-        <!-- todo: add a slider that starts from 0 and goes to 25k, start position will be the actual bitcoin price  -->
-        <div>
-          <vue-slider ref="slider" v-bind="sliderOptions" v-model="userChosenBITValue"></vue-slider>
+        <div class="card">
+          <div class="card-body">
+            <div class="d-md-flex align-items-center">
+              <div>
+                <h4 class="card-title mb-0">Bitcoin Price Slider</h4>
+              </div>
+            </div>
+          </div>
+          <div>
+            <vue-slider ref="slider" v-bind="sliderOptions" v-model="userChosenBITValue"></vue-slider>
+          </div>
+          <!-- Todo: Make this go to the risght side -->
+          <div class="card-footer align-items-right">
+            <div class="btn-group d-md-flex align-items-right">
+              <button class="btn btn-primary" @click="$refs.slider.setValue($store.state.currentBITPriceNum)">Current
+                BIT
+                Value</button>
+              <!-- <button @click="$refs.slider.setIndex(50)">setIndex</button>
+                    <button @click="log($refs.slider.getValue())">getValue</button>
+                    <button @click="log($refs.slider.getIndex())">getIndex</button> -->
+            </div>
+          </div>
         </div>
-        <!-- Todo: Make this go to the risght side -->
-        <div class="btn-group">
-          <button class="btn btn-primary" @click="$refs.slider.setValue($store.state.currentBITPriceNum)">Current BIT
-            Value</button>
-          <!-- <button @click="$refs.slider.setIndex(50)">setIndex</button>
-          <button @click="log($refs.slider.getValue())">getValue</button>
-          <button @click="log($refs.slider.getIndex())">getIndex</button> -->
+      </div>
+    </div>
+
+    <div class="row" v-if="dataLoaded">
+      <div class="col-md-12 my-1">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-md-flex align-items-center ">
+              <!-- <div> -->
+                <h4 class="card-title mb-4">Time To Pay Off Rig Calculator</h4>
+              <!-- </div> -->
+            </div>
+            <div class="d-flex justify-content-around">
+              <input v-model="userRigCost" placeholder="Rig Cost"">
+              <span>/</span>
+              <span>${{summedBITToUSD}}/day</span>
+              <span>=</span>
+              <span>{{daysToPayOff}}</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
 
-  <div class="container-fluid" v-else>
-    <h1>Add an Address</h1>
-  </div>
-  <error v-if="error"> </error>
+  <div class="
+                container-fluid" v-else>
+              <h1>Add an Address</h1>
+            </div>
+            <error v-if="error"> </error>
 
-</div>
+          </div>

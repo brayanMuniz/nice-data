@@ -38,7 +38,9 @@ export default {
         max: 25000,
         interval: 100
       },
-      summedBIT: 0
+      summedBIT: 0,
+      summedMoney: 0,
+      userRigCost: null,
     };
   },
   beforeCreate() {
@@ -72,8 +74,16 @@ export default {
     totalProfitBIT() {
       return this.totalBalance.toFixed(8)
     },
-    summedBTTToUSD() {
+    summedBITToUSD() {
+      this.summedMoney = (this.summedBIT * this.userChosenBITValue).toFixed(2);
       return String((this.summedBIT * this.userChosenBITValue).toFixed(2));
+    },
+    daysToPayOff() {
+      console.log(this.summedMoney)
+      if (this.summedMoney == 0) {
+        return "Not Mining"
+      }
+      return `${String((this.userRigCost / this.summedMoney).toFixed(0))} Days`
     }
   },
   // ? use this for crypto api calls https://min-api.cryptocompare.com/
