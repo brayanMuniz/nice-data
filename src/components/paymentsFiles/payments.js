@@ -66,7 +66,7 @@ export default {
         totalAmount += Number(element.amount)
       })
       return totalAmount.toFixed(6)
-    },
+    },  
     totalFees() {
       let totalFees = 0
       this.paymentData.forEach(element => {
@@ -87,10 +87,6 @@ export default {
         totalProfit += (Number(element.amount) - Number(element.fee))
       })
       return (totalProfit * this.userChosenBITValue).toFixed(2)
-    },
-    profitInterval() {
-      // !breaks after second call of addr
-      return `${this.latestTime} days`
     }
   },
   methods: {
@@ -117,6 +113,7 @@ export default {
       let dateData = []
       let amountData = []
       let feeData = []
+      this.latestTime = null;
       payData.forEach(element => {
         if (moment().diff(element.time, 'days') > this.latestTime) {
           this.latestTime = moment().diff(element.time, 'days')
@@ -132,6 +129,7 @@ export default {
         data: amountData.reverse()
       })
       this.userChosenBITValue = this.$store.state.currentBITPriceNum
+
       this.dataLoaded = true
     }
   },
