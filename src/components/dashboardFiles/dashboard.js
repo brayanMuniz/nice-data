@@ -37,7 +37,8 @@ export default {
       sliderOptions: {
         max: 25000,
         interval: 100
-      }
+      },
+      summedBIT: 0
     };
   },
   beforeCreate() {
@@ -70,6 +71,9 @@ export default {
     },
     totalProfitBIT() {
       return this.totalBalance.toFixed(8)
+    },
+    summedBTTToUSD() {
+      return String((this.summedBIT * this.userChosenBITValue).toFixed(2));
     }
   },
   // ? use this for crypto api calls https://min-api.cryptocompare.com/
@@ -83,7 +87,6 @@ export default {
           }
         })
         .then(res => {
-          // console.log(res.data.result)
           this.totalBalance = this.summedProfit(res.data.result.current)
           this.profitAlgorithims = res.data.result.current
           this.userData = {
@@ -108,10 +111,15 @@ export default {
       console.log(this.dataRanges[newTime])
     },
     summedProfit(data) {
-      let total = 0
+      let total = 0;
       data.forEach(element => {
-        total += Number(element.profitability)
+        if (element.data[0].a === undefined) {
+          total += 0
+        } else {
+          total += (Number(element.data[0].a) * Number(element.profitability))
+        }
       })
+      this.summedBIT = total.toFixed(8)
       return total
     },
     getCurrent(currentData) {
@@ -209,7 +217,7 @@ export default {
     },
     // ? Computed properties with parameters
     acceptedSpeed(speed, suffix) {
-      return `${speed} / ${suffix}`
+      return `${speed}/${suffix}`
     },
     profitBTCDay(speed, profitability, type) {
       if (speed == undefined) {
