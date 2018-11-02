@@ -79,7 +79,6 @@ export default {
       return String((this.summedBIT * this.userChosenBITValue).toFixed(2));
     },
     daysToPayOff() {
-      console.log(this.summedMoney)
       if (this.summedMoney == 0) {
         return "Not Mining"
       }
@@ -144,11 +143,14 @@ export default {
       let i = 0
 
       while (i < timeLength) {
-        // multiply by 5 because every block is 5 minutes so skip by 5 minutes
+        // ? multiply by 5 because every block is 5 minutes so skip by 5 minutes
         timeStamps.push(moment().subtract((this.selectedTime * 5 * i), 'minutes').format('MM DD YYYY'))
         i += 1
       }
-      return timeStamps.reverse()
+      // ? Could just push 'Now' 
+      let inOrder = timeStamps.reverse()
+      inOrder.push("Now")
+      return inOrder
     },
     fillChartData(profitData) {
       let totalCalculatedProfits = []
@@ -164,16 +166,20 @@ export default {
         }
         // Todo: Some of the time configuaration does not add up
         let counter = 0
-        let acceptedSpeeds = []
+        // Todo: let acceptedSpeeds = []
         while (counter < element.data.length) {
           // acceptedSpeeds.push()
           calculatedProfits.balanceNumbers.push(Number(element.data[counter][2]))
           counter += this.selectedTime
         }
-
+        // ?-1 becasue thats how arrays work
+        if (element.data.length === 0) {
+          calculatedProfits.balanceNumbers.push(0)
+        } else {
+          calculatedProfits.balanceNumbers.push((Number((element.data[element.data.length - 1])[2])).toFixed(8))
+        }
         totalCalculatedProfits.push(calculatedProfits)
       })
-
       // Todo round the totalso there arent a lot of decimals
       totalCalculatedProfits.forEach(element => {
         for (let i = 0; i < element.balanceNumbers.length; i++) {
@@ -184,10 +190,9 @@ export default {
           totalBalance.balanceNumbers[i] += Number(element.balanceNumbers[i])
         }
       })
-
       totalCalculatedProfits.push(totalBalance)
-      this.userData.labels = this.timeStamps(totalCalculatedProfits[0].balanceNumbers.length)
-
+      // ? It is -1 because of the extra dataPoint that I am getting for the most recent one
+      this.userData.labels = this.timeStamps(totalCalculatedProfits[0].balanceNumbers.length - 1)
       totalCalculatedProfits.forEach((element, index) => {
         if (element.name === 35) {
           this.userData.datasets.push({

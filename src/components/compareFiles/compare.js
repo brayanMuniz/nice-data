@@ -91,7 +91,6 @@ export default {
                 fill: false,
             })
         },
-        
         // Todo: Abstract this and add a parameter for which one you want
         getAddrBalanceData(selectedAddr) {
             return axios.get('/api', {
@@ -117,7 +116,6 @@ export default {
                 }
             })
         },
-
         timeStamps(timeLength) {
             let timeStamps = []
             let i = 0
@@ -126,7 +124,9 @@ export default {
                 timeStamps.push(moment().subtract((this.selectedTime * 5 * i), 'minutes').format('MM DD YYYY'))
                 i += 1
             }
-            return timeStamps.reverse()
+            let inOrder = timeStamps.reverse()
+            inOrder.push("Now")
+            return inOrder
         },
         getTotalBalance(addrData, addrName) {
 
@@ -148,6 +148,12 @@ export default {
                     counter += this.selectedTime
                 }
 
+                if (element.data.length === 0) {
+                    calculatedProfits.balanceNumbers.push(0)
+                } else {
+                    calculatedProfits.balanceNumbers.push((Number((element.data[element.data.length - 1])[2])).toFixed(8))
+                }
+                // calculatedProfits.balanceNumbers.push(Number((element.data[element.data.length - 1])[2]))
                 totalCalculatedProfits.push(calculatedProfits)
                 calculatedProfits = []
             })
