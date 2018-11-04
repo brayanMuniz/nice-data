@@ -61,7 +61,8 @@ export const store = new Vuex.Store({
       32: "Lyra2Z",
       33: "X16R",
       34: 'CryptoNightV8',
-      35: 'Total Balance'
+      35: 'SHA256AsicBoost',
+      36: 'Total balance'
     },
     colors: [
       'rgba(255, 99, 132, 0.2)',

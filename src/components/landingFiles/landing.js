@@ -2,9 +2,6 @@
 import moment from 'moment'
 import axios from 'axios'
 import asideNav from '../asideNavFiles/asideNav.vue'
-import {
-  request
-} from 'https';
 export default {
   name: 'landing',
   data() {

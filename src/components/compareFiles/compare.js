@@ -1,5 +1,4 @@
 /*eslint-disable*/
-// Todo fix that transition break
 // Todo Make a mixin to not repeat code or store components in store.js
 // Todo import methods from somewhere
 // Todo: The preffered algorithim should be changed to most profitable algorithim
@@ -9,6 +8,7 @@ import moment from "moment";
 import lineChart from '../Charts/lineChartFiles/lineChart.vue'
 import error from '../errorFiles/error.vue'
 import vueSlider from 'vue-slider-component'
+
 
 export default {
     name: "compare",
@@ -44,7 +44,13 @@ export default {
             sliderOptions: {
                 max: 25000,
                 interval: 100
-            }
+            },
+            options: {
+                balance: 'stats.provider.ex',
+                workers: 'stats.provider.workers',
+                payments: 'stats.provider'
+            },
+            selectedType: 'stats.provider.ex'
         };
     },
     beforeCreate() {
@@ -64,7 +70,7 @@ export default {
                 labels: this.timeStamps(7),
             }
             for (let addr in this.$store.state.NHAddresses) {
-                this.getAddrBalanceData(this.$store.state.NHAddresses[addr].addr).then(res => {
+                this.getAddrData(this.$store.state.NHAddresses[addr].addr).then(res => {
                     this.addrsData.push(res.data)
                     let addrData = this.getTotalBalance(res.data.result, this.$store.state.NHAddresses[addr].name)
                     this.addUserData(addrData, addr)
@@ -78,6 +84,21 @@ export default {
                     console.log(err)
                 })
             }
+            // this.$store.state.NHAddresses.forEach(function (address) {
+            //     this.getAddrData(address.addr).then(res => {
+            //         this.addrsData.push(res.data)
+            //         let addrData = this.getTotalBalance(res.data.result, address.name)
+            //         this.addUserData(addrData, addr)
+            //         this.dataLoadedCounter++
+            //         if (this.dataLoadedCounter === this.$store.state.NHAddresses.length) {
+            //             this.userChosenBITValue = this.$store.state.currentBITPriceNum
+            //             this.dataLoaded = true;
+            //         }
+            //     }).catch(err => {
+            //         this.error = true
+            //         console.log(err)
+            //     })
+            // })
             // ? Two very valuable lessons here
             // Vue has its own type of scoping and it is better to use a global data parameter if you are using axios and promises
             // Todo learn how to properly determine what is read first and how to work around that
@@ -91,27 +112,10 @@ export default {
                 fill: false,
             })
         },
-        // Todo: Abstract this and add a parameter for which one you want
-        getAddrBalanceData(selectedAddr) {
+        getAddrData(selectedAddr) {
             return axios.get('/api', {
                 params: {
-                    method: 'stats.provider.ex',
-                    addr: selectedAddr
-                }
-            })
-        },
-        getAddrPaymentData(selectedAddr) {
-            return axios.get('/api', {
-                params: {
-                    method: 'stats.provider',
-                    addr: selectedAddr
-                }
-            })
-        },
-        getAddrWorkerData(selectedAddr) {
-            return axios.get('/api', {
-                params: {
-                    method: 'stats.provider.workers',
+                    method: this.selectedType,
                     addr: selectedAddr
                 }
             })

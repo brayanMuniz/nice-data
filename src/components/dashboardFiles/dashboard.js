@@ -4,7 +4,7 @@ import moment from "moment";
 import lineChart from '../Charts/lineChartFiles/lineChart.vue'
 import error from '../errorFiles/error.vue'
 import vueSlider from 'vue-slider-component'
-
+// !Now breaks if addr is not mining
 // Todo initially set it as week and the user can change it from there
 export default {
   name: "dashboard",
@@ -85,7 +85,6 @@ export default {
       return `${String((this.userRigCost / this.summedMoney).toFixed(0))} Days`
     }
   },
-  // ? use this for crypto api calls https://min-api.cryptocompare.com/
   methods: {
     // Todo: Absract this and put it in the landing
     getProfitData() {
@@ -156,7 +155,7 @@ export default {
       let totalCalculatedProfits = []
       let totalBalance = {
         // ! I modified the mapping in store.js to create 35
-        name: 35,
+        name: Number(Object.keys(this.$store.state.mappingAlgorithims).length - 1),
         balanceNumbers: []
       }
       profitData.past.forEach(element => {
