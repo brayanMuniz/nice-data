@@ -193,7 +193,7 @@ export default {
       // ? It is -1 because of the extra dataPoint that I am getting for the most recent one
       this.userData.labels = this.timeStamps(totalCalculatedProfits[0].balanceNumbers.length - 1)
       totalCalculatedProfits.forEach((element, index) => {
-        if (element.name === 35) {
+        if (element.name === Number(Object.keys(this.$store.state.mappingAlgorithims).length - 1)) {
           this.userData.datasets.push({
             label: ((Object.values(this.$store.state.mappingAlgorithims)))[Number(element.name)],
             backgroundColor: 'rgb(0,0,0)',
