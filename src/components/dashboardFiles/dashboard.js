@@ -41,6 +41,7 @@ export default {
       summedBIT: 0,
       summedMoney: 0,
       userRigCost: null,
+      inYears: false
     };
   },
   beforeCreate() {
@@ -82,7 +83,11 @@ export default {
       if (this.summedMoney == 0) {
         return "Not Mining"
       }
-      return `${String((this.userRigCost / this.summedMoney).toFixed(0))} Days`
+      if (this.inYears) {
+        return `${String(((this.userRigCost / this.summedMoney)/365).toFixed(2))} Years`
+      } else {
+        return `${String((this.userRigCost / this.summedMoney).toFixed(0))} Days`
+      }
     }
   },
   methods: {
