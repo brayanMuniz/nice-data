@@ -14,9 +14,12 @@ export default {
       // Todo configure your data better
       userData: {},
       dataRanges: {
-        day: 0,
-        week: 288
+        "Today": 24,
+        // ? To get every 12 hours 
+        "5 days": 120,
+        "Week": 288
       },
+      addrSavedData: null,
       dataLoaded: false,
       totalBalance: 0,
       error: false,
@@ -31,8 +34,8 @@ export default {
         },
       },
       profitAlgorithims: null,
-      // Todo: Make selectedTime a store property 
-      selectedTime: 288,
+      // Todo: Make selectedTime a store property default is 288 for week
+      selectedTime: 100,
       userChosenBITValue: 1,
       sliderOptions: {
         max: 25000,
@@ -91,6 +94,14 @@ export default {
     }
   },
   methods: {
+    changeDataPoints() {
+      this.dataLoaded = false
+      this.userData = {
+        datasets: [],
+        labels: [],
+      }
+      this.fillChartData(this.addrSavedData.data.result)
+    },
     // Todo: Absract this and put it in the landing
     getProfitData() {
       axios.get('/api', {
@@ -100,6 +111,7 @@ export default {
           }
         })
         .then(res => {
+          this.addrSavedData = res
           this.totalBalance = this.summedProfit(res.data.result.current)
           this.profitAlgorithims = res.data.result.current
           this.userData = {
@@ -114,14 +126,33 @@ export default {
         })
     },
     changeDateRange(newTime) {
-      // Todo: set new time
-      // save somewhere
-      // temporary manipulated data
-      // x-axis
-      // y axis
-      // dataloaded
-
-      console.log(this.dataRanges[newTime])
+      //?  For some reason I have to put it in a different variable
+      let variableTime = this.dataRanges[newTime]
+      this.selectedTime = variableTime
+      this.totalBalance = this.summedProfit(this.addrSavedData.data.result.current)
+      this.profitAlgorithims = this.addrSavedData.data.result.current
+      this.userData = {
+        datasets: [],
+        labels: [],
+      }
+      let sendData = this.addrSavedData.data.result
+      if (newTime === "Today") {
+        // Todo: Abstract this DRY
+        sendData.past.forEach(element => {
+          // whiel loop to get all the things from element.data
+          console.log(element)
+          // element.data
+          // ? Check if i even need to cut it
+          //Todo:  Then cut it
+        })
+        // i dont like the way you have this set up with days being a string Its hardcoded
+      } else if (newTime === "5 days") {
+        console.log(newTime)
+      } else if (newTime === "Week") {
+        // Do it normally
+      }
+      // pass in sendData to fillChartData
+      this.fillChartData(this.addrSavedData.data.result)
     },
     summedProfit(data) {
       let total = 0;
@@ -144,59 +175,72 @@ export default {
     },
     timeStamps(timeLength) {
       let timeStamps = []
-      let i = 0
-
-      while (i < timeLength) {
-        // ? multiply by 5 because every block is 5 minutes so skip by 5 minutes
-        timeStamps.push(moment().subtract((this.selectedTime * 5 * i), 'minutes').format('MM DD YYYY'))
-        i += 1
+      for (let i = 0; i < timeLength; i++) {
+        timeStamps.push(moment().subtract((this.selectedTime * 5 * i), 'minutes').format('MM Do h A'))
       }
-      // ? Could just push 'Now' 
       let inOrder = timeStamps.reverse()
-      inOrder.push("Now")
+      // inOrder.push(moment().format('h A'))
       return inOrder
     },
-    fillChartData(profitData) {
+    getTotalCalculatedProfits(profitData) {
       let totalCalculatedProfits = []
-      let totalBalance = {
-        // ! I modified the mapping in store.js to create 35
-        name: Number(Object.keys(this.$store.state.mappingAlgorithims).length - 1),
-        balanceNumbers: []
-      }
+      // Longest unit of the arrays
+      let longestUnits = 0
       profitData.past.forEach(element => {
+        if (element.data.length > longestUnits) {
+          longestUnits = element.data.length
+        }
+      })
+      // Cycle through each past and get the points you want
+      profitData.past.forEach(element => {
+        element.data.reverse()
         let calculatedProfits = {
           name: element.algo,
           balanceNumbers: []
         }
-        // Todo: Some of the time configuaration does not add up
-        let counter = 0
-        // Todo: let acceptedSpeeds = []
-        while (counter < element.data.length) {
-          // acceptedSpeeds.push()
-          calculatedProfits.balanceNumbers.push(Number(element.data[counter][2]))
-          counter += this.selectedTime
-        }
-        // ?-1 becasue thats how arrays work
-        if (element.data.length === 0) {
-          calculatedProfits.balanceNumbers.push(0)
+
+        if (element.data.length == 0) {
+          for (let i = 0; i < longestUnits; i += this.selectedTime) {
+            calculatedProfits.balanceNumbers.push(0)
+          }
         } else {
-          calculatedProfits.balanceNumbers.push((Number((element.data[element.data.length - 1])[2])).toFixed(8))
+          let currentUnpaid = 0
+          for (let i = 0; i < longestUnits; i += this.selectedTime) {
+            if (element.data[i] === undefined) {
+              calculatedProfits.balanceNumbers.push(currentUnpaid)
+            } else {
+              if (Number(element.data[i][2]) > currentUnpaid) {
+                currentUnpaid = Number(element.data[i][2])
+              }
+              calculatedProfits.balanceNumbers.push(Number(element.data[i][2]))
+            }
+          }
         }
         totalCalculatedProfits.push(calculatedProfits)
       })
-      // Todo round the totalso there arent a lot of decimals
+      // Get the total Balance
+      let totalBalance = {
+        name: Number(Object.keys(this.$store.state.mappingAlgorithims).length - 1),
+        balanceNumbers: []
+      }
+      for (let i = 0; i < totalCalculatedProfits[0].balanceNumbers.length; i++) {
+        totalBalance.balanceNumbers[i] = 0
+      }
       totalCalculatedProfits.forEach(element => {
-        for (let i = 0; i < element.balanceNumbers.length; i++) {
-          if (totalBalance.balanceNumbers[i] == undefined) {
-            totalBalance.balanceNumbers[i] = 0
-            totalBalance.balanceNumbers[i] += Number(element.balanceNumbers[i])
-          }
-          totalBalance.balanceNumbers[i] += Number(element.balanceNumbers[i])
-        }
+        element.balanceNumbers.forEach((number, index) => {
+          totalBalance.balanceNumbers[index] += number
+        })
       })
       totalCalculatedProfits.push(totalBalance)
+      totalCalculatedProfits.forEach(element => {
+        element.balanceNumbers.reverse()
+      })
+      return totalCalculatedProfits
+    },
+    fillChartData(profitData) {
+      let totalCalculatedProfits = this.getTotalCalculatedProfits(profitData)
       // ? It is -1 because of the extra dataPoint that I am getting for the most recent one
-      this.userData.labels = this.timeStamps(totalCalculatedProfits[0].balanceNumbers.length - 1)
+      this.userData.labels = this.timeStamps(totalCalculatedProfits[totalCalculatedProfits.length - 1].balanceNumbers.length)
       totalCalculatedProfits.forEach((element, index) => {
         if (element.name === Number(Object.keys(this.$store.state.mappingAlgorithims).length - 1)) {
           this.userData.datasets.push({
@@ -220,6 +264,7 @@ export default {
       })
       this.userChosenBITValue = this.$store.state.currentBITPriceNum
       this.dataLoaded = true
+      this.err = false
     },
     averageRateOfChange() {
       // This was completely useless since they already gave me the profit per day but hey at least I did it

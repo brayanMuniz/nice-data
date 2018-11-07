@@ -157,9 +157,7 @@ export default {
                 } else {
                     calculatedProfits.balanceNumbers.push((Number((element.data[element.data.length - 1])[2])).toFixed(8))
                 }
-                // calculatedProfits.balanceNumbers.push(Number((element.data[element.data.length - 1])[2]))
                 totalCalculatedProfits.push(calculatedProfits)
-                calculatedProfits = []
             })
 
             totalCalculatedProfits.forEach(element => {

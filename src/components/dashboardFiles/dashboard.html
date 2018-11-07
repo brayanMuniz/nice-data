@@ -9,6 +9,20 @@
               <div>
                 <h4 class="card-title mb-0">Current Balance</h4>
                 <h5>{{$store.state.selectedAddr.addr}}</h5>
+                <!-- Todo: Add button to switch between which range you want | Make a for loop and an at click method for one of them. Propogate value up and save in store-->
+                <!-- Todo: For the one that is selected make it highlighted -->
+                <div class="dropdown ml-auto">
+                  <!-- <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    Date Range
+                  </button> -->
+                  <!-- <input type="text" v-model="selectedTime"> -->
+                  <!-- <button @click="changeDataPoints">Test</button> -->
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                    <button class="dropdown-item" v-for="date in Object.keys(dataRanges)" @click="changeDateRange(date)"
+                      :keys="date.id" type="button">{{date}}</button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -31,24 +45,7 @@
               <div>
                 <h4 class="card-title mb-0">Mined Algorithims</h4>
               </div>
-              <!-- Todo: Add button to switch between which range you want | Make a for loop and an at click method for one of them. Propogate value up and save in store-->
-              <!-- <div class="ml-auto">
-                <div class="dl">
-                  <select class="custom-select">
-                    <option v-for="date in Object.keys(dataRanges)" @click="changeDateRange(date)" :keys="date.id">{{date}}</option>
-                  </select>
-                </div>
-              </div> -->
-              <!-- <div class="dropdown ml-auto">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="false">
-                  Date Range
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                  <button class="dropdown-item" v-for="date in Object.keys(dataRanges)" @click="changeDateRange(date)"
-                    :keys="date.id" type="button">{{date}}</button>
-                </div>
-              </div> -->
+
             </div>
           </div>
           <div class="table-responsve">
@@ -126,10 +123,8 @@
         <div class="card">
           <div class="card-body">
             <div class="d-md-flex align-items-center ">
-              <!-- <div> -->
               <h4 class="card-title mb-4">Time To Pay Off Rig Calculator</h4>
               <input type="checkbox" v-model="inYears" @click="inYears = !inYears"> In Years
-              <!-- </div> -->
             </div>
             <div class="d-flex justify-content-around">
               <input v-model="userRigCost" placeholder="Rig Cost"">
