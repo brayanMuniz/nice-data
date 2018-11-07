@@ -27,7 +27,7 @@ export default {
             error: false,
             dataLoadedCounter: 0,
             // Todo: Make selectedTime a store property because if you call it from dashboard with a different time it will break it 
-            selectedTime: 288,
+            selectedTime: 100,
             chartOptions: {
                 scales: {
                     yAxes: [{
@@ -67,7 +67,7 @@ export default {
         cycleSelectedAddrs() {
             this.userData = {
                 datasets: [],
-                labels: this.timeStamps(7),
+                labels: null,
             }
             for (let addr in this.$store.state.NHAddresses) {
                 this.getAddrData(this.$store.state.NHAddresses[addr].addr).then(res => {
@@ -77,6 +77,8 @@ export default {
                     this.dataLoadedCounter++
                     if (this.dataLoadedCounter === this.$store.state.NHAddresses.length) {
                         this.userChosenBITValue = this.$store.state.currentBITPriceNum
+                        console.log(this.userData.datasets)
+                        this.userData.labels = this.timeStamps(this.userData.datasets[0].data.length)
                         this.dataLoaded = true;
                     }
                 }).catch(err => {
@@ -106,7 +108,7 @@ export default {
         addUserData(dataCount, counter) {
             this.userData.datasets.push({
                 label: dataCount.name,
-                data: dataCount.balanceNumbers,
+                data: dataCount.balanceNumbers.reverse(),
                 backgroundColor: this.$store.state.colors[counter],
                 borderColor: this.$store.state.borderColors[counter],
                 fill: false,
@@ -122,14 +124,17 @@ export default {
         },
         timeStamps(timeLength) {
             let timeStamps = []
-            let i = 0
-            while (i < timeLength) {
-                // multiply by 5 because every block is 5 minutes so skip by 5 minutes
-                timeStamps.push(moment().subtract((this.selectedTime * 5 * i), 'minutes').format('MM DD YYYY'))
-                i += 1
+            for (let i = 0; i < timeLength; i++) {
+                timeStamps.push(moment().subtract((this.selectedTime * 5 * i), 'minutes').format('MM Do h A'))
             }
+            // let i = 0
+            // while (i < timeLength) {
+            //     // multiply by 5 because every block is 5 minutes so skip by 5 minutes
+            //     timeStamps.push(moment().subtract((this.selectedTime * 5 * i), 'minutes').format('MM DD YYYY'))
+            //     i += 1
+            // }
             let inOrder = timeStamps.reverse()
-            inOrder.push("Now")
+            // inOrder.push("Now")
             return inOrder
         },
         getTotalBalance(addrData, addrName) {
@@ -141,6 +146,7 @@ export default {
             }
 
             addrData.past.forEach(element => {
+                element.data.reverse()
                 let calculatedProfits = {
                     name: element.algo,
                     balanceNumbers: []
@@ -148,8 +154,13 @@ export default {
 
                 let counter = 0
                 while (counter < element.data.length) {
-                    calculatedProfits.balanceNumbers.push(Number(element.data[counter][2]))
-                    counter += this.selectedTime
+                    if (element.data[counter] === undefined) {
+                        calculatedProfits.balanceNumbers.push(Number(0))
+                        counter += this.selectedTime
+                    } else {
+                        calculatedProfits.balanceNumbers.push(Number(element.data[counter][2]))
+                        counter += this.selectedTime
+                    }
                 }
 
                 if (element.data.length === 0) {
@@ -159,7 +170,9 @@ export default {
                 }
                 totalCalculatedProfits.push(calculatedProfits)
             })
-
+            for (let i = 0; i < totalCalculatedProfits[0].balanceNumbers.length - 1; i++) {
+                totalBalance.balanceNumbers[i] = 0
+            }
             totalCalculatedProfits.forEach(element => {
                 for (let i = 0; i < element.balanceNumbers.length; i++) {
                     if (totalBalance.balanceNumbers[i] == undefined) {
@@ -169,7 +182,8 @@ export default {
                     totalBalance.balanceNumbers[i] += Number(element.balanceNumbers[i])
                 }
             })
-
+            console.log(totalBalance)
+            // console.log(totalBalance.balanceNumbers.reverse())
             return totalBalance
         },
         matchAddrToName(addr) {
