@@ -91,6 +91,13 @@ export default {
       } else {
         return `${String((this.userRigCost / this.summedMoney).toFixed(0))} Days`
       }
+    },
+    totalUnpaidBalance() {
+      let totalUnpaid = 0
+      for (let i in this.profitAlgorithims) {
+        totalUnpaid += Number(this.profitAlgorithims[i].data[1]) 
+      }
+      return totalUnpaid;
     }
   },
   methods: {
