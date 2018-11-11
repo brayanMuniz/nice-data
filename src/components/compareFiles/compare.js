@@ -28,6 +28,7 @@ export default {
             dataLoadedCounter: 0,
             // Todo: Make selectedTime a store property because if you call it from dashboard with a different time it will break it 
             selectedTime: 100,
+            // Todo: add this to the actual chart file to not duplicate
             chartOptions: {
                 scales: {
                     yAxes: [{
@@ -86,21 +87,6 @@ export default {
                     console.log(err)
                 })
             }
-            // this.$store.state.NHAddresses.forEach(function (address) {
-            //     this.getAddrData(address.addr).then(res => {
-            //         this.addrsData.push(res.data)
-            //         let addrData = this.getTotalBalance(res.data.result, address.name)
-            //         this.addUserData(addrData, addr)
-            //         this.dataLoadedCounter++
-            //         if (this.dataLoadedCounter === this.$store.state.NHAddresses.length) {
-            //             this.userChosenBITValue = this.$store.state.currentBITPriceNum
-            //             this.dataLoaded = true;
-            //         }
-            //     }).catch(err => {
-            //         this.error = true
-            //         console.log(err)
-            //     })
-            // })
             // ? Two very valuable lessons here
             // Vue has its own type of scoping and it is better to use a global data parameter if you are using axios and promises
             // Todo learn how to properly determine what is read first and how to work around that
@@ -127,12 +113,6 @@ export default {
             for (let i = 0; i < timeLength; i++) {
                 timeStamps.push(moment().subtract((this.selectedTime * 5 * i), 'minutes').format('MM Do h A'))
             }
-            // let i = 0
-            // while (i < timeLength) {
-            //     // multiply by 5 because every block is 5 minutes so skip by 5 minutes
-            //     timeStamps.push(moment().subtract((this.selectedTime * 5 * i), 'minutes').format('MM DD YYYY'))
-            //     i += 1
-            // }
             let inOrder = timeStamps.reverse()
             // inOrder.push("Now")
             return inOrder
@@ -182,8 +162,6 @@ export default {
                     totalBalance.balanceNumbers[i] += Number(element.balanceNumbers[i])
                 }
             })
-            console.log(totalBalance)
-            // console.log(totalBalance.balanceNumbers.reverse())
             return totalBalance
         },
         matchAddrToName(addr) {

@@ -23,7 +23,6 @@ export default {
       dataLoaded: false,
       totalBalance: 0,
       error: false,
-      selectedLength: null,
       chartOptions: {
         scales: {
           yAxes: [{
@@ -58,7 +57,6 @@ export default {
       },
       // Need an arrow functionn so I can access all the methods that I have here in the file
       () => {
-        // this.dataLoaded = false
         this.getProfitData()
       }
     );
@@ -95,9 +93,9 @@ export default {
     totalUnpaidBalance() {
       let totalUnpaid = 0
       for (let i in this.profitAlgorithims) {
-        totalUnpaid += Number(this.profitAlgorithims[i].data[1]) 
+        totalUnpaid += Number(this.profitAlgorithims[i].data[1])
       }
-      return totalUnpaid;
+      return totalUnpaid.toFixed(8);
     }
   },
   methods: {
@@ -119,7 +117,7 @@ export default {
         })
         .then(res => {
           this.addrSavedData = res
-          this.totalBalance = this.summedProfit(res.data.result.current)
+          this.totalBalance = this.summedBalance(res.data.result.current)
           this.profitAlgorithims = res.data.result.current
           this.userData = {
             datasets: [],
@@ -136,7 +134,7 @@ export default {
       //?  For some reason I have to put it in a different variable
       let variableTime = this.dataRanges[newTime]
       this.selectedTime = variableTime
-      this.totalBalance = this.summedProfit(this.addrSavedData.data.result.current)
+      this.totalBalance = this.summedBalance(this.addrSavedData.data.result.current)
       this.profitAlgorithims = this.addrSavedData.data.result.current
       this.userData = {
         datasets: [],
@@ -161,7 +159,7 @@ export default {
       // pass in sendData to fillChartData
       this.fillChartData(this.addrSavedData.data.result)
     },
-    summedProfit(data) {
+    summedBalance(data) {
       let total = 0;
       data.forEach(element => {
         if (element.data[0].a === undefined) {
@@ -173,20 +171,12 @@ export default {
       this.summedBIT = total.toFixed(8)
       return total
     },
-    getCurrent(currentData) {
-      let total = 0
-      currentData.forEach(element => {
-        total += Number(element.profitability)
-      })
-      return total
-    },
     timeStamps(timeLength) {
       let timeStamps = []
       for (let i = 0; i < timeLength; i++) {
         timeStamps.push(moment().subtract((this.selectedTime * 5 * i), 'minutes').format('MM Do h A'))
       }
       let inOrder = timeStamps.reverse()
-      // inOrder.push(moment().format('h A'))
       return inOrder
     },
     getTotalCalculatedProfits(profitData) {
@@ -225,7 +215,13 @@ export default {
         }
         totalCalculatedProfits.push(calculatedProfits)
       })
-      // Get the total Balance
+      totalCalculatedProfits.push(this.getTotalBalance(totalCalculatedProfits))
+      totalCalculatedProfits.forEach(element => {
+        element.balanceNumbers.reverse()
+      })
+      return totalCalculatedProfits
+    },
+    getTotalBalance(totalCalculatedProfits) {
       let totalBalance = {
         name: Number(Object.keys(this.$store.state.mappingAlgorithims).length - 1),
         balanceNumbers: []
@@ -238,11 +234,7 @@ export default {
           totalBalance.balanceNumbers[index] += number
         })
       })
-      totalCalculatedProfits.push(totalBalance)
-      totalCalculatedProfits.forEach(element => {
-        element.balanceNumbers.reverse()
-      })
-      return totalCalculatedProfits
+      return totalBalance
     },
     fillChartData(profitData) {
       let totalCalculatedProfits = this.getTotalCalculatedProfits(profitData)
