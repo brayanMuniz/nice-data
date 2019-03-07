@@ -25,7 +25,6 @@ export const store = new Vuex.Store({
     selectedAddrTotalBalance: null,
     selectedAddr: null,
     // ! If NH decided to change this up change it up
-    // ? You have to go bu numerical order or else it does not work
     mappingAlgorithims: {
       0: "Scrypt",
       1: "SHA256",
