@@ -18,6 +18,7 @@ export default {
         "error": error,
         'vue-slider': vueSlider
     },
+    // Next time you make a "big" project PLEASE leave some documentation
     data() {
         return {
             addrsBalanceData: [],
@@ -55,6 +56,7 @@ export default {
         };
     },
     beforeCreate() {
+        // Culd have just gotten this from store and set it there
         this.$parent.getCurrentBITPrice()
     },
     created() {
@@ -71,21 +73,23 @@ export default {
                 labels: null,
             }
             for (let addr in this.$store.state.NHAddresses) {
-                this.getAddrData(this.$store.state.NHAddresses[addr].addr).then(res => {
-                    this.addrsData.push(res.data)
-                    let addrData = this.getTotalBalance(res.data.result, this.$store.state.NHAddresses[addr].name)
-                    this.addUserData(addrData, addr)
-                    this.dataLoadedCounter++
-                    if (this.dataLoadedCounter === this.$store.state.NHAddresses.length) {
-                        this.userChosenBITValue = this.$store.state.currentBITPriceNum
-                        console.log(this.userData.datasets)
-                        this.userData.labels = this.timeStamps(this.userData.datasets[0].data.length)
-                        this.dataLoaded = true;
-                    }
-                }).catch(err => {
-                    this.error = true
-                    console.log(err)
-                })
+                this.getAddrData(this.$store.state.NHAddresses[addr].addr)
+                    .then(res => {
+                        console.log('TCL: cycleSelectedAddrs -> res', res)
+                        this.addrsData.push(res.data)
+                        let addrData = this.getTotalBalance(res.data.result, this.$store.state.NHAddresses[addr].name)
+                        this.addUserData(addrData, addr)
+                        this.dataLoadedCounter++
+                        if (this.dataLoadedCounter === this.$store.state.NHAddresses.length) {
+                            this.userChosenBITValue = this.$store.state.currentBITPriceNum
+                            console.log(this.userData.datasets)
+                            this.userData.labels = this.timeStamps(this.userData.datasets[0].data.length)
+                            this.dataLoaded = true;
+                        }
+                    }).catch(err => {
+                        this.error = true
+                        console.log(err)
+                    })
             }
             // ? Two very valuable lessons here
             // Vue has its own type of scoping and it is better to use a global data parameter if you are using axios and promises

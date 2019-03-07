@@ -1,6 +1,5 @@
 <div class="container-fluid">
-    <div class="container-fluid" v-if="$store.state.NHAddresses.length != 0">
-        <!-- https://startbootstrap.com/template-overviews/sb-admin-2/ -->
+    <div class="container-fluid" v-if="$store.state.NHAddresses.length != 0 && dataLoaded">
         <!-- Todo make a way to add new input fields with reactive data that lets the user enter as many addresses as they want -->
         <div class="row">
             <div class="col-md-12">
@@ -76,45 +75,11 @@
                     <button class="btn btn-primary" @click="$refs.slider.setValue($store.state.currentBITPriceNum)">Current
                         BIT
                         Value</button>
-                    <!-- <button @click="$refs.slider.setIndex(50)">setIndex</button>
-                    <button @click="log($refs.slider.getValue())">getValue</button>
-                    <button @click="log($refs.slider.getIndex())">getIndex</button> -->
+
                 </div>
             </div>
         </div>
-
-        <!-- Todo: table for payment data -->
-        <!-- Todo: table for workers -->
-
-        <!-- Todo: this will be the workers To indicate if active or not,
-        Todo: Put each one in its own card with multiple of them -->
-        <!-- <div class="card-columns mt-3">
-            <div class="card" v-for="worker in workersData.workers" :key='worker.id'>
-                <div class="card-body">
-                    <h5 class="card-title">{{worker[0]}}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Mining {{mapAlgorithim(worker[6])}}</h6>
-                    <div class="row">
-                        <div class="col-6">
-                            <p class="card-text">Accepted: {{worker[1].a}}</p>
-                        </div>
-                        <div class="col-6">
-                            <p class="card-text" v-if="worker[1].rs">Rejected: {{worker[1].rs}}</p>
-                            <p class="card-text" v-else>Rejected: 0</p>
-
-                        </div>
-                    </div>
-
-                </div>
-                <div class="card-footer">
-                    <small class="text-muted">Connected For {{worker[2]}} Minutes</small>
-                </div>
-            </div>
-        </div> -->
-
     </div>
 
-    <div class="container-fluid mx-auto" v-else>
-        <h1 class="mx-auto">Add an Address</h1>
-    </div>
     <error v-if="error"> </error>
 </div>
