@@ -1,14 +1,10 @@
 /*eslint-disable*/
-// Todo Make a mixin to not repeat code or store components in store.js
-// Todo import methods from somewhere
-// Todo: The preffered algorithim should be changed to most profitable algorithim
-// Todo: 
 import axios from 'axios'
 import moment from "moment";
 import lineChart from '../Charts/lineChartFiles/lineChart.vue'
 import error from '../errorFiles/error.vue'
 import vueSlider from 'vue-slider-component'
-
+// Next time you make a "big" project PLEASE leave some documentation
 
 export default {
     name: "compare",
@@ -18,18 +14,14 @@ export default {
         "error": error,
         'vue-slider': vueSlider
     },
-    // Next time you make a "big" project PLEASE leave some documentation
     data() {
         return {
             addrsBalanceData: [],
             userData: {},
             dataLoaded: false,
-            dataLoadedWorkers: false,
             error: false,
             dataLoadedCounter: 0,
-            // Todo: Make selectedTime a store property because if you call it from dashboard with a different time it will break it 
             selectedTime: 100,
-            // Todo: add this to the actual chart file to not duplicate
             chartOptions: {
                 scales: {
                     yAxes: [{
@@ -40,17 +32,11 @@ export default {
                 },
 
             },
-            addrProperties: [],
             addrsData: [],
             userChosenBITValue: 1,
             sliderOptions: {
                 max: 25000,
                 interval: 100
-            },
-            options: {
-                balance: 'stats.provider.ex',
-                workers: 'stats.provider.workers',
-                payments: 'stats.provider'
             },
             selectedType: 'stats.provider.ex'
         };

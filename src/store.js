@@ -11,15 +11,17 @@ export const store = new Vuex.Store({
     currentBITPriceSee: null,
     // ! For testing I will have addr in NHAddresses, remove later
     NHAddresses: [{
-      addr: '3LWh12U6ACgG9j4rq4ExagfMxNR8GgnGs4',
-      name: "Addr 1"
-    }, {
-      addr: '3JuqAiWuAma26iYvKjzGCTEHq6A8R4ZusZ',
-      name: "Addr 2"
-    }, {
-      addr: '3Ls4oRPWP3rxhPKsWgi4CYaK6E6c8HSekv',
-      name: "Addr 3"
-    }],
+        addr: '3LWh12U6ACgG9j4rq4ExagfMxNR8GgnGs4',
+        name: "Addr 1"
+      }, {
+        addr: '3JuqAiWuAma26iYvKjzGCTEHq6A8R4ZusZ',
+        name: "Addr 2"
+      },
+      // {
+      //   addr: '3Ls4oRPWP3rxhPKsWgi4CYaK6E6c8HSekv',
+      //   name: "Addr 3"
+      // }
+    ],
     // ? This is here so in compare I dont have to call it
     selectedAddrTotalBalance: null,
     selectedAddr: null,
