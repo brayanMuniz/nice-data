@@ -2,9 +2,8 @@
 // https://www.tutorialspoint.com/cplusplus/cpp_constructor_destructor.htm
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from 'axios'
 Vue.use(Vuex)
-// ? There could be a global variable for if the user wants it in bitcoin or money boolean to be specific 
-// ? This will be its own component and it will emit its value to vuex and the rest of the components  
 export const store = new Vuex.Store({
   state: {
     currentBITPriceNum: null,
@@ -64,7 +63,13 @@ export const store = new Vuex.Store({
       33: "X16R",
       34: 'CryptoNightV8',
       35: 'SHA256AsicBoost',
-      36: 'Total balance'
+      36: "Zhash",
+      37: "Beam",
+      38: "GrinCuckaroo29",
+      39: "GrinCuckatoo31",
+      40: "Lyra2REv3",
+      41: "MTP",
+      42: 'Total balance'
     },
     colors: [
       'rgba(255, 99, 132, 0.2)',
@@ -136,5 +141,8 @@ export const store = new Vuex.Store({
     getCurrentSelectedAddr: state => {
       return state.selectedAddr
     }
+  },
+  actions: {
+
   }
 })
