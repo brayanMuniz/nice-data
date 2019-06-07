@@ -1,12 +1,7 @@
-import addAddress from "../addAddressFiles/addAddress.vue"
+import addAddress from '../addAddressFiles/addAddress.vue';
 export default {
-  name: 'footerSection',
-  data: function () {
-    return {
-
-    };
-  },
-  components: {
-    'add-address': addAddress
-  }
+	name: 'footerSection',
+	components: {
+		'add-address': addAddress
+	}
 };
