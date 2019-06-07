@@ -1,6 +1,6 @@
 <div class="container-fluid">
 
-  <div class="container-fliud" v-if="$store.state.selectedAddr != null">
+  <div class="container-fliud" v-if="$store.state.selectedAddr != null && dataLoaded">
     <div class="row">
       <!-- DONUT -->
       <div class="col-md-8">
@@ -17,7 +17,7 @@
           <div class="container-fluid mx-auto">
             <!-- Todo Make a dropdown to filter by algorithim minig -->
             <!-- Todo add options prop -->
-            <div v-if="dataLoaded" style="width: 400px;" class="mx-auto mb-2">
+            <div class="mx-auto my-auto" style='width: 18rem'>
               <do-nut :chartData="userData" :width="100" :height="100"></do-nut>
             </div>
           </div>
@@ -31,8 +31,8 @@
             <!-- Todo: Make a quick Acronym when rendering -->
             <div class="feed-widget">
               <ul class="list-group">
-                <li class="list-group-item d-flex justify-content-between align-items-center border-0" v-for="worker in workersData.workers"
-                  :key='worker.id'>
+                <li class="list-group-item d-flex justify-content-between align-items-center border-0"
+                  v-for="worker in workersData.workers" :key='worker.id'>
                   <h5>{{worker[0]}}</h5>
                   <span class="badge badge-primary badge-pill">{{worker[2]}} minutes</span>
                 </li>

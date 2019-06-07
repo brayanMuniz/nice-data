@@ -13,7 +13,8 @@
                         </div>
                     </div>
                     <div v-if="dataLoaded">
-                        <line-chart :chartData="userData" :width="400" :height="200" class="my-1" :options="chartOptions"></line-chart>
+                        <line-chart :chartData="userData" :width="400" :height="200" class="my-1"
+                            :options="chartOptions"></line-chart>
                     </div>
                     <!-- todo: put it here -->
                 </div>
@@ -34,7 +35,7 @@
                         </div>
                     </div>
 
-                    <div class="table-responsve">
+                    <div class="table-responsive-lg">
                         <table class="table table-striped table-hover">
                             <thead>
                                 <tr>
@@ -72,7 +73,8 @@
                 </div>
                 <!-- Todo: Make this go to the risght side -->
                 <div class="btn-group">
-                    <button class="btn btn-primary" @click="$refs.slider.setValue($store.state.currentBITPriceNum)">Current
+                    <button class="btn btn-primary"
+                        @click="$refs.slider.setValue($store.state.currentBITPriceNum)">Current
                         BIT
                         Value</button>
 

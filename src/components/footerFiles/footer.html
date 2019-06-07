@@ -1,10 +1,11 @@
 <footer class="footer bg-dark text-white">
 
-  <ul class="bg-dark text-white list-inline text-center mb-0">
-    <li @click="$store.commit('changeSelectedAddr', address)" class="list-inline-item mx-5 my-2" :class="{'text-primary': address.name == $store.state.selectedAddr.name }"
+  <ul class="bg-dark text-white list-inline text-center mb-0 ">
+    <li @click="$store.commit('changeSelectedAddr', address)" class="list-inline-item mx-5 my-2"
+      :class="{'text-primary': address.name == $store.state.selectedAddr.name }"
       v-for="address in $store.state.NHAddresses" :key="address.id">
       <h4>{{address.name}}</h4>
     </li>
   </ul>
-  
+
 </footer>
